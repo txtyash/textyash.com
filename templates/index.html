@@ -1,17 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description" content="List of Axum projects for beginners.">
-    <title>Axum Beginner Projects</title>
-    <link rel="stylesheet" href="static/css/output.css">
-  </head>
-  <body>
-    <h1>evccyr.com</h1>
-    <div>
-      <!--TODO-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="List of Axum projects for beginners.">
+  <title>Axum Beginner Projects</title>
+  <link rel="stylesheet" href="{{ css_tailwind }}">
+  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+
+<body class="w-dvw grid place-items-center bg-violet-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
+  <div class="m-2 sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md">
+    <div class="grid sm:grid-cols-2 p-2 rounded-xl bg-violet-300 dark:bg-slate-700">
+      <img class="mx-auto h-48 w-48 object-cover rounded-full border-violet-300 dark:border-violet-300"
+        src="{{ image_profile_pic }}" alt="evccyr's selfie picture.">
+      <p>Hi, I’m yash, a software developer(the unemployed kind). I prefer lower case. I was a big fan of science
+        fiction as a kid, but now I’m not sure if my existential crisis is over yet. If you’re interested in learning
+        more about me, you’ll have to read my terrible blogs. I know it’s a little excessive, but I hope you enjoy them
+        : )</p>
     </div>
-  </body>
+    <div class="w-auto flex justify-center my-6 dark:invert">
+      <a class="mx-3.5" target="_blank" href="https://github.com/evccyr"><img class="h-8 w-8" src="{{ icon_github }}"
+          alt="Github icon."></a>
+      <a class="mx-3.5" target="_blank" href="https://instagram.com/evccyr"><img class="h-8 w-8"
+          src="{{ icon_instagram }}" alt="Instagram icon."></a>
+      <a class="mx-3.5" target="_blank" href="https://twitter.com/evccyr"><img class="h-8 w-8" src="{{ icon_twitter }}"
+          alt="Twitter icon."></a>
+      <a class="mx-3.5" target="_blank" href="https://www.linkedin.com/in/yash-shinde-1a306929b"><img class="h-8 w-8"
+          src="{{ icon_linkedin }}" alt="Linkedin icon."></a>
+      <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-8 w-8"
+          src="{{ icon_reddit }}" alt="Reddit icon."></a>
+      <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-8 w-8" src="{{ icon_rss }}"
+          alt="aRSS reader icon."></a>
+    </div>
+    <div class="py-6 rounded-xl bg-violet-300 dark:bg-slate-700">
+      Now playing...( TODO )
+    </div>
+    <div id="parent-div">
+      <div class="text-center my-6">
+        <button hx-get="/clicked" hx-trigger="click" hx-target="#parent-div" hx-swap="outerHTML">
+          "get in touch"
+        </button>
+      </div>
+      <div class="my-6">
+        showing blogs
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
+
+<!--
+Landing page plan:
+profile picture | about
+spotify now playing 
+social links
+
+card link to projects | blogs | fun zone -> chatroom, music etc.
+contact me form
+-->

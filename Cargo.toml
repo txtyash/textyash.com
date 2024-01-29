@@ -1,5 +1,5 @@
 [package]
-name = "website"
+name = "evccyr"
 version = "0.1.0"
 edition = "2021"
 
@@ -10,6 +10,8 @@ anyhow = "1.0.79"
 axum = { version = "0.7.4", features = ["macros"] }
 httpc-test = "0.1.9"
 libsql = "0.2.0"
+shuttle-axum = "0.37.0"
+shuttle-runtime = "0.37.0"
 tera = "1.19.1"
 tokio = { version = "1.35.1", features = ["macros", "rt-multi-thread"] }
 tower-http = { version = "0.5.1", features = ["fs"] }

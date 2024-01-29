@@ -1,6 +1,7 @@
 use libsql::{Connection, Database};
 use std::env;
 
+#[allow(unused)]
 #[derive(PartialEq, Debug)]
 pub enum ConnectionType {
     Local,

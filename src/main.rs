@@ -21,53 +21,52 @@ struct AppState {
     db: Connection,
 }
 
-#[tokio::main]
-async fn main() {
-    let templates = Tera::new("templates/**/*").expect("Failed to initialize Tera.");
+#[shuttle_runtime::main]
+async fn axum() -> shuttle_axum::ShuttleAxum {
+    let mut templates = Tera::new("templates/**/*").expect("Failed to initialize Tera.");
+    // templates
+    //     .full_reload()
+    //     .expect("Failed to re-render templates.");
     let db = connection(Local).await;
     let state = Arc::new(AppState { templates, db });
 
-    let routers = Router::new().route("/", get(root)).with_state(state);
+    let routers = Router::new()
+        .nest_service("/css", ServeDir::new("static/css"))
+        .nest_service("/images", ServeDir::new("static/images"))
+        .nest_service("/icons", ServeDir::new("static/icons"))
+        .route("/", get(root))
+        .route("/clicked", get(clicked))
+        .with_state(state);
 
-    // run our app with hyper, listening globally on port 8080
-    let listener = tokio::net::TcpListener::bind("localhost:8080")
-        .await
-        .unwrap();
-    axum::serve(listener, routers).await.unwrap();
+    Ok(routers.into())
 }
 
 async fn root(State(state): State<Arc<AppState>>) -> impl IntoResponse {
     let mut ctx = tera::Context::new();
+    ctx.insert("css_tailwind", "css/output.css");
+    ctx.insert("image_profile_pic", "images/profile-pic-192.webp");
+    ctx.insert("icon_github", "icons/github-32.webp");
+    ctx.insert("icon_instagram", "icons/instagram-32.webp");
+    ctx.insert("icon_twitter", "icons/twitter-32.webp");
+    ctx.insert("icon_linkedin", "icons/linkedin-32.webp");
+    ctx.insert("icon_reddit", "icons/reddit-32.webp");
+    ctx.insert("icon_rss", "icons/rss-32.webp");
     let template = &state.templates;
     let db = &state.db;
 
-    db.query("select 1; select 1;", ()).await.unwrap();
-
-    db.execute("CREATE TABLE IF NOT EXISTS users (email TEXT)", ())
-        .await
-        .unwrap();
-
-    let mut stmt = db
-        .prepare("INSERT INTO users (email) VALUES (?1)")
-        .await
-        .unwrap();
-
-    stmt.execute(["foo@example.com"]).await.unwrap();
-
-    let mut stmt = db
-        .prepare("SELECT * FROM users WHERE email = ?1")
-        .await
-        .unwrap();
-
-    let mut rows = stmt.query(["foo@example.com"]).await.unwrap();
-
-    let row = rows.next().unwrap().unwrap();
-
-    let value = row.get_value(0).unwrap();
-
-    println!("Row: {:?}", value);
-
     let file = "index.html";
+    Html(
+        template
+            .render(file, &ctx)
+            .expect("Failed to render {file}"),
+    )
+}
+async fn clicked(State(state): State<Arc<AppState>>) -> impl IntoResponse {
+    let mut ctx = tera::Context::new();
+    let template = &state.templates;
+    let db = &state.db;
+
+    let file = "clicked/index.html";
     Html(
         template
             .render(file, &ctx)
