@@ -5,15 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="List of Axum projects for beginners.">
-  <title>Axum Beginner Projects</title>
+  <meta name="description" content="evccyr's(yash shinde) personal website">
+  <title>evccyr.com</title>
   <link rel="stylesheet" href="{{ css_tailwind }}">
-  <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+  <script src="{{ script_htmx }}"></script>
 </head>
 
-<body class="w-dvw grid place-items-center bg-violet-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
+<body class="w-dvw grid place-items-center bg-violet-200 text-stone-800 dark:bg-stone-800 dark:text-stone-200">
   <div class="m-2 sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md">
-    <div class="grid sm:grid-cols-2 p-2 rounded-xl bg-violet-300 dark:bg-slate-700">
+    <div class="grid sm:grid-cols-2 p-2 rounded-xl dark:bg-stone-700">
       <img class="mx-auto h-48 w-48 object-cover rounded-full border-violet-300 dark:border-violet-300"
         src="{{ image_profile_pic }}" alt="evccyr's selfie picture.">
       <p>Hi, I’m yash, a software developer(the unemployed kind). I prefer lower case. I was a big fan of science
@@ -21,26 +21,26 @@
         more about me, you’ll have to read my terrible blogs. I know it’s a little excessive, but I hope you enjoy them
         : )</p>
     </div>
-    <div class="w-auto flex justify-center my-6 dark:invert">
-      <a class="mx-3.5" target="_blank" href="https://github.com/evccyr"><img class="h-8 w-8" src="{{ icon_github }}"
+    <div class="flex justify-center w-auto py-6 rounded-xl dark:invert">
+      <a class="mx-3.5" target="_blank" href="https://github.com/evccyr"><img class="h-7 w-7" src="{{ icon_github }}"
           alt="Github icon."></a>
-      <a class="mx-3.5" target="_blank" href="https://instagram.com/evccyr"><img class="h-8 w-8"
+      <a class="mx-3.5" target="_blank" href="https://instagram.com/evccyr"><img class="h-7 w-7"
           src="{{ icon_instagram }}" alt="Instagram icon."></a>
-      <a class="mx-3.5" target="_blank" href="https://twitter.com/evccyr"><img class="h-8 w-8" src="{{ icon_twitter }}"
+      <a class="mx-3.5" target="_blank" href="https://twitter.com/evccyr"><img class="h-7 w-7" src="{{ icon_twitter }}"
           alt="Twitter icon."></a>
-      <a class="mx-3.5" target="_blank" href="https://www.linkedin.com/in/yash-shinde-1a306929b"><img class="h-8 w-8"
+      <a class="mx-3.5" target="_blank" href="https://www.linkedin.com/in/yash-shinde-1a306929b"><img class="h-7 w-7"
           src="{{ icon_linkedin }}" alt="Linkedin icon."></a>
-      <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-8 w-8"
+      <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-7 w-7"
           src="{{ icon_reddit }}" alt="Reddit icon."></a>
-      <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-8 w-8" src="{{ icon_rss }}"
+      <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-7 w-7" src="{{ icon_rss }}"
           alt="aRSS reader icon."></a>
     </div>
-    <div class="py-6 rounded-xl bg-violet-300 dark:bg-slate-700">
+    <div class="my-6 rounded-xl dark:bg-stone-700">
       Now playing...( TODO )
     </div>
     <div id="parent-div">
       <div class="text-center my-6">
-        <button hx-get="/clicked" hx-trigger="click" hx-target="#parent-div" hx-swap="outerHTML">
+        <button hx-get="/components" hx-trigger="click" hx-target="#parent-div" hx-swap="outerHTML">
           "get in touch"
         </button>
       </div>

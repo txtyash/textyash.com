@@ -31,11 +31,9 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
     let state = Arc::new(AppState { templates, db });
 
     let routers = Router::new()
-        .nest_service("/css", ServeDir::new("static/css"))
-        .nest_service("/images", ServeDir::new("static/images"))
-        .nest_service("/icons", ServeDir::new("static/icons"))
+        .nest_service("/static", ServeDir::new("static"))
+        .nest_service("/components", ServeDir::new("templates/components"))
         .route("/", get(root))
-        .route("/clicked", get(clicked))
         .with_state(state);
 
     Ok(routers.into())
@@ -43,30 +41,19 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
 
 async fn root(State(state): State<Arc<AppState>>) -> impl IntoResponse {
     let mut ctx = tera::Context::new();
-    ctx.insert("css_tailwind", "css/output.css");
-    ctx.insert("image_profile_pic", "images/profile-pic-192.webp");
-    ctx.insert("icon_github", "icons/github-32.webp");
-    ctx.insert("icon_instagram", "icons/instagram-32.webp");
-    ctx.insert("icon_twitter", "icons/twitter-32.webp");
-    ctx.insert("icon_linkedin", "icons/linkedin-32.webp");
-    ctx.insert("icon_reddit", "icons/reddit-32.webp");
-    ctx.insert("icon_rss", "icons/rss-32.webp");
+    ctx.insert("css_tailwind", "static/css/output.css");
+    ctx.insert("script_htmx", "static/js/htmx.min.js");
+    ctx.insert("image_profile_pic", "static/images/profile-pic-192.webp");
+    ctx.insert("icon_github", "static/icons/github-32.webp");
+    ctx.insert("icon_instagram", "static/icons/instagram-32.webp");
+    ctx.insert("icon_twitter", "static/icons/twitter-32.webp");
+    ctx.insert("icon_linkedin", "static/icons/linkedin-32.webp");
+    ctx.insert("icon_reddit", "static/icons/reddit-32.webp");
+    ctx.insert("icon_rss", "static/icons/rss-32.webp");
     let template = &state.templates;
     let db = &state.db;
 
     let file = "index.html";
-    Html(
-        template
-            .render(file, &ctx)
-            .expect("Failed to render {file}"),
-    )
-}
-async fn clicked(State(state): State<Arc<AppState>>) -> impl IntoResponse {
-    let mut ctx = tera::Context::new();
-    let template = &state.templates;
-    let db = &state.db;
-
-    let file = "clicked/index.html";
     Html(
         template
             .render(file, &ctx)

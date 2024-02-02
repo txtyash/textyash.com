@@ -1,8 +1,18 @@
 {
+  "watch": {
+    "build": [
+      "templates/**/*.html"
+    ]
+  },
+  "scripts": {
+    "build": "npx tailwindcss -i static/css/input.css -o static/css/output.css --minify; cp node_modules/htmx.org/dist/htmx.min.js static/js/htmx.min.js",
+    "watch": "npm-watch"
+  },
   "devDependencies": {
     "tailwindcss": "^3.4.1"
   },
   "dependencies": {
-    "htmx.org": "^1.9.10"
+    "htmx.org": "^1.9.10",
+    "npm-watch": "^0.11.0"
   }
 }
