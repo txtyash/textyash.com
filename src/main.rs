@@ -43,7 +43,10 @@ async fn root(State(state): State<Arc<AppState>>) -> impl IntoResponse {
     let mut ctx = tera::Context::new();
     ctx.insert("css_tailwind", "static/css/output.css");
     ctx.insert("script_htmx", "static/js/htmx.min.js");
-    ctx.insert("image_profile_pic", "static/images/profile-pic-192.webp");
+    ctx.insert(
+        "image_profile_pic",
+        "static/images/profile-pic-placeholder.jpg",
+    );
     ctx.insert("icon_github", "static/icons/github-32.webp");
     ctx.insert("icon_instagram", "static/icons/instagram-32.webp");
     ctx.insert("icon_twitter", "static/icons/twitter-32.webp");
