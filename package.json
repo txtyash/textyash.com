@@ -5,14 +5,18 @@
     ]
   },
   "scripts": {
-    "build": "npx tailwindcss -i static/css/input.css -o static/css/output.css --minify; cp node_modules/htmx.org/dist/htmx.min.js static/js/htmx.min.js",
+    "build": "npx tailwindcss -i static/css/input.css -o static/css/output.css --minify",
     "watch": "npm-watch"
   },
   "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.4.1"
   },
   "dependencies": {
+    "easymde": "^2.18.0",
     "htmx.org": "^1.9.10",
-    "npm-watch": "^0.11.0"
+    "npm-watch": "^0.11.0",
+    "tiny-markdown-editor": "^0.1.10"
   }
 }

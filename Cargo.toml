@@ -9,7 +9,9 @@ edition = "2021"
 anyhow = "1.0.79"
 axum = { version = "0.7.4", features = ["macros"] }
 httpc-test = "0.1.9"
+lazy_static = "1.4.0"
 libsql = "0.2.0"
+serde = { version = "1.0.196", features = ["derive"] }
 shuttle-axum = "0.37.0"
 shuttle-runtime = "0.37.0"
 tera = "1.19.1"

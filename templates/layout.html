@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    <title>{% block title %}{% endblock title %}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="/static/js/htmx.min.js"></script>
+    {% endblock head %}
+  </head>
+
+  <body class="h-full bg-violet-200 text-stone-800 dark:bg-stone-800 dark:text-stone-200">
+    {% block content %}{% endblock content %}
+    <div id="footer">
+      {% block footer %}
+      <!-- TODO: Footer -->
+      &copy; Copyright 2008 by <a href="http://domain.invalid/">you</a>. {% endblock footer %}
+    </div>
+  </body>
+</html>
