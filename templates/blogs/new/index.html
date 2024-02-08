@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="evccyr's(yash shinde) personal website">
-  <title>evccyr.com</title>
-  <!-- WARNING: Tailwind breaks markdown preview -->
-  <!-- <link rel="stylesheet" type="text/css" href="{{ css_tailwind }}"> -->
-  <link rel="stylesheet" href="{{ css_easymde }}">
-  <script src="{{ js_easymde }}"></script>
-</head>
+{% block title %}x{% endblock title %}
 
-<body class="">
+{% block head %} {{ super() }}
+<meta name="description" content="new blog" />
+<link rel="stylesheet" href="{{ css_easymde }}">
+<script src="{{ js_easymde }}"></script>
+{% endblock head %}
+
+{% block content %}
   <form action="/blogs/new" method="post">
-    <textarea name="content" id="blog"></textarea>
+    <label for="title">Blog Title:</label>
+    <input type="text" name="title" placeholder="Enter blog title" required>
+    <input type="text" name="description" placeholder="Describe this blog..." required>
+    <textarea name="content" id="blog" placeholder="Write your blog..."></textarea>
     <script>
       const easyMDE = new EasyMDE({element: document.getElementById('blog')});
     </script>
     <input type="submit" value="Submit">
   </form>
-</body>
-
-</html>
+{% endblock content %}

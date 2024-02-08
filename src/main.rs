@@ -47,7 +47,7 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
 }
 
 fn routes_blogs() -> Router<AppState> {
-    Router::new().route("/new", get(blog_new).post(blog_post_new))
+    Router::new().route("/new", get(create_blog).post(post_blog))
 }
 
 async fn root(State(_state): State<AppState>) -> impl IntoResponse {
@@ -72,7 +72,7 @@ async fn root(State(_state): State<AppState>) -> impl IntoResponse {
     )
 }
 
-async fn blog_new() -> impl IntoResponse {
+async fn create_blog() -> impl IntoResponse {
     let mut ctx = tera::Context::new();
     ctx.insert("css_tailwind", "/static/css/output.css");
     ctx.insert("css_easymde", "/static/css/easymde.min.css");
@@ -88,5 +88,34 @@ async fn blog_new() -> impl IntoResponse {
 
 #[derive(Debug, Deserialize)]
 struct Blog {
+    title: String,
+    description: String,
     content: String,
+}
+
+async fn post_blog(State(state): State<AppState>, Form(blog): Form<Blog>) -> impl IntoResponse {
+    let db = &state.db;
+    db.execute(
+        "CREATE TABLE IF NOT EXISTS blogs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title VARCHAR(255) NOT NULL,
+        description VARCHAR(255) NOT NULL,
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );",
+        [0],
+    )
+    .await
+    .unwrap();
+    let mut stmt = db
+        .prepare("INSERT INTO blogs (title, description, content) VALUES (?1, ?2, ?3)")
+        .await
+        .unwrap();
+    stmt.execute((blog.title, blog.description, blog.content))
+        .await
+        .unwrap();
+    let mut stmt = db.prepare("SELECT * FROM blogs").await.unwrap();
+    let row = stmt.query([0]).await.unwrap().next().unwrap().unwrap();
+    dbg!(row);
+    todo!()
 }
