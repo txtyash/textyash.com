@@ -3,16 +3,17 @@
 {% block title %}x{% endblock title %}
 
 {% block head %} {{ super() }}
-  <meta name="description" content="evccyr's personal website" />
-  <link rel="stylesheet" href="{{ css_tailwind }}" />
+<meta name="description" content="evccyr's personal website" />
 {% endblock head %}
 
 {% block content %}
 <div class="m-2 grid h-full w-full place-items-center sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md">
+
   <div class="grid rounded-xl p-2 sm:grid-cols-2 dark:bg-stone-700">
     <img class="mx-auto h-48 w-48 rounded-full border-violet-300 object-cover dark:border-violet-300" src="{{ image_profile_pic }}" alt="evccyr's selfie picture." />
     <p>Hi, I’m yash, a software developer(the unemployed kind). I prefer lower case. I was a big fan of science fiction as a kid, but now I’m not sure if my existential crisis is over yet. If you’re interested in learning more about me, you’ll have to read my terrible blogs. I know it’s a little excessive, but I hope you enjoy them : )</p>
   </div>
+
   <div class="flex w-auto justify-center rounded-xl py-6 dark:invert">
     <a class="mx-3.5" target="_blank" href="https://github.com/evccyr"><img class="h-7 w-7" src="{{ icon_github }}" alt="Github icon." /></a>
     <a class="mx-3.5" target="_blank" href="https://instagram.com/evccyr"><img class="h-7 w-7" src="{{ icon_instagram }}" alt="Instagram icon." /></a>
@@ -21,6 +22,7 @@
     <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-7 w-7" src="{{ icon_reddit }}" alt="Reddit icon." /></a>
     <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-7 w-7" src="{{ icon_rss }}" alt="aRSS reader icon." /></a>
   </div>
+
   <div class="my-6 rounded-xl dark:bg-stone-700">Now playing...( TODO )</div>
 
   {% include "components/blogs.html" %}

@@ -1,22 +1,26 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{% endblock title %}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="description" content="new blog" />
+    <link rel="stylesheet" href="/static/css/easymde.min.css">
+    <script src="/static/js/htmx.min.js"></script>
+    <script src="/static/js/easymde.min.js"></script>
+  </head>
 
-{% block title %}x{% endblock title %}
-
-{% block head %} {{ super() }}
-<meta name="description" content="new blog" />
-<link rel="stylesheet" href="{{ css_easymde }}">
-<script src="{{ js_easymde }}"></script>
-{% endblock head %}
-
-{% block content %}
-  <form action="/blogs/new" method="post">
-    <label for="title">Blog Title:</label>
-    <input type="text" name="title" placeholder="Enter blog title" required>
-    <input type="text" name="description" placeholder="Describe this blog..." required>
-    <textarea name="content" id="blog" placeholder="Write your blog..."></textarea>
-    <script>
-      const easyMDE = new EasyMDE({element: document.getElementById('blog')});
-    </script>
-    <input type="submit" value="Submit">
-  </form>
-{% endblock content %}
+  <body>
+    <form action="/blogs/new" method="post">
+      <label for="title">Blog Title:</label>
+      <input type="text" name="title" placeholder="Enter blog title" required>
+      <input type="text" name="description" placeholder="Describe this blog..." required>
+      <textarea name="content" id="blog" placeholder="Write your blog..."></textarea>
+      <script>
+        const easyMDE = new EasyMDE({element: document.getElementById('blog')});
+      </script>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

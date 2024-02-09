@@ -9,7 +9,6 @@ use db::{connection, ConnectionType::Local};
 use lazy_static::lazy_static;
 use libsql::Connection;
 use serde::Deserialize;
-use std::sync::Arc;
 use tera::Tera;
 use tower_http::services::ServeDir;
 
@@ -52,7 +51,6 @@ fn routes_blogs() -> Router<AppState> {
 
 async fn root(State(_state): State<AppState>) -> impl IntoResponse {
     let mut ctx = tera::Context::new();
-    ctx.insert("css_tailwind", "/static/css/output.css");
     ctx.insert(
         "image_profile_pic",
         "/static/images/profile-pic-placeholder.jpg",
@@ -74,7 +72,6 @@ async fn root(State(_state): State<AppState>) -> impl IntoResponse {
 
 async fn create_blog() -> impl IntoResponse {
     let mut ctx = tera::Context::new();
-    ctx.insert("css_tailwind", "/static/css/output.css");
     ctx.insert("css_easymde", "/static/css/easymde.min.css");
     ctx.insert("js_easymde", "/static/js/easymde.min.js");
 
@@ -114,8 +111,5 @@ async fn post_blog(State(state): State<AppState>, Form(blog): Form<Blog>) -> imp
     stmt.execute((blog.title, blog.description, blog.content))
         .await
         .unwrap();
-    let mut stmt = db.prepare("SELECT * FROM blogs").await.unwrap();
-    let row = stmt.query([0]).await.unwrap().next().unwrap().unwrap();
-    dbg!(row);
     todo!()
 }
