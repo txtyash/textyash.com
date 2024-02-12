@@ -1,6 +1,7 @@
 mod db;
 use axum::{
     extract::State,
+    http::StatusCode,
     response::{Html, IntoResponse},
     routing::get,
     Form, Router,
@@ -36,6 +37,7 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
     let state = AppState { db };
 
     let routers = Router::new()
+        // Serve from "static" instead of "/static" because axum is not project aware
         .nest_service("/static", ServeDir::new("static"))
         .nest_service("/components", ServeDir::new("templates/components"))
         .route("/", get(root))
@@ -46,7 +48,7 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
 }
 
 fn routes_blogs() -> Router<AppState> {
-    Router::new().route("/new", get(create_blog).post(post_blog))
+    Router::new().route("/new", get(write_blog).post(post_blog))
 }
 
 async fn root(State(_state): State<AppState>) -> impl IntoResponse {
@@ -70,7 +72,7 @@ async fn root(State(_state): State<AppState>) -> impl IntoResponse {
     )
 }
 
-async fn create_blog() -> impl IntoResponse {
+async fn write_blog() -> impl IntoResponse {
     let mut ctx = tera::Context::new();
     ctx.insert("css_easymde", "/static/css/easymde.min.css");
     ctx.insert("js_easymde", "/static/js/easymde.min.js");
@@ -98,12 +100,14 @@ async fn post_blog(State(state): State<AppState>, Form(blog): Form<Blog>) -> imp
         title VARCHAR(255) NOT NULL,
         description VARCHAR(255) NOT NULL,
         content TEXT NOT NULL,
+        hidden BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );",
         [0],
     )
     .await
     .unwrap();
+    dbg!(&blog);
     let mut stmt = db
         .prepare("INSERT INTO blogs (title, description, content) VALUES (?1, ?2, ?3)")
         .await
@@ -111,5 +115,6 @@ async fn post_blog(State(state): State<AppState>, Form(blog): Form<Blog>) -> imp
     stmt.execute((blog.title, blog.description, blog.content))
         .await
         .unwrap();
-    todo!()
+    StatusCode::from_u16(201).unwrap()
+    // TODO: Redirect to the newly created blog
 }

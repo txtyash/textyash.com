@@ -8,7 +8,7 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.79"
 axum = { version = "0.7.4", features = ["macros"] }
-httpc-test = "0.1.9"
+httpc-test = { version = "0.1.9", features = ["colored", "color-output"] }
 lazy_static = "1.4.0"
 libsql = "0.2.0"
 serde = { version = "1.0.196", features = ["derive"] }
