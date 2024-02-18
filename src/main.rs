@@ -8,8 +8,8 @@ use axum::{
 };
 use db::{connection, ConnectionType::Local};
 use lazy_static::lazy_static;
-use libsql::Connection;
-use serde::Deserialize;
+use libsql::{de, Connection};
+use serde::{Deserialize, Serialize};
 use tera::Tera;
 use tower_http::services::ServeDir;
 
@@ -41,6 +41,7 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
         .nest_service("/static", ServeDir::new("static"))
         .nest_service("/components", ServeDir::new("templates/components"))
         .route("/", get(root))
+        .route("/blogs", get(list_blogs))
         .nest("/blogs", routes_blogs())
         .with_state(state);
 
@@ -86,13 +87,23 @@ async fn write_blog() -> impl IntoResponse {
 }
 
 #[derive(Debug, Deserialize)]
-struct Blog {
+struct BlogForm {
     title: String,
     description: String,
     content: String,
 }
 
-async fn post_blog(State(state): State<AppState>, Form(blog): Form<Blog>) -> impl IntoResponse {
+#[derive(Debug, Deserialize, Serialize)]
+struct Blog {
+    id: usize,
+    title: String,
+    description: String,
+    content: String,
+    hidden: bool,
+    created_at: String,
+}
+
+async fn post_blog(State(state): State<AppState>, Form(blog): Form<BlogForm>) -> impl IntoResponse {
     let db = &state.db;
     db.execute(
         "CREATE TABLE IF NOT EXISTS blogs (
@@ -117,4 +128,27 @@ async fn post_blog(State(state): State<AppState>, Form(blog): Form<Blog>) -> imp
         .unwrap();
     StatusCode::from_u16(201).unwrap()
     // TODO: Redirect to the newly created blog
+}
+
+async fn list_blogs(State(state): State<AppState>) -> impl IntoResponse {
+    let db = &state.db;
+    let mut blogs: Vec<Blog> = vec![];
+    match db.query("select * from blogs", [0]).await {
+        Ok(mut rows) => {
+            while let Ok(Some(row)) = rows.next() {
+                blogs.push(de::from_row::<Blog>(&row).unwrap());
+            }
+        }
+        Err(_) => (),
+    }
+    dbg!(&blogs);
+    let mut ctx = tera::Context::new();
+    ctx.insert("data_blogs", &blogs);
+
+    let file = "blogs/index.html";
+    Html(
+        TEMPLATES
+            .render(file, &ctx)
+            .expect("Failed to render {file}"),
+    )
 }

@@ -5,6 +5,10 @@
     </button>
   </div>
   <div class="my-6">
-    showing blogs...
+    {% for blog in data_blogs %}
+    <p>
+      {{ blog.title }}
+    </p>
+    {% endfor %}
   </div>
 </div>
