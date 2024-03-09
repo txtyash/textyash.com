@@ -11,21 +11,35 @@
 
   <div class="grid rounded-xl p-2 sm:grid-cols-2 dark:bg-stone-700">
     <img class="mx-auto h-48 w-48 rounded-full border-violet-300 object-cover dark:border-violet-300" src="{{ image_profile_pic }}" alt="evccyr's selfie picture." />
-    <p>Hi, I’m yash, a software developer(the unemployed kind). I prefer lower case. I was a big fan of science fiction as a kid, but now I’m not sure if my existential crisis is over yet. If you’re interested in learning more about me, you’ll have to read my terrible blogs. I know it’s a little excessive, but I hope you enjoy them : )</p>
+    <p>Hi, I’m yash, a software developer. I prefer lower case.</p>
   </div>
 
   <div class="flex w-auto justify-center rounded-xl py-6 dark:invert">
-    <a class="mx-3.5" target="_blank" href="https://github.com/evccyr"><img class="h-7 w-7" src="{{ icon_github }}" alt="Github icon." /></a>
-    <a class="mx-3.5" target="_blank" href="https://instagram.com/evccyr"><img class="h-7 w-7" src="{{ icon_instagram }}" alt="Instagram icon." /></a>
-    <a class="mx-3.5" target="_blank" href="https://twitter.com/evccyr"><img class="h-7 w-7" src="{{ icon_twitter }}" alt="Twitter icon." /></a>
-    <a class="mx-3.5" target="_blank" href="https://www.linkedin.com/in/yash-shinde-1a306929b"><img class="h-7 w-7" src="{{ icon_linkedin }}" alt="Linkedin icon." /></a>
-    <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-7 w-7" src="{{ icon_reddit }}" alt="Reddit icon." /></a>
-    <a class="mx-3.5" target="_blank" href="https://www.reddit.com/u/evccyr"><img class="h-7 w-7" src="{{ icon_rss }}" alt="aRSS reader icon." /></a>
+    <a class="mx-3.5" target="_blank" href="https://github.com/txtyash"><img class="h-7 w-7" src="{{ icon_github }}" alt="Github icon." /></a>
+    <a class="mx-3.5" target="_blank" href="https://instagram.com/textyash"><img class="h-7 w-7" src="{{ icon_instagram }}" alt="Instagram icon." /></a>
+    <a class="mx-3.5" target="_blank" href="https://twitter.com/textyash"><img class="h-7 w-7" src="{{ icon_twitter }}" alt="Twitter icon." /></a>
+    <a class="mx-3.5" target="_blank" href="https://linkedin.com/in/yash-shinde-1a306929b"><img class="h-7 w-7" src="{{ icon_linkedin }}" alt="Linkedin icon." /></a>
+    <a class="mx-3.5" target="_blank" href="https://reddit.com/u/textyash"><img class="h-7 w-7" src="{{ icon_reddit }}" alt="Reddit icon." /></a>
+    <a class="mx-3.5" target="_blank" href="https://example.com"><img class="h-7 w-7" src="{{ icon_rss }}" alt="aRSS reader icon." /></a>
   </div>
 
-  <div class="my-6 rounded-xl dark:bg-stone-700">Now playing...( TODO )</div>
+  <div class="my-6 rounded-xl dark:bg-stone-700">
+    "TODO: fancy page link"
+  </div>
 
-  {% include "blogs/index.html" %}
+  <div class="my-6">
+    {% for blog in data_blogs %}
+    <p>
+      {{ blog.title }}
+    </p>
+    <p>
+      {{ blog.description }}
+    </p>
+    <p>
+      {{ blog.created_at}}
+    </p>
+    {% endfor %}
+  </div>
 
 </div>
 {% endblock content %}

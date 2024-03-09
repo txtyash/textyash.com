@@ -12,8 +12,8 @@ pub async fn connection(ct: ConnectionType) -> Connection {
     use ConnectionType::*;
     if ct == Local {
         println!("Using Local DB.");
-        let db = Database::open_in_memory().expect("Failed to initialize local DB.");
-        return db.connect().expect("Failed to connect to local DB.");
+        let db = Database::open("test.db").expect("Failed to initialize local DB.");
+        db.connect().expect("Failed to connect to local DB.")
     } else {
         println!("Using Remote DB.");
         let url = env::var("LIBSQL_CLIENT_URL")
@@ -21,6 +21,6 @@ pub async fn connection(ct: ConnectionType) -> Connection {
         let auth_token = env::var("LIBSQL_CLIENT_TOKEN")
             .expect("Environment Variable 'LIBSQL_CLIENT_TOKEN' not found!");
         let db = Database::open_remote(url, auth_token).expect("Failed to initialize remote DB.");
-        return db.connect().expect("Failed to connect to remote DB.");
+        db.connect().expect("Failed to connect to remote DB.")
     }
 }

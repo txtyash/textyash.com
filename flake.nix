@@ -27,7 +27,10 @@
               pkg-config
               rust-bin.beta.latest.default
             ];
-            packages = [ pkgs.bashInteractive ];
+            packages = [
+              bashInteractive
+              cargo-shuttle
+            ];
             # TODO: Read on shellHooks
             shellHook = ''
               # alias ls=eza

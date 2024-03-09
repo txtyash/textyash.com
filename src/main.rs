@@ -15,14 +15,13 @@ use tower_http::services::ServeDir;
 
 lazy_static! {
     pub static ref TEMPLATES: Tera = {
-        let tera = match Tera::new("templates/**/*") {
+        match Tera::new("templates/**/*") {
             Ok(t) => t,
             Err(e) => {
                 println!("Parsing error(s): {}", e);
                 ::std::process::exit(1);
             }
-        };
-        tera
+        }
     };
 }
 
@@ -37,23 +36,27 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
     let state = AppState { db };
 
     let routers = Router::new()
-        // Serve from "static" instead of "/static" because axum is not project aware
+        // Serve "static" instead of "/static" because axum is not project aware
         .nest_service("/static", ServeDir::new("static"))
         .nest_service("/components", ServeDir::new("templates/components"))
         .route("/", get(root))
-        .route("/blogs", get(list_blogs))
-        .nest("/blogs", routes_blogs())
+        .route("/new", get(write_blog).post(post_blog))
         .with_state(state);
 
     Ok(routers.into())
 }
 
-fn routes_blogs() -> Router<AppState> {
-    Router::new().route("/new", get(write_blog).post(post_blog))
-}
-
-async fn root(State(_state): State<AppState>) -> impl IntoResponse {
+async fn root(State(state): State<AppState>) -> impl IntoResponse {
     let mut ctx = tera::Context::new();
+    let db = &state.db;
+    let mut blogs: Vec<Blog> = vec![];
+    if let Ok(mut rows) = db.query("select * from blogs", [0]).await {
+        while let Ok(Some(row)) = rows.next() {
+            blogs.push(de::from_row::<Blog>(&row).unwrap());
+        }
+    }
+    dbg!(&blogs);
+    ctx.insert("data_blogs", &blogs);
     ctx.insert(
         "image_profile_pic",
         "/static/images/profile-pic-placeholder.jpg",
@@ -78,7 +81,7 @@ async fn write_blog() -> impl IntoResponse {
     ctx.insert("css_easymde", "/static/css/easymde.min.css");
     ctx.insert("js_easymde", "/static/js/easymde.min.js");
 
-    let file = "blogs/new/index.html";
+    let file = "new/index.html";
     Html(
         TEMPLATES
             .render(file, &ctx)
@@ -128,27 +131,4 @@ async fn post_blog(State(state): State<AppState>, Form(blog): Form<BlogForm>) ->
         .unwrap();
     StatusCode::from_u16(201).unwrap()
     // TODO: Redirect to the newly created blog
-}
-
-async fn list_blogs(State(state): State<AppState>) -> impl IntoResponse {
-    let db = &state.db;
-    let mut blogs: Vec<Blog> = vec![];
-    match db.query("select * from blogs", [0]).await {
-        Ok(mut rows) => {
-            while let Ok(Some(row)) = rows.next() {
-                blogs.push(de::from_row::<Blog>(&row).unwrap());
-            }
-        }
-        Err(_) => (),
-    }
-    dbg!(&blogs);
-    let mut ctx = tera::Context::new();
-    ctx.insert("data_blogs", &blogs);
-
-    let file = "blogs/index.html";
-    Html(
-        TEMPLATES
-            .render(file, &ctx)
-            .expect("Failed to render {file}"),
-    )
 }

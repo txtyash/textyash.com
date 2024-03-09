@@ -1,0 +1,109 @@
+<!-- Tailwind causes a problem. Do not use a template for this page. -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+  </head>
+
+  <body>
+    <form action="/new" method="post">
+      <label for="title">Blog Title:</label>
+      <input type="text" name="title" placeholder="Enter blog title" required>
+      <input type="text" name="description" placeholder="Describe this blog..." required>
+      <input type="submit" value="Submit">
+    </form>
+    <textarea name="content" placeholder="Write your blog..."></textarea>
+  </body>
+
+  <script>
+    const easyMDE = new EasyMDE({
+      autosave
+    });
+    const form = document.querySelector("form");
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      let html = document.querySelector("textarea")[0].innerHTML;
+      formData.set('content', html);
+      for (item of formData) {
+        console.log(item[0], item[1]);
+      }
+    });
+  </script>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="description" content="blog editor" />
+    <title>Blog Editor</title>
+    <link rel="stylesheet" href="/static/css/easymde.min.css">
+    <script src="/static/js/htmx.min.js"></script>
+    <script src="/static/js/easymde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  </head>
+
+  <body>
+    <h1>Markdown Editor</h1>
+
+    <form id="markdownForm">
+      <label for="title">Title:</label><br>
+      <input type="text" id="title" name="title"><br><br>
+
+      <label for="description">Description:</label><br>
+      <input type="text" id="description" name="description"><br><br>
+
+      <textarea id="markdownContent" name="content"></textarea><br><br>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      const form = document.getElementById('markdownForm');
+      const markdownContent = document.getElementById('markdownContent');
+
+      const editor = new EasyMDE({ element: markdownContent });
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+  
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const compiledHTML = marked.parse(editor.value());
+  
+        // You can now send the title, description, and compiledHTML to your server or perform any other action
+        console.log('Title:', title);
+        console.log('Description:', description);
+        console.log('Compiled HTML:', compiledHTML);
+
+
+        // Create URL-encoded form data
+        const formData = new URLSearchParams();
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('content', compiledHTML);
+  
+        // Make a POST request with application/x-www-form-urlencoded content type
+        fetch('/new', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formData.toString(),
+        })
+        .then(response => response.statusText)
+        .then(data => {
+          console.log('Post request successful:', data);
+        })
+        .catch(error => {
+          console.error('Error making post request:', error);
+        });
+  
+      });
+    </script>
+  </body>
+</html>
