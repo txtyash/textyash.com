@@ -1,20 +1,20 @@
 {% extends "layout.html" %}
 
-{% block title %}x{% endblock title %}
+{% block title %}Yash's website{% endblock title %}
 
 {% block head %} {{ super() }}
-<meta name="description" content="evccyr's personal website" />
+<meta name="description" content="Yash's personal website" />
 {% endblock head %}
 
 {% block content %}
-<div class="m-2 grid h-full w-full place-items-center sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md">
+<div class="m-2 grid h-full w-full place-items-center sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md mx-auto">
 
-  <div class="grid rounded-xl p-2 sm:grid-cols-2 dark:bg-stone-700">
-    <img class="mx-auto h-48 w-48 rounded-full border-violet-300 object-cover dark:border-violet-300" src="{{ image_profile_pic }}" alt="evccyr's selfie picture." />
-    <p>Hi, I’m yash, a software developer. I prefer lower case.</p>
+  <div class="grid sm:grid-cols-2 p-2 items-center">
+      <img class="mx-auto h-32 w-32 rounded-sm object-cover" src="{{ image_profile_pic }}" alt="Yash's profile picture." />
+      <p class="flex items-center">Hi, I’m Yash, a software developer. I love technology & music. I occasionaly jot down my thoughts here : )</p>
   </div>
 
-  <div class="flex w-auto justify-center rounded-xl py-6 dark:invert">
+  <div class="flex w-auto justify-center py-6 dark:invert">
     <a class="mx-3.5" target="_blank" href="https://github.com/txtyash"><img class="h-7 w-7" src="{{ icon_github }}" alt="Github icon." /></a>
     <a class="mx-3.5" target="_blank" href="https://instagram.com/textyash"><img class="h-7 w-7" src="{{ icon_instagram }}" alt="Instagram icon." /></a>
     <a class="mx-3.5" target="_blank" href="https://twitter.com/textyash"><img class="h-7 w-7" src="{{ icon_twitter }}" alt="Twitter icon." /></a>
@@ -23,23 +23,20 @@
     <a class="mx-3.5" target="_blank" href="https://example.com"><img class="h-7 w-7" src="{{ icon_rss }}" alt="aRSS reader icon." /></a>
   </div>
 
-  <div class="my-6 rounded-xl dark:bg-stone-700">
-    "TODO: fancy page link"
+  <div class="flex w-auto my-3">
+    <a class="mx-3.5" href="">Fancy</a>
+    <a class="mx-3.5" href="/auth">Login</a>
+    <a class="mx-3.5" href="posts/new">[+]</a>
   </div>
 
-  <div class="my-6">
-    {% for blog in data_blogs %}
-    <p>
-      {{ blog.title }}
-    </p>
-    <p>
-      {{ blog.description }}
-    </p>
-    <p>
-      {{ blog.created_at}}
-    </p>
-    {% endfor %}
-  </div>
+  {% for post in data_posts %}
+  <a class="w-full py-4 px-6 transition duration-300 border-transparent border-l-4 border-r-4 hover:border-current" href="posts/{{ post.title | slugify }}">
+      <p class="font-bold">{{ post.title }}</p>
+      <p class="mt-2">{{ post.description }}</p>
+      <p class="text-right mt-4">{{ post.created_at }}</p>
+  </a>
+  <hr class="w-5/6 h-2px my-1 bg-slate-500 dark:bg-slate-300">
+  {% endfor %}
 
 </div>
 {% endblock content %}

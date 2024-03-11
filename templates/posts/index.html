@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Posts{% endblock title %}
+
+{% block head %} {{ super() }}
+<meta name="description" content="Yash's Posts" />
+{% endblock head %}
+
+{% block content %}
+<div class="m-2 grid h-full w-full place-items-center sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md mx-auto">
+
+<div class="w-full">
+  <p class="text-center font-bold">{{ data_post.title }}</p>
+  <p class="text-right mt-4">Last Edited: {{ data_post.last_edit }}</p>
+  <div class="text-left m-4">{{ data_post.content }}</p>
+</div>
+
+</div>
+{% endblock content %}

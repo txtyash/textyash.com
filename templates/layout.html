@@ -1,11 +1,11 @@
 <!DOCTYPE html>
+<!-- Simply h-screen or h-full on <body> isn't working -->
 <html lang="en">
   <head>
     {% block head %}
     <title>{% block title %}{% endblock title %}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- html path's are project aware unlike axum -->
     <script src="/static/js/htmx.min.js"></script>
     <!-- tailwind's output.css -->
@@ -13,12 +13,9 @@
     {% endblock head %}
   </head>
 
-  <body class="h-full bg-violet-200 text-stone-800 dark:bg-stone-800 dark:text-stone-200">
+<!-- TODO: Find out why: Simply h-screen or h-full on <body> isn't working -->
+  <body class="text-xl text-slate-800 dark:bg-black dark:text-slate-200 font-msix">
     {% block content %}{% endblock content %}
-    <div id="footer">
-      {% block footer %}
-      <!-- TODO: Footer -->
-      &copy; Copyright 2008 by <a href="http://domain.invalid/">you</a>. {% endblock footer %}
-    </div>
   </body>
+
 </html>

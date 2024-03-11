@@ -1,6 +1,6 @@
 mod db;
 use axum::{
-    extract::State,
+    extract::{Path, State},
     http::StatusCode,
     response::{Html, IntoResponse},
     routing::get,
@@ -40,23 +40,53 @@ async fn axum() -> shuttle_axum::ShuttleAxum {
         .nest_service("/static", ServeDir::new("static"))
         .nest_service("/components", ServeDir::new("templates/components"))
         .route("/", get(root))
-        .route("/new", get(write_blog).post(post_blog))
+        .nest("/posts", routes_posts())
         .with_state(state);
 
     Ok(routers.into())
 }
 
+fn routes_posts() -> Router<AppState> {
+    Router::new()
+        .route("/new", get(write_post).post(publish_post))
+        .route("/:title", get(show_post))
+}
+
+async fn show_post(State(state): State<AppState>, Path(slug): Path<String>) -> impl IntoResponse {
+    let db = &state.db;
+    let mut ctx = tera::Context::new();
+    let mut posts: Vec<Post> = vec![];
+    if let Ok(mut rows) = db
+        .query(&format!("SELECT * FROM posts WHERE slug = '{slug}';"), [0])
+        .await
+    {
+        while let Ok(Some(row)) = rows.next() {
+            posts.push(de::from_row::<Post>(&row).unwrap());
+        }
+    }
+    dbg!(&posts[0]);
+    ctx.insert("data_post", &posts[0]);
+
+    let file = "posts/index.html";
+    Html(
+        TEMPLATES
+            .render(file, &ctx)
+            .expect("Failed to render {file}"),
+    )
+}
+
 async fn root(State(state): State<AppState>) -> impl IntoResponse {
     let mut ctx = tera::Context::new();
     let db = &state.db;
-    let mut blogs: Vec<Blog> = vec![];
-    if let Ok(mut rows) = db.query("select * from blogs", [0]).await {
+    let mut posts: Vec<Post> = vec![];
+    if let Ok(mut rows) = db.query("SELECT id, title, description, content, hidden, substr ('--JanFebMarAprMayJunJulAugSepOctNovDec', strftime ('%m', created_at) * 3, 3) || strftime(' %d, %Y', created_at) AS created_at, last_edit, slug FROM posts;", [0]).await {
         while let Ok(Some(row)) = rows.next() {
-            blogs.push(de::from_row::<Blog>(&row).unwrap());
+            posts.push(de::from_row::<Post>(&row).unwrap());
         }
     }
-    dbg!(&blogs);
-    ctx.insert("data_blogs", &blogs);
+    dbg!(&posts[0].created_at);
+    dbg!(&posts);
+    ctx.insert("data_posts", &posts);
     ctx.insert(
         "image_profile_pic",
         "/static/images/profile-pic-placeholder.jpg",
@@ -76,12 +106,13 @@ async fn root(State(state): State<AppState>) -> impl IntoResponse {
     )
 }
 
-async fn write_blog() -> impl IntoResponse {
+async fn write_post() -> impl IntoResponse {
+    dbg!("write new post!");
     let mut ctx = tera::Context::new();
     ctx.insert("css_easymde", "/static/css/easymde.min.css");
     ctx.insert("js_easymde", "/static/js/easymde.min.js");
 
-    let file = "new/index.html";
+    let file = "posts/new/index.html";
     Html(
         TEMPLATES
             .render(file, &ctx)
@@ -90,45 +121,54 @@ async fn write_blog() -> impl IntoResponse {
 }
 
 #[derive(Debug, Deserialize)]
-struct BlogForm {
+struct PostForm {
     title: String,
     description: String,
     content: String,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Blog {
+struct Post {
     id: usize,
     title: String,
     description: String,
     content: String,
     hidden: bool,
     created_at: String,
+    last_edit: String,
+    slug: String,
 }
 
-async fn post_blog(State(state): State<AppState>, Form(blog): Form<BlogForm>) -> impl IntoResponse {
+async fn publish_post(
+    State(state): State<AppState>,
+    Form(post): Form<PostForm>,
+) -> impl IntoResponse {
+    dbg!("publishing!");
     let db = &state.db;
     db.execute(
-        "CREATE TABLE IF NOT EXISTS blogs (
+        "CREATE TABLE IF NOT EXISTS posts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title VARCHAR(255) NOT NULL,
-        description VARCHAR(255) NOT NULL,
+        description VARCHAR(500) NOT NULL,
         content TEXT NOT NULL,
         hidden BOOLEAN DEFAULT FALSE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        last_edit TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        slug VARCHAR(255) UNIQUE NOT NULL
     );",
         [0],
     )
     .await
     .unwrap();
-    dbg!(&blog);
+    dbg!(&post);
+    let slug = slug::slugify(&post.title);
     let mut stmt = db
-        .prepare("INSERT INTO blogs (title, description, content) VALUES (?1, ?2, ?3)")
+        .prepare("INSERT INTO posts (title, description, content, slug) VALUES (?1, ?2, ?3, ?4)")
         .await
         .unwrap();
-    stmt.execute((blog.title, blog.description, blog.content))
+    stmt.execute((post.title, post.description, post.content, slug))
         .await
         .unwrap();
     StatusCode::from_u16(201).unwrap()
-    // TODO: Redirect to the newly created blog
+    // TODO: Redirect to the newly created post
 }
