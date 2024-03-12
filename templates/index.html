@@ -10,20 +10,29 @@
 <div class="m-2 grid h-full w-full place-items-center sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md mx-auto">
 
   <div class="grid sm:grid-cols-2 p-2 items-center">
-      <!-- TODO: dark:border-slate-200 does not work -->
-      <img class="border-dashed border-4 border-slate-600 dark:border-slate-200 mx-auto h-32 w-32 rounded-sm object-cover" src="{{ image_profile_pic }}" alt="Yash's profile picture." />
-      <p class="flex items-center">Hi, I’m Yash, a software developer. I love technology & music. I occasionaly jot down my thoughts here : )</p>
+    <!-- TODO: dark:border-slate-200 does not work -->
+    <img class="border-dashed border-4 border-slate-600 dark:border-slate-200 mx-auto h-32 w-32 rounded-sm object-cover"
+      src="{{ image_profile_pic }}" alt="Yash's profile picture." />
+    <p class="flex items-center">Hi, I’m Yash, a software developer. I love technology & music. I occasionaly jot down
+      my thoughts here : )</p>
   </div>
 
   <div class="flex w-auto justify-center py-6 dark:invert">
-    <a class="mx-3.5" target="_blank" href="https://github.com/txtyash"><img class="h-7 w-7" src="{{ icon_github }}" alt="Github account." /></a>
-    <a class="mx-3.5" target="_blank" href="https://instagram.com/textyash"><img class="h-7 w-7" src="{{ icon_instagram }}" alt="Instagram account." /></a>
-    <a class="mx-3.5" target="_blank" href="https://twitter.com/textyash"><img class="h-7 w-7" src="{{ icon_twitter }}" alt="Twitter account." /></a>
-    <a class="mx-3.5" target="_blank" href="https://linkedin.com/in/yash-shinde-1a306929b"><img class="h-7 w-7" src="{{ icon_linkedin }}" alt="Linkedin profile." /></a>
-    <a class="mx-3.5" target="_blank" href="https://reddit.com/u/textyash"><img class="h-7 w-7" src="{{ icon_reddit }}" alt="Reddit account." /></a>
-    <a class="mx-3.5" target="_blank" href="mailto:textyash@proton.me"><img class="h-7 w-7" src="{{ icon_email }}" alt="Yash's Email." /></a>
+    <a class="mx-3.5" target="_blank" href="https://github.com/txtyash"><img class="h-7 w-7" src="{{ icon_github }}"
+        alt="Github account." /></a>
+    <a class="mx-3.5" target="_blank" href="https://instagram.com/textyash"><img class="h-7 w-7"
+        src="{{ icon_instagram }}" alt="Instagram account." /></a>
+    <a class="mx-3.5" target="_blank" href="https://twitter.com/textyash"><img class="h-7 w-7" src="{{ icon_twitter }}"
+        alt="Twitter account." /></a>
+    <a class="mx-3.5" target="_blank" href="https://linkedin.com/in/yash-shinde-1a306929b"><img class="h-7 w-7"
+        src="{{ icon_linkedin }}" alt="Linkedin profile." /></a>
+    <a class="mx-3.5" target="_blank" href="https://reddit.com/u/textyash"><img class="h-7 w-7" src="{{ icon_reddit }}"
+        alt="Reddit account." /></a>
+    <a class="mx-3.5" target="_blank" href="mailto:textyash@proton.me"><img class="h-7 w-7" src="{{ icon_email }}"
+        alt="Yash's Email." /></a>
     <!-- TODO: Implement RSS -->
-    <a class="mx-3.5" target="_blank" href="https://example.com"><img class="h-7 w-7" src="{{ icon_rss }}" alt="RSS reader." /></a>
+    <a class="mx-3.5" target="_blank" href="https://example.com"><img class="h-7 w-7" src="{{ icon_rss }}"
+        alt="RSS reader." /></a>
   </div>
 
   <div class="flex w-auto my-3">
@@ -33,10 +42,11 @@
   </div>
 
   {% for post in data_posts %}
-  <a class="w-full py-4 px-6 transition duration-300 border-transparent border-l-4 border-r-4 hover:border-current" href="posts/{{ post.title | slugify }}">
-      <p class="text-4xl">{{ post.title }}</p>
-      <p class="mt-2">{{ post.description }}</p>
-      <p class="text-right mt-4">{{ post.created_at }}</p>
+  <a class="w-full py-4 px-6 transition duration-300 border-transparent border-l-4 border-r-4 hover:border-current"
+    href="posts/{{ post.title | slugify }}">
+    <p class="text-4xl">{{ post.title }}</p>
+    <p class="mt-2">{{ post.description }}</p>
+    <p class="text-right mt-4">{{ post.created_at }}</p>
   </a>
   <hr class="w-5/6 h-2px my-1 bg-slate-500 dark:bg-slate-300">
   {% endfor %}

@@ -40,6 +40,7 @@
               nil
               taplo
               marksman
+              htmx-lsp
               tailwindcss-language-server
               vscode-langservers-extracted
               nodePackages.typescript-language-server
