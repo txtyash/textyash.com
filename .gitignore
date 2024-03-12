@@ -17,7 +17,7 @@ test.db
 *.pdb
 
 # Direnv files
-# .direnv
+.direnv
 .env*
 .go-tetris.log
 
