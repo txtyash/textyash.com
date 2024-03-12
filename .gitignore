@@ -4,6 +4,9 @@ debug/
 target/
 Cargo.lock
 
+# lock files
+bun.lockb
+
 # Planning and stuff
 scratch.md
 

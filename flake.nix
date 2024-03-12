@@ -30,7 +30,9 @@
             packages = [
               bashInteractive
               cargo-shuttle
-              cargo-watch
+              watchexec
+              just
+              bun
             ];
             # TODO: Read on shellHooks
             shellHook = ''
