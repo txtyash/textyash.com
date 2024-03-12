@@ -29,10 +29,23 @@
             ];
             packages = [
               bashInteractive
-              cargo-shuttle
-              watchexec
-              just
+
               bun
+              just
+              turso-cli
+              watchexec
+              cargo-shuttle
+
+              # LSPs
+              nil
+              taplo
+              marksman
+              tailwindcss-language-server
+              vscode-langservers-extracted
+              nodePackages.typescript-language-server
+
+              # Formatters
+              alejandra
             ];
             # TODO: Read on shellHooks
             shellHook = ''
