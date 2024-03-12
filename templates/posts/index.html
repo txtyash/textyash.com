@@ -4,16 +4,24 @@
 
 {% block head %} {{ super() }}
 <meta name="description" content="Yash's Posts" />
+<style>
+  .no-tailwind {
+        all: unset;
+  }
+</style>
 {% endblock head %}
 
 {% block content %}
-<div class="m-2 grid h-full w-full place-items-center sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md mx-auto">
+<div class="m-2 h-full w-full sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md mx-auto">
 
-<div class="w-full">
-  <p class="text-center font-bold">{{ data_post.title }}</p>
-  <p class="text-right mt-4">Last Edited: {{ data_post.last_edit }}</p>
-  <div class="text-left m-4">{{ data_post.content }}</p>
-</div>
+  <p class="text-5xl my-4 text-center">{{ data_post.title }}</p>
+  <div class="my-4 grid grid-cols-[1fr,1fr,auto] dark:invert">
+    <a href="text-left delete/{{ data_post.id }}" class="text-center"><img class="h-7 w-7" src="{{ icon_trash }}" alt="Trash/Delete icon." /></a>
+    <a href="text-left edit/{{ data_post.id }}" class="text-center"><img class="h-7 w-7" src="{{ icon_edit }}" alt="Edit icon." /></a>
+    <p class="text-right text-2xl">Last Edited: {{ data_post.last_edit }}</p>
+  </div>
+
+  <div style="color:red;" class="[&_*]:[all:revert] [&_*]:!font-[initial]">{{ data_post.content | safe }}</div>
 
 </div>
 {% endblock content %}

@@ -10,7 +10,7 @@
 <div class="m-2 grid h-full w-full place-items-center sm:w-3/4 md:w-3/5 lg:w-1/2 lg:max-w-screen-md mx-auto">
 
   <div class="grid sm:grid-cols-2 p-2 items-center">
-      <img class="mx-auto h-32 w-32 rounded-sm object-cover" src="{{ image_profile_pic }}" alt="Yash's profile picture." />
+      <img class="border-dashed border-4 border-slate-600 mx-auto h-32 w-32 rounded-sm object-cover" src="{{ image_profile_pic }}" alt="Yash's profile picture." />
       <p class="flex items-center">Hi, I’m Yash, a software developer. I love technology & music. I occasionaly jot down my thoughts here : )</p>
   </div>
 
@@ -24,14 +24,14 @@
   </div>
 
   <div class="flex w-auto my-3">
-    <a class="mx-3.5" href="">Fancy</a>
-    <a class="mx-3.5" href="/auth">Login</a>
-    <a class="mx-3.5" href="posts/new">[+]</a>
+    <a class="mx-3.5 hover:underline" href="/secret">Secret</a>
+    <a class="mx-3.5 hover:underline" href="/auth">Login</a>
+    <a class="mx-3.5 hover:underline" href="posts/new">[+]</a>
   </div>
 
   {% for post in data_posts %}
   <a class="w-full py-4 px-6 transition duration-300 border-transparent border-l-4 border-r-4 hover:border-current" href="posts/{{ post.title | slugify }}">
-      <p class="font-bold">{{ post.title }}</p>
+      <p class="text-4xl">{{ post.title }}</p>
       <p class="mt-2">{{ post.description }}</p>
       <p class="text-right mt-4">{{ post.created_at }}</p>
   </a>

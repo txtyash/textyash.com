@@ -2,7 +2,7 @@ mod db;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
-    response::{Html, IntoResponse},
+    response::{Html, IntoResponse, Redirect},
     routing::get,
     Form, Router,
 };
@@ -55,16 +55,18 @@ fn routes_posts() -> Router<AppState> {
 async fn show_post(State(state): State<AppState>, Path(slug): Path<String>) -> impl IntoResponse {
     let db = &state.db;
     let mut ctx = tera::Context::new();
+    ctx.insert("icon_edit", "/static/icons/edit-64.png");
+    ctx.insert("icon_trash", "/static/icons/trash-64.png");
     let mut posts: Vec<Post> = vec![];
     if let Ok(mut rows) = db
-        .query(&format!("SELECT * FROM posts WHERE slug = '{slug}';"), [0])
+        .query(&format!("SELECT id, title, description, content, hidden, created_at, strftime('%d/%m/%Y', last_edit) AS last_edit, slug FROM posts WHERE slug = '{slug}';"), [0])
         .await
     {
         while let Ok(Some(row)) = rows.next() {
             posts.push(de::from_row::<Post>(&row).unwrap());
         }
     }
-    dbg!(&posts[0]);
+    dbg!(&posts[0]); // TODO: Panics!!!!
     ctx.insert("data_post", &posts[0]);
 
     let file = "posts/index.html";
@@ -84,7 +86,7 @@ async fn root(State(state): State<AppState>) -> impl IntoResponse {
             posts.push(de::from_row::<Post>(&row).unwrap());
         }
     }
-    dbg!(&posts[0].created_at);
+    posts.reverse();
     dbg!(&posts);
     ctx.insert("data_posts", &posts);
     ctx.insert(
@@ -166,9 +168,10 @@ async fn publish_post(
         .prepare("INSERT INTO posts (title, description, content, slug) VALUES (?1, ?2, ?3, ?4)")
         .await
         .unwrap();
-    stmt.execute((post.title, post.description, post.content, slug))
+    stmt.execute((post.title, post.description, post.content, slug.clone()))
         .await
         .unwrap();
-    StatusCode::from_u16(201).unwrap()
+    // StatusCode::from_u16(201).unwrap()
     // TODO: Redirect to the newly created post
+    Redirect::to(&format!("posts/{slug}"))
 }
