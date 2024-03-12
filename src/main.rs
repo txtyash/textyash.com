@@ -98,6 +98,7 @@ async fn root(State(state): State<AppState>) -> impl IntoResponse {
     ctx.insert("icon_twitter", "/static/icons/twitter-32.webp");
     ctx.insert("icon_linkedin", "/static/icons/linkedin-32.webp");
     ctx.insert("icon_reddit", "/static/icons/reddit-32.webp");
+    ctx.insert("icon_email", "/static/icons/email-64.png");
     ctx.insert("icon_rss", "/static/icons/rss-32.webp");
 
     let file = "index.html";
