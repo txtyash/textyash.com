@@ -2,7 +2,7 @@ mod db;
 use axum::{
     extract::{Path, State},
     http::StatusCode,
-    response::{Html, IntoResponse, Redirect},
+    response::{Html, IntoResponse},
     routing::get,
     Form, Router,
 };
@@ -168,10 +168,9 @@ async fn publish_post(
         .prepare("INSERT INTO posts (title, description, content, slug) VALUES (?1, ?2, ?3, ?4)")
         .await
         .unwrap();
-    stmt.execute((post.title, post.description, post.content, slug.clone()))
+    stmt.execute((post.title, post.description, post.content, slug))
         .await
         .unwrap();
-    // StatusCode::from_u16(201).unwrap()
+    StatusCode::from_u16(201).unwrap()
     // TODO: Redirect to the newly created post
-    Redirect::to(&format!("posts/{slug}"))
 }
