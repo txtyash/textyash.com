@@ -30,10 +30,11 @@
             packages = [
               bashInteractive
 
-              bun
               just
               turso-cli
               watchexec
+              nodejs_21
+              tailwindcss
               cargo-shuttle
 
               # LSPs
@@ -43,6 +44,8 @@
               htmx-lsp
               tailwindcss-language-server
               vscode-langservers-extracted
+              nodePackages.eslint
+              nodePackages.prettier
               nodePackages.typescript-language-server
 
               # Formatters
