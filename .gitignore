@@ -8,7 +8,9 @@ Cargo.lock
 bun.lockb
 package-lock.json
 
-# Planning and stuff
+# Local work files
+local/
+.local/
 scratch.md
 
 # Sqlite(Turos) testing database
