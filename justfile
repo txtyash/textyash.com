@@ -1,14 +1,5 @@
-watch:
-	watchexec -r just run
+run: line
+	npm run dev
 
 line:
 	@echo -e "--------------------------------------\n"
-
-run: line
-	cargo run
-
-ui: line
-	npm run dev
-
-test:
-	watchexec -r cargo test

@@ -1,8 +1,0 @@
-watch:
-	watchexec -r just ui
-
-line:
-	@echo -e "--------------------------------------\n"
-
-ui: line
-	npm run dev

@@ -1,21 +1,19 @@
 {
-  description = "Rust devShell";
+  description = "Svelte devShell";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    rust-overlay.url = "github:oxalica/rust-overlay";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
     nixpkgs,
-    rust-overlay,
     flake-utils,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (
       system: let
-        overlays = [(import rust-overlay)];
+        overlays = [];
         pkgs = import nixpkgs {
           inherit system overlays;
         };
@@ -23,29 +21,23 @@
         with pkgs; {
           devShells.default = mkShell {
             buildInputs = [
-              openssl
-              pkg-config
-              rust-bin.beta.latest.default
             ];
             packages = [
               bashInteractive
-
               just
-              turso-cli
               watchexec
               nodejs_21
               tailwindcss
-              cargo-shuttle
 
               # LSPs
               nil
-              taplo
               marksman
-              htmx-lsp
               tailwindcss-language-server
+              # html, css, json
               vscode-langservers-extracted
               nodePackages.eslint
               nodePackages.prettier
+              nodePackages.svelte-language-server
               nodePackages.typescript-language-server
 
               # Formatters
