@@ -16,7 +16,7 @@ export function checkUsername(username: string): string {
   else if(username.length < 1) {
     return "Username must have at least 1 character.";
   }
-  else if(!hasSpecialExceptPeriod(username)) {
+  else if(hasSpecialExceptPeriod(username)) {
     return "Username can only contain alphabet, numbers & periods.";
   }
   return "";
