@@ -1,4 +1,5 @@
 <script lang="ts">
+  // TODO: To block dark reader <meta name="darkreader-lock" />
   import "../app.postcss";
   import {
     AppShell,
