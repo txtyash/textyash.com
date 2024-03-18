@@ -19,38 +19,44 @@
     position: "bottom",
     meta: { foo: "bar", fizz: "buzz", age: 40 },
   };
+  // TODO: Add a crash link to stuff page to crash user's browser for fun
   let drawerItems = [
     {
       text: "Home",
-      icon: "fluent-emoji-flat:house",
+      icon: "heroicons-solid:home",
       href: "/",
     },
     {
-      text: "Stuff",
-      icon: "twemoji:winking-face",
+      text: "Stuff ; )",
+      icon: "twemoji:test-tube",
       href: "/stuff",
     },
   ];
-  let loggedIn = true;
+  let loggedIn = false;
   let root = false;
   if (loggedIn) {
     drawerItems.push({
       text: "Logout",
-      icon: "twemoji:waving-hand",
+      icon: "ic:baseline-waving-hand",
       href: "/auth/logout",
     });
     if (root) {
       drawerItems.push({
         text: "New Post",
-        icon: "noto:pencil",
+        icon: "mingcute:pencil-fill",
         href: "/posts/edit",
       });
     }
   } else {
     drawerItems.push({
       text: "Login",
-      icon: "twemoji:locked",
+      icon: "mingcute:lock-fill",
       href: "/auth/login",
+    });
+    drawerItems.push({
+      text: "Register",
+      icon: "mdi:register",
+      href: "/auth/register",
     });
   }
 
