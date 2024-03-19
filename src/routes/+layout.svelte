@@ -74,7 +74,7 @@
 <AppShell>
   <!-- Page Route Content -->
   <div
-    class="mx-auto w-11/12 sm:w-10/12 md:w-9/12 lg:w-7/12 lg:max-w-screen-md pb-24"
+    class="mx-auto w-11/12 sm:w-10/12 md:w-9/12 lg:w-7/12 lg:max-w-screen-md mb-24"
   >
     <slot />
   </div>
