@@ -28,6 +28,7 @@
               watchexec
               nodejs_21
               tailwindcss
+              postgresql_16
 
               # LSPs
               nil

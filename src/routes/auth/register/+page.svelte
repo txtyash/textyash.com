@@ -1,6 +1,10 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-  import { checkForm, type formError, type formFields } from "$lib/formChecker";
+  import {
+    checkForm,
+    type formError,
+    type formFields,
+  } from "$lib/client/formChecker";
   /* TODO:
   FRONTEND: beforeSubmit
   * check if form is valid => if(!error) then valid
@@ -21,11 +25,7 @@
 
 <div class="flex flex-col items-center mt-8">
   <h3 class="h3 my-6">Create a new account</h3>
-  <form
-    action="?/register"
-    method="post"
-    class="card h-fit py-3 px-9 rounded-xl"
-  >
+  <form method="post" class="card h-fit py-3 px-9 rounded-xl">
     <label class="label my-3">
       <span><b>Display Name</b></span>
       <input
