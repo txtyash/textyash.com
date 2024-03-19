@@ -1,33 +1,26 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-  import {
-    checkPassword,
-    checkDisplayName,
-    checkEmail,
-    checkUsername,
-    validForm,
-  } from "../formValidator";
-  /* TODO: beforeSubmit
-  if password === confirmPassword
-  if !validForm({object}) then showAllWarnings = true;
+  import { checkForm, type formError, type formFields } from "$lib/formChecker";
+  /* TODO:
+  FRONTEND: beforeSubmit
+  * check if form is valid => if(!error) then valid
+  BACKEND:
+  * trim() fields(except passwords)
   */
-  let showPassword = false;
-  // TODO: trim displayName before submit
-  let displayName = "";
-  let username = "";
-  $: username = username.trim();
-  let email = "";
-  $: email = email.trim();
-  let password = "";
-  $: password = password.trim();
-  let confirmPassword = "";
-  $: confirmPassword = confirmPassword.trim();
-  let showAllWarnings = false;
-  let focusedField = "";
+  let fields: formFields = {
+    displayName: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  let error: formError | null = { field: "", message: "" };
+  $: error = checkForm(fields);
 </script>
 
-<div class="h-screen flex flex-col items-center justify-center">
-  <p class="text-3xl my-6">Create a new account</p>
+<div class="flex flex-col items-center mt-8">
+  <h3 class="h3 my-6">Create a new account</h3>
   <form
     action="?/register"
     method="post"
@@ -36,8 +29,7 @@
     <label class="label my-3">
       <span><b>Display Name</b></span>
       <input
-        bind:value={displayName}
-        on:focus={() => (focusedField = "displayName")}
+        bind:value={fields.displayName}
         class="input"
         type="text"
         name="first"
@@ -45,15 +37,14 @@
         required
       />
     </label>
-    {#if (focusedField === "displayName" || showAllWarnings) && checkDisplayName(displayName) !== ""}
-      <small>{checkDisplayName(displayName)}</small>
+    {#if error?.field === "displayName"}
+      <small>{error?.message}</small>
     {/if}
     <!-- TODO: Allow only number, alphabet & period -->
     <label class="label my-3">
       <span><b>Username</b></span>
       <input
-        bind:value={username}
-        on:focus={() => (focusedField = "username")}
+        bind:value={fields.username}
         required
         class="input"
         type="text"
@@ -61,15 +52,14 @@
         placeholder="ex: john3d"
       />
     </label>
-    {#if (focusedField === "username" || showAllWarnings) && checkUsername(username) !== ""}
-      <small>{checkUsername(username)}</small>
+    {#if error?.field === "username"}
+      <small>{error?.message}</small>
     {/if}
     <label class="label my-3">
       <span><b>Email</b></span>
       <input
         required
-        on:focus={() => (focusedField = "email")}
-        bind:value={email}
+        bind:value={fields.email}
         class="input my-3"
         title="Input (email)"
         type="email"
@@ -78,15 +68,14 @@
         autocomplete="email"
       />
     </label>
-    {#if (focusedField === "email" || showAllWarnings) && checkEmail(email) !== ""}
-      <small>{checkEmail(email)}</small>
+    {#if error?.field === "email"}
+      <small>{error?.message}</small>
     {/if}
     <label class="label my-3">
       <span><b>Password</b></span>
       <input
         required
-        on:focus={() => (focusedField = "password")}
-        bind:value={password}
+        bind:value={fields.password}
         title="Input (password)"
         class="input my-3"
         name="password"
@@ -94,8 +83,8 @@
         placeholder="Strong@Password129"
       />
     </label>
-    {#if (focusedField === "password" || showAllWarnings) && checkPassword(password) !== ""}
-      <small>{checkPassword(password)}</small>
+    {#if error?.field === "password"}
+      <small>{error?.message}</small>
     {/if}
     <label class="label my-3">
       <span><b>Confirm Password</b></span>
@@ -103,15 +92,14 @@
         required
         type="password"
         class="input my-3"
-        on:focus={() => (focusedField = "confirmPassword")}
-        bind:value={confirmPassword}
+        bind:value={fields.confirmPassword}
         title="Input (Confirm Password)"
         name="confirmPassword"
         placeholder="repeat previous password..."
       />
     </label>
-    {#if focusedField === "confirmPassword" && password !== confirmPassword}
-      <small>Passwords do not match.</small>
+    {#if error?.field === "confirmPassword"}
+      <small>{error?.message}</small>
     {/if}
     <!-- Separator between above warning and below button-->
     <div />
