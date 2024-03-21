@@ -7,5 +7,11 @@ lint: line
 format: line
 	prettier --write .
 
+generate: line
+	npm run generate
+
+migrate: line
+	npm run migrate
+
 line:
 	@echo -e "--------------------------------------\n"

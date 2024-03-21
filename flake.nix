@@ -27,6 +27,7 @@
               just
               watchexec
               nodejs_21
+              supabase-cli
               tailwindcss
               postgresql_16
 
@@ -34,8 +35,10 @@
               nil
               marksman
               tailwindcss-language-server
+              emmet-language-server
               # html, css, json
               vscode-langservers-extracted
+              vscode-extensions.svelte.svelte-vscode
               nodePackages.eslint
               nodePackages.prettier
               nodePackages.svelte-language-server

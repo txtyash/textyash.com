@@ -8,7 +8,9 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "db:generate": "drizzle-kit generate:pg"
+    "generate": "drizzle-kit generate:pg",
+    "migrate": "drizzle-kit push:pg",
+    "studio": "drizzle-kit studio"
   },
   "devDependencies": {
     "@iconify/svelte": "^3.1.6",
@@ -33,6 +35,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@supabase/ssr": "^0.1.0",
+    "@supabase/supabase-js": "^2.39.8",
     "drizzle-orm": "^0.30.4",
     "postgres": "^3.4.3"
   }

@@ -25,7 +25,7 @@
 
 <div class="flex flex-col items-center mt-8">
   <h3 class="h3 my-6">Create a new account</h3>
-  <form method="post" class="card h-fit py-3 px-9 rounded-xl">
+  <form method="POST" class="card h-fit py-3 px-9 rounded-xl">
     <label class="label my-3">
       <span><b>Display Name</b></span>
       <input
