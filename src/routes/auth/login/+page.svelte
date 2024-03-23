@@ -4,20 +4,19 @@
   BACKEND:
   * trim() fields(except passwords)
   */
-  let user = "";
-  let password = "";
+  export let form;
 </script>
 
 <div class="flex flex-col items-center mt-8">
   <h3 class="h3 my-6">Create a new account</h3>
-  <form action="?/login" method="post" class="card h-fit py-3 px-9 rounded-xl">
+  <form method="post" class="card h-fit py-3 px-9 rounded-xl">
     <label class="label my-3">
-      <span><b>Username or Email</b></span>
+      <span><b>Email</b></span>
       <input
-        bind:value={user}
+        value={form?.email}
         class="input"
+        name="email"
         type="text"
-        name="first"
         placeholder="ex: john3d or john@mail.com"
         required
       />
@@ -26,14 +25,18 @@
       <span><b>Password</b></span>
       <input
         required
-        bind:value={password}
         title="Input (password)"
-        class="input my-3"
+        class="input"
         name="password"
         type="password"
         placeholder="Strong@Password129"
       />
     </label>
+    {#if form?.error}
+      <small class="text-red-500"><b>Error</b>: {form?.error}</small>
+    {/if}
+    <!-- Separator -->
+    <div />
     <button type="submit" class="btn variant-filled my-3">
       <span>
         <Icon icon="mingcute:check-fill" class="h-7 w-7" />
