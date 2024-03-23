@@ -1,5 +1,5 @@
 <script lang="ts">
-  // TODO: To block dark reader <meta name="darkreader-lock" />
+  export let data;
   // TODO: Check & invalidate user session
   import "../app.postcss";
   import {
@@ -13,6 +13,17 @@
   import Icon from "@iconify/svelte";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
+
+  // Check if the session exists
+  let loggedIn = false;
+  let root = false;
+  if (data.session) {
+    loggedIn = true;
+    // TODO: Replace email with custom domain email
+    if (data.session.user.email === "shinde27yash@gmail.com") {
+      root = true;
+    }
+  }
 
   initializeStores();
 
@@ -34,8 +45,6 @@
       href: "/stuff",
     },
   ];
-  let loggedIn = false;
-  let root = false;
   if (loggedIn) {
     drawerItems.push({
       text: "Logout",

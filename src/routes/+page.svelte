@@ -3,10 +3,6 @@
   export let data;
 </script>
 
-{#if data.session}
-  <b>WELCOME, {data.session.user.email}</b>
-{/if}
-
 <div class="grid grid-cols-2 items-center m-2 p-2">
   <img
     class="mx-auto h-32 w-32 rounded-sm object-cover"

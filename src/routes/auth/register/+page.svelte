@@ -13,7 +13,6 @@
   */
   let fields: formFields = {
     displayName: "",
-    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -38,21 +37,6 @@
       />
     </label>
     {#if error?.field === "displayName"}
-      <small>{error?.message}</small>
-    {/if}
-    <!-- TODO: Allow only number, alphabet & period -->
-    <label class="label my-3">
-      <span><b>Username</b></span>
-      <input
-        bind:value={fields.username}
-        required
-        class="input"
-        type="text"
-        name="last"
-        placeholder="ex: john3d"
-      />
-    </label>
-    {#if error?.field === "username"}
       <small>{error?.message}</small>
     {/if}
     <label class="label my-3">
