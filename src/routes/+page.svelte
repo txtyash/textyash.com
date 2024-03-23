@@ -1,45 +1,9 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
+  import { Links } from "$lib/components";
   export let data;
   let loggedIn = true;
   let root = false;
-  let links = [
-    {
-      text: "LinkedIn",
-      icon: "mdi:linkedin",
-      href: "https://linkedin.com/in/yash-shinde-1a306929b",
-    },
-    {
-      text: "Twitter",
-      icon: "mdi:twitter",
-      href: "https://twitter.com/textyash",
-    },
-    {
-      text: "Github",
-      icon: "mdi:github",
-      href: "https://github.com/txtyash",
-    },
-    {
-      text: "Instagram",
-      icon: "mdi:instagram",
-      href: "https://instagram.com/textyash",
-    },
-    {
-      text: "Reddit",
-      icon: "mdi:reddit",
-      href: "https://reddit.com/u/textyash",
-    },
-    {
-      text: "Email",
-      icon: "mdi:email",
-      href: "mailto:textyash@proton.me",
-    },
-    {
-      text: "RSS",
-      icon: "mdi:rss",
-      href: "/",
-    },
-  ];
   let content = {
     posts: [
       {
@@ -93,7 +57,7 @@
 <div class="grid grid-cols-2 items-center m-2 p-2">
   <img
     class="mx-auto h-32 w-32 rounded-sm object-cover"
-    src="/images/profile.jpeg"
+    src="/images/profile-crop.png"
     alt="Yash's profile"
   />
   <p class="flex items-center text-sm sm:text-lg">
@@ -102,13 +66,7 @@
   </p>
 </div>
 
-<div class="flex w-auto justify-center m-2 p-2">
-  {#each links as link}
-    <a class="mx-2" target="_blank" href={link.href}>
-      <Icon icon={link.icon} class="h-8 w-8" />
-    </a>
-  {/each}
-</div>
+<Links />
 
 <div class="w-full">
   {#each content.posts as post}
@@ -116,14 +74,10 @@
       <p class="line-clamp-2 font-semibold text-md sm:text-xl">
         {post.title}
       </p>
-      <p class="line-clamp-2 sm:line-clamp-3 font-light sm:font-normal">
+      <p class="line-clamp-2 sm:line-clamp-3">
         {post.description}
       </p>
-      <div
-        class="grid grid-cols-{loggedIn && root
-          ? 4
-          : 2} py-1 font-light sm:font-normal"
-      >
+      <div class="grid grid-cols-{loggedIn && root ? 4 : 2} py-1">
         <p>{post.read_time} min read</p>
         {#if loggedIn && root}
           <a href="/posts/edit/{post.slug}">
