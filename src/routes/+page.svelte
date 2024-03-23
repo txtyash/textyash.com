@@ -1,5 +1,6 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
+  export let data;
   let loggedIn = true;
   let root = false;
   let links = [
@@ -39,7 +40,7 @@
       href: "/",
     },
   ];
-  let data = {
+  let content = {
     posts: [
       {
         title: '"Dune" Movie Review',
@@ -85,6 +86,10 @@
   };
 </script>
 
+{#if data.session}
+  <b>WELCOME, {data.session.user.email}</b>
+{/if}
+
 <div class="grid grid-cols-2 items-center m-2 p-2">
   <img
     class="mx-auto h-32 w-32 rounded-sm object-cover"
@@ -106,7 +111,7 @@
 </div>
 
 <div class="w-full">
-  {#each data.posts as post}
+  {#each content.posts as post}
     <a class="block card card-hover my-4 p-4" href="posts/{post.slug}">
       <p class="line-clamp-2 font-semibold text-md sm:text-xl">
         {post.title}

@@ -1,11 +1,11 @@
-import { defineConfig } from 'drizzle-kit'
+import { defineConfig } from "drizzle-kit";
 export default defineConfig({
-	schema: './src/lib/server/db/schema.ts',
-	driver: 'pg',
-	out: './supabase/migrations',
-	dbCredentials: {
-		connectionString: process.env.DB_URL ?? ''
-	},
-	verbose:true,
-	strict:true,
-})
+  schema: "./src/lib/server/db/schema.ts",
+  driver: "pg",
+  out: "./supabase/migrations",
+  dbCredentials: {
+    connectionString: process.env.DATABASE_URL ?? "",
+  },
+  verbose: true,
+  strict: true,
+});

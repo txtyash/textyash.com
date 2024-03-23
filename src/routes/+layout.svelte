@@ -1,5 +1,6 @@
 <script lang="ts">
   // TODO: To block dark reader <meta name="darkreader-lock" />
+  // TODO: Check & invalidate user session
   import "../app.postcss";
   import {
     AppShell,
