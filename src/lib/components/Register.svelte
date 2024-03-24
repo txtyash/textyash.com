@@ -94,7 +94,7 @@
       <span>Register</span>
     </button>
   </form>
-  <a class="p-3 m-3" href="/auth/login">
+  <a class="p-3 m-3" href="/login">
     Already have an account?
     <u>Login</u>
   </a>

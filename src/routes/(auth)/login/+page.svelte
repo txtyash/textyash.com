@@ -44,11 +44,11 @@
       <span>Login</span>
     </button>
   </form>
-  <a class="m-4 p-4" href="/auth/register">
+  <a class="m-4 p-4" href="/register">
     New here?
     <u>Create a new account</u>
   </a>
-  <a href="/auth/login">
+  <a href="/login">
     Forgot Password?
     <u>Recover Account</u>
   </a>

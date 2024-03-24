@@ -49,8 +49,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   // If authenticated then redirect from login & register to homepage
   if (
-    (event.url.pathname.startsWith("/auth/login") ||
-      event.url.pathname.startsWith("/auth/register")) &&
+    (event.url.pathname.startsWith("/login") ||
+      event.url.pathname.startsWith("/register")) &&
     event.locals.session
   ) {
     throw redirect(303, "/");
@@ -65,7 +65,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   if (isAdminRoute) {
     // Check if the user is admin using their email
     if (event.locals.session?.user.email !== "shinde27yash@gmail.com") {
-      throw redirect(303, "/auth/login");
+      throw redirect(303, "/login");
     }
   }
 

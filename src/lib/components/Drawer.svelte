@@ -22,7 +22,7 @@
     drawerItems.push({
       text: "Logout",
       icon: "ic:baseline-waving-hand",
-      href: "/auth/logout",
+      href: "/logout",
     });
     if (admin) {
       drawerItems.push({
@@ -35,12 +35,12 @@
     drawerItems.push({
       text: "Login",
       icon: "mingcute:lock-fill",
-      href: "/auth/login",
+      href: "/login",
     });
     drawerItems.push({
       text: "Register",
       icon: "mdi:register",
-      href: "/auth/register",
+      href: "/register",
     });
   }
 </script>
