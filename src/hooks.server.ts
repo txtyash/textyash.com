@@ -3,7 +3,7 @@ import {
   PUBLIC_SUPABASE_ANON_KEY,
 } from "$env/static/public";
 import { createServerClient } from "@supabase/ssr";
-import type { Handle } from "@sveltejs/kit";
+import { redirect, type Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createServerClient(
@@ -39,6 +39,35 @@ export const handle: Handle = async ({ event, resolve }) => {
     } = await event.locals.supabase.auth.getSession();
     return session;
   };
+
+  /**
+   * a little helper that is written for convenience so that instead
+   * of calling `await locals.getSession()`
+   * you just call `locals.session`
+   */
+  event.locals.session = await event.locals.getSession();
+
+  // If authenticated then redirect from login & register to homepage
+  if (
+    (event.url.pathname.startsWith("/auth/login") ||
+      event.url.pathname.startsWith("/auth/register")) &&
+    event.locals.session
+  ) {
+    throw redirect(303, "/");
+  }
+
+  // Protecting Admin routes
+  const adminRoutes = ["/posts/edit", "/posts/delete"];
+  // check if the current route is only supposed to be accessed by the admin
+  const isAdminRoute = adminRoutes.some((route) =>
+    event.url.pathname.startsWith(route),
+  );
+  if (isAdminRoute) {
+    // Check if the user is admin using their email
+    if (event.locals.session?.user.email !== "shinde27yash@gmail.com") {
+      throw redirect(303, "/auth/login");
+    }
+  }
 
   return resolve(event, {
     filterSerializedResponseHeaders(name) {

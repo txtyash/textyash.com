@@ -27,7 +27,11 @@
 </div>
 
 {#if showPosts}
-  <Posts posts={data.posts} />
+  {#if !data?.posts}
+    <p>Failed to load posts.</p>
+  {:else}
+    <Posts posts={data.posts} />
+  {/if}
 {:else}
   <Links />
 {/if}

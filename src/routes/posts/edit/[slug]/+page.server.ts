@@ -3,11 +3,13 @@ import { db, posts } from "$lib/server/db";
 import { eq } from "drizzle-orm";
 
 export const load: PageLoad = async ({ params }) => {
-  const allPosts = await db.select().from(posts);
-  if (allPosts.length === 0) {
-    return;
+  let post;
+  try {
+    post = await db.select().from(posts).where(eq(posts.slug, params.slug));
+  } catch (error: any) {
+    error(404);
   }
   return {
-    posts: allPosts,
+    post: post,
   };
 };

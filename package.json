@@ -22,6 +22,7 @@
     "@tailwindcss/forms": "0.5.7",
     "@tailwindcss/typography": "0.5.10",
     "@types/node": "20.11.28",
+    "@types/sanitize-html": "^2.11.0",
     "autoprefixer": "10.4.18",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
@@ -41,6 +42,8 @@
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.8",
     "drizzle-orm": "^0.30.4",
-    "postgres": "^3.4.3"
+    "postgres": "^3.4.3",
+    "reading-time-estimator": "^1.10.0",
+    "slugify": "^1.6.6"
   }
 }

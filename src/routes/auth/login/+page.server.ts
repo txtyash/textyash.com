@@ -10,7 +10,7 @@ export const actions = {
     };
     const { data, error } = await supabase.auth.signInWithPassword(userData);
     if (error) {
-      return fail(401, { error: error.message });
+      return fail(401, { email: userData.email, error: error.message });
     }
     throw redirect(303, "/");
   },

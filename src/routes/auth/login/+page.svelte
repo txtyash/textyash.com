@@ -13,7 +13,7 @@
     <label class="label my-3">
       <span><b>Email</b></span>
       <input
-        value={form?.email}
+        value={form?.email ?? ""}
         class="input"
         name="email"
         type="text"
@@ -48,7 +48,7 @@
     New here?
     <u>Create a new account</u>
   </a>
-  <a class="" href="/auth/login">
+  <a href="/auth/login">
     Forgot Password?
     <u>Recover Account</u>
   </a>
