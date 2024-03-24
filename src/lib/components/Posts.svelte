@@ -1,12 +1,11 @@
 <script lang="ts">
-  interface Post {
+  export let posts: {
     title: string;
     slug: string;
     description: string;
-    read_time: string;
+    read_time: number;
     created_at: string;
-  }
-  export let posts: Post[];
+  }[];
 </script>
 
 <div class="w-full">
