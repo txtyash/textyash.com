@@ -1,47 +1,48 @@
 {
-  "id": "3cf331e7-57eb-4bee-ab91-e4cdb19601d3",
+  "id": "0ae6c034-6dcb-47ad-9a14-dd2050aec337",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "users": {
-      "name": "users",
+    "posts": {
+      "name": "posts",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
+        "slug": {
+          "name": "slug",
+          "type": "varchar(64)",
           "primaryKey": true,
           "notNull": true
         },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "display_name": {
-          "name": "display_name",
-          "type": "varchar(128)",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "username": {
-          "name": "username",
+        "title": {
+          "name": "title",
           "type": "varchar(64)",
           "primaryKey": false,
           "notNull": true
         },
-        "email": {
-          "name": "email",
-          "type": "varchar(254)",
+        "content": {
+          "name": "content",
+          "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "password": {
-          "name": "password",
-          "type": "varchar(256)",
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "last_edit": {
+          "name": "last_edit",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "read_time": {
+          "name": "read_time",
+          "type": "smallint",
           "primaryKey": false,
           "notNull": false
         }
@@ -49,22 +50,7 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "users_username_unique": {
-          "name": "users_username_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "username"
-          ]
-        },
-        "users_email_unique": {
-          "name": "users_email_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
-        }
-      }
+      "uniqueConstraints": {}
     }
   },
   "enums": {},

@@ -1,21 +1,19 @@
 <script lang="ts">
-  import type { ActionData } from "../../routes/$types";
   import Icon from "@iconify/svelte";
+  import type { ActionData } from "../../routes/$types";
   export let form: ActionData;
 </script>
 
-<form method="POST" class="card h-fit py-3 px-9 rounded-xl">
+<form method="post" class="card h-fit py-3 px-9 rounded-xl">
   <label class="label my-3">
     <span><b>Email</b></span>
     <input
-      required
       value={form?.email ?? ""}
-      class="input my-3"
-      title="Input (email)"
-      type="email"
+      class="input"
       name="email"
-      placeholder="name@example.com"
-      autocomplete="email"
+      type="text"
+      placeholder="john@mail.com"
+      required
     />
   </label>
   <label class="label my-3">
@@ -23,20 +21,10 @@
     <input
       required
       title="Input (password)"
-      class="input my-3"
+      class="input"
       name="password"
       type="password"
       placeholder="Strong@Password129"
-    />
-  </label>
-  <label class="label my-3">
-    <span><b>Confirm Password</b></span>
-    <input
-      name="confirmPassword"
-      type="password"
-      required
-      placeholder="repeat password"
-      class="input my-3"
     />
   </label>
   {#if form?.error}
@@ -48,6 +36,6 @@
     <span>
       <Icon icon="mingcute:check-fill" class="h-7 w-7" />
     </span>
-    <span>Register</span>
+    <span>Login</span>
   </button>
 </form>

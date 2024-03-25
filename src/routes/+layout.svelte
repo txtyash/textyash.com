@@ -28,9 +28,7 @@
 <!-- App Shell -->
 <AppShell>
   <!-- Page Route Content -->
-  <div
-    class="mx-auto w-11/12 sm:w-10/12 md:w-9/12 lg:w-7/12 lg:max-w-screen-md mb-24"
-  >
+  <div class="mx-auto sm:w-10/12 md:w-9/12 lg:w-7/12 lg:max-w-screen-md mb-24">
     <!-- Content goes in this slot -->
     <slot />
   </div>

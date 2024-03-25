@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1710878015921,
-      "tag": "0000_bitter_kabuki",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1711016671657,
-      "tag": "0001_sudden_talon",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1711018172003,
-      "tag": "0002_easy_grey_gargoyle",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1711018257342,
-      "tag": "0003_mushy_hex",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1711302829991,
-      "tag": "0004_cheerful_bug",
+      "when": 1711391515615,
+      "tag": "0000_large_pretty_boy",
       "breakpoints": true
     }
   ]

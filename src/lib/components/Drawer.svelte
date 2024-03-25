@@ -13,7 +13,7 @@
       href: "/",
     },
     {
-      text: "Stuff ; )",
+      text: "Stuff.txt",
       icon: "twemoji:test-tube",
       href: "/stuff",
     },
