@@ -1,6 +1,5 @@
 <script lang="ts">
   export let data;
-  // TODO: Check & invalidate user session
   import "../app.postcss";
   import { MenuBar, Drawer } from "$lib/components";
   import {

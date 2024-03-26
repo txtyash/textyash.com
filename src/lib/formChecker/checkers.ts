@@ -17,7 +17,6 @@ export function checkDisplayName(displayName: string): string | null {
 
 export function checkUsername(username: string): string | null {
   username = username.trim();
-  // TODO: Check if username is taken
   if (username.length < 1) {
     return "Username must have at least 1 visible character.";
   } else if (hasSpecialExceptPeriod(username)) {

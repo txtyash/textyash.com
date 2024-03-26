@@ -1,4 +1,3 @@
-<!-- TODO: Add an actual Markdown Editor -->
 <script lang="ts">
 	import { Editor } from "$lib/components";
 	export let form;

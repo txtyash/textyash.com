@@ -5,7 +5,6 @@
   export let drawerStore: DrawerStore;
   export let loggedIn: boolean;
   export let admin: boolean;
-  // TODO: Add a crash link to stuff page to crash user's browser for fun
   let drawerItems = [
     {
       text: "Home",

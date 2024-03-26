@@ -37,10 +37,3 @@
     <Links />
   {/if}
 </div>
-
-<!-- TODO -->
-<!-- post/[slug] page:  Add delete and edit page to the "Bottom Drawer" -->
-<!-- Other Pages: posts/edit(editor), auth -->
-<!-- Implement popups for each link. Eg: hover on Insta shows "Account Deactivated!" popup -->
-<!-- Implement Pagination -->
-<!-- Implement RSS -->

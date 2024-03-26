@@ -47,7 +47,6 @@
               # Formatters
               alejandra
             ];
-            # TODO: Read on shellHooks
             shellHook = ''
               # alias ls=eza
               # alias find=fd

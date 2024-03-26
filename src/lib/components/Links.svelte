@@ -1,6 +1,5 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
-  // TODO: Mattermost, XMPP, & RSS
   let links = [
     {
       text: "Email",

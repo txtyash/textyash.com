@@ -10,7 +10,6 @@
   export let drawerStore: DrawerStore;
   export let drawerSettings: DrawerSettings;
 
-  // TODO: https://discord.com/channels/457912077277855764/1219289188445458483
   function goBack() {
     console.log(window.location.href);
     if (browser && $page.url.pathname != "/") {
