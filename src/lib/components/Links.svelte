@@ -19,7 +19,7 @@
     {
       text: "LinkedIn",
       icon: "mdi:linkedin",
-      href: "https://linkedin.com/in/yash-shinde-1a306929b",
+      href: "https://linkedin.com/in/textyash",
     },
     // {
     //   text: "Mattermost",
