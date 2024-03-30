@@ -35,6 +35,7 @@ textyash.com is my personal blog site. You can view the deployment here <http://
   * [x] modularize code
   * [ ] Tailwind & styling
   * [ ] Typescript warnings
+* [ ] Order posts by most recent
 * [ ] User Session Invalidation
 * [ ] Add footer:
   * [ ] Link page source code
@@ -46,6 +47,7 @@ textyash.com is my personal blog site. You can view the deployment here <http://
 * [ ] Stylize supabase email templates
 * [ ] Password Reset route
 * [ ] Pagination
+* [ ] Post filters
 * [ ] Markdown editor
 * [ ] Code Cleanup 2
 * [ ] Implement RSS
