@@ -6,6 +6,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+// TODO: Add id field
 export const posts = pgTable("posts", {
   slug: varchar("slug", { length: 64 }).primaryKey(),
   title: varchar("title", { length: 64 }).notNull(),

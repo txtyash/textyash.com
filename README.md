@@ -1,6 +1,10 @@
 # textyash.com [WIP]
+textyash.com(I don't own the domain yet) is my personal blog site.
 
-textyash.com is my personal blog site. You can view the deployment here <http://textyash.vercel.app>. The website is a work in progress. Please checkout the roadmap before making a PR/Issue.
+* You can view the deployment here <http://textyash.vercel.app>.
+* The website is a work in progress.
+* Please checkout the roadmap before making a PR/Issue.
+* PRs are only allowed on the `dev` branch.
 
 ## Tech Stack
 
@@ -39,12 +43,15 @@ textyash.com is my personal blog site. You can view the deployment here <http://
 * [ ] User Session Invalidation
 * [ ] Add footer:
   * [ ] Link page source code
-* [ ] Delete Post confirmation dialog
+* [ ] Implement Popups:
+  * [ ] Menubar indicator on first visit
+  * [ ] Delete Post confirmation dialog
 * [ ] Add links to Mattermost & XMPP
 * [ ] Replace formchecker with zod
 * [ ] [Make back button robust](https://discord.com/channels/457912077277855764/1219289188445458483)
 * [ ] Registration: Check if user is already registered
 * [ ] Stylize supabase email templates
+* [ ] Stylize custom error pages
 * [ ] Password Reset route
 * [ ] Pagination
 * [ ] Post filters
@@ -54,6 +61,7 @@ textyash.com is my personal blog site. You can view the deployment here <http://
 * [ ] Page load animations
 * [ ] Transitions
 * [ ] Loading animations
+* [ ] Threlte integration
 * [ ] Tone generator route
 * [ ] stuff.txt route: Fun stuff goes here ; )
   * [ ] Add user IP atop
