@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Editor } from "$lib/components";
+	import { Editor } from '$lib/components';
 	export let form;
 </script>
 
