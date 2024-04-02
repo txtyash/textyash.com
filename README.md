@@ -60,6 +60,7 @@ textyash.com(I don't own the domain yet) is my personal blog site.
 - [ ] Markdown editor
 - [ ] Code Cleanup 2
 - [ ] Implement RSS
+- [ ] Implement Row level security postgres
 - [ ] Page load animations
 - [ ] Transitions
 - [ ] Loading animations
