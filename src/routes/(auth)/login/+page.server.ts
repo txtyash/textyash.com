@@ -13,7 +13,7 @@ export const actions = {
 			return fail(422, { email, error: emailError });
 		}
 
-		const { data, error } = await supabase.auth.signInWithPassword({
+		const { error } = await supabase.auth.signInWithPassword({
 			email,
 			password
 		});

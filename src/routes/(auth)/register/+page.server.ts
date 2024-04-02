@@ -25,7 +25,7 @@ export const actions = {
 			return fail(422, { email, error: confirmError });
 		}
 
-		const { data, error } = await supabase.auth.signUp({ email, password });
+		const { error } = await supabase.auth.signUp({ email, password });
 		if (error) {
 			return fail(500, { email, error });
 		}

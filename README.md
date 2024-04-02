@@ -36,11 +36,11 @@ textyash.com(I don't own the domain yet) is my personal blog site.
 - [x] Blog post CRUD operations
 - [x] ORM(drizzle) integration
 - [x] Protected Routes
-- [ ] Code Cleanup 1
+- [x] Code Cleanup 1
   - [x] modularize code
-  - [ ] Tailwind & styling
-  - [ ] Typescript warnings
-- [ ] Order posts by most recent
+  - [x] Tailwind & styling
+  - [x] Typescript warnings
+- [x] Order posts by most recent
 - [ ] User Session Invalidation
 - [ ] Add footer:
   - [ ] Link page source code

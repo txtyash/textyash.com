@@ -12,8 +12,8 @@ export const actions = {
 				error: 'You are unauthorized to make a post.'
 			});
 		const formData = await request.formData();
-		let title = formData.get('title')?.toString().trim() ?? '';
-		let content = formData.get('content')?.toString().trim() ?? '';
+		const title = formData.get('title')?.toString().trim() ?? '';
+		const content = formData.get('content')?.toString().trim() ?? '';
 
 		if (title.length < 12)
 			return fail(422, {
@@ -37,13 +37,13 @@ export const actions = {
 			});
 
 		// Create a slug for the title
-		let slug = slugify(title, {
+		const slug = slugify(title, {
 			lower: true,
 			strict: true
 		});
 
 		// Check for existing posts with same slugs
-		let [{ exists }] = await db.execute(
+		const [{ exists }] = await db.execute(
 			sql`select exists(select 1 from ${posts} where ${posts.slug} = ${slug})`
 		);
 		if (exists)
@@ -57,7 +57,7 @@ export const actions = {
 		const readTime = readingTime(content, 230).minutes;
 		try {
 			await db.insert(posts).values({ slug, title, content, readTime });
-		} catch (error: any) {
+		} catch (error) {
 			return fail(401, { title, content, error: error.message });
 		}
 		redirect(303, slug);
