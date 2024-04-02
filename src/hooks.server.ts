@@ -33,12 +33,21 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return session;
 	};
 
+	event.locals.getUser = async () => {
+		const {
+			data: { user }
+		} = await event.locals.supabase.auth.getUser();
+		return user;
+	};
+
 	/**
 	 * a little helper that is written for convenience so that instead
 	 * of calling `await locals.getSession()`
 	 * you just call `locals.session`
 	 */
 	event.locals.session = await event.locals.getSession();
+
+	event.locals.user = await event.locals.getUser();
 
 	// If authenticated then redirect from login & register to homepage
 	if (
@@ -54,7 +63,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const isAdminRoute = adminRoutes.some((route) => event.url.pathname.startsWith(route));
 	if (isAdminRoute) {
 		// Check if the user is admin using their email
-		if (event.locals.session?.user.email !== 'shinde27yash@gmail.com') {
+		if (event.locals.user?.email !== 'shinde27yash@gmail.com') {
 			throw redirect(303, '/login');
 		}
 	}
