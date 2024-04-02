@@ -41,6 +41,8 @@ textyash.com(I don't own the domain yet) is my personal blog site.
   - [x] Tailwind & styling
   - [x] Typescript warnings
 - [x] Order posts by most recent
+- [ ] Use ID for posts
+- [ ] Pagination/Batching
 - [ ] User Session Invalidation
 - [ ] Add footer:
   - [ ] Link page source code
@@ -54,7 +56,6 @@ textyash.com(I don't own the domain yet) is my personal blog site.
 - [ ] Stylize supabase email templates
 - [ ] Stylize custom error pages
 - [ ] Password Reset route
-- [ ] Pagination
 - [ ] Post filters
 - [ ] Markdown editor
 - [ ] Code Cleanup 2
