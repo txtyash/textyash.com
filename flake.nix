@@ -25,6 +25,7 @@
             packages = [
               bashInteractive
               just
+              docker
               watchexec
               nodejs_21
               supabase-cli
