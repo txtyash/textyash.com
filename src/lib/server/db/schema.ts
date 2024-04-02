@@ -6,5 +6,5 @@ export const posts = pgTable('posts', {
 	content: text('content').notNull(),
 	createdAt: timestamp('created_at').defaultNow(),
 	lastEdit: timestamp('last_edit').defaultNow(),
-	readTime: smallint('read_time')
+	readTime: smallint('read_time').default(0).notNull()
 });

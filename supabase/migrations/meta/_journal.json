@@ -1,13 +1,27 @@
 {
-	"version": "5",
-	"dialect": "pg",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "5",
-			"when": 1711391515615,
-			"tag": "0000_large_pretty_boy",
-			"breakpoints": true
-		}
-	]
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1711391515615,
+      "tag": "0000_large_pretty_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1712058785606,
+      "tag": "0001_smart_menace",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1712060744091,
+      "tag": "0002_amazing_cerise",
+      "breakpoints": true
+    }
+  ]
 }

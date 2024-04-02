@@ -24,11 +24,17 @@
 
 <div class="m-2">
 	{#if showPosts}
-		{#if !data?.posts}
-			<p class="my-12 text-center">Yash hasn't posted anything yet.</p>
-		{:else}
-			<Posts posts={data.posts} />
-		{/if}
+		{#await data?.posts}
+			<p class="my-12 text-center">Loading Posts...</p>
+		{:then posts}
+			{#if posts.length === 0}
+				<p class="my-12 text-center">Yash hasn't posted anything yet.</p>
+			{:else}
+				<Posts {posts} />
+			{/if}
+		{:catch error}
+			<p class="my-12 text-center">Failed to load posts: {error.message}</p>
+		{/await}
 	{:else}
 		<Links />
 	{/if}
