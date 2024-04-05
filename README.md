@@ -1,6 +1,10 @@
 # textyash.com [WIP]
 
-textyash.com is my personal blog site. You can view the deployment here <http://textyash.vercel.app>. The website is a work in progress. Please checkout the roadmap before making a PR/Issue.
+<https://textyash.com> is my personal blog site. 
+
+* The website is a work in progress. 
+* Please checkout the roadmap before making a PR.
+* Contributions should only be made to the dev branch. Deployed here: <https://textyash.vercel.app>
 
 ## Tech Stack
 
@@ -71,4 +75,4 @@ textyash.com is my personal blog site. You can view the deployment here <http://
 * [ ] DDOS protection
 * [ ] Add Chat room
 * [ ] Add Tests
-* [ ] Custom domain
+* [x] Custom domain
