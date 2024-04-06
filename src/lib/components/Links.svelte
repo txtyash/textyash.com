@@ -5,7 +5,7 @@
 		{
 			text: 'Email',
 			icon: 'mdi:email',
-			href: 'mailto:textyash@proton.me'
+			href: 'mailto:hi@textyash.com'
 		},
 		{
 			text: 'Github',
