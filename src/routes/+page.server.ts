@@ -15,7 +15,7 @@ export const load: PageServerLoad = async () => {
 			createdAt: sql<string>`to_char(created_at, 'Mon DD, YYYY')`
 		})
 		.from(posts)
-		.where(lt(posts.id, latestPostID ?? 0 + 1))
+		.where(lt(posts.id, (latestPostID ?? 0) + 1))
 		.orderBy(desc(posts.id))
 		.limit(6);
 
