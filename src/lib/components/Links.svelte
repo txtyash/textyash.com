@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
+	import { fade, slide } from 'svelte/transition';
 	let links = [
 		{
 			text: 'Email',
@@ -74,7 +75,11 @@
 	];
 </script>
 
-<div class="logo-cloud my-4 grid-cols-2 gap-1 md:grid-cols-3">
+<div
+	in:slide|global={{ delay: 400, duration: 700 }}
+	out:fade|global
+	class="logo-cloud my-4 grid-cols-2 gap-1 md:grid-cols-3"
+>
 	{#each links as link}
 		<a class="logo-item" href={link.href}>
 			<span><Icon icon={link.icon} class="h-8 w-8" /></span>

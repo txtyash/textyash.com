@@ -16,6 +16,6 @@ export async function GET({ url }) {
 		.from(posts)
 		.where(lt(posts.id, id))
 		.orderBy(desc(posts.id))
-		.limit(3);
+		.limit(6);
 	return json({ chunk });
 }
