@@ -15,6 +15,13 @@ export const actions = {
 		const title = formData.get('title')?.toString().trim() ?? '';
 		const content = formData.get('content')?.toString().trim() ?? '';
 
+		if (title.length < 12)
+			return fail(422, {
+				title,
+				content,
+				error: 'Title should be longer than 12 characters.'
+			});
+
 		if (title.length > 64)
 			return fail(422, {
 				title,
