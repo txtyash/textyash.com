@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { marked } from 'marked';
+	import { parse } from '$lib/client';
+	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	export let post: {
 		error: string;
 		title: string;
 		content: string;
 	};
 	let preview = false;
-	$: parsed = marked.parse(post?.content);
 </script>
 
 <div class="m-2 flex justify-center">
@@ -16,12 +16,22 @@
 </div>
 
 {#if preview}
-	<div>
-		<h1 class="h1 my-2">{post?.title}</h1>
-		<div class="prose my-6 dark:prose-invert">
-			{@html parsed}
+	{#await parse(post?.content)}
+		<div class="flex justify-center">
+			<ProgressRadial class="w-8" />
 		</div>
-	</div>
+	{:then parsed}
+		<div>
+			<h1 class="h1 my-2">{post?.title}</h1>
+			<div class="prose my-6 max-w-none dark:prose-invert">
+				{@html parsed}
+			</div>
+		</div>
+	{:catch error}
+		<div class="text-center">
+			Parsing Error: {error.message}
+		</div>
+	{/await}
 {:else}
 	<form method="POST">
 		<input

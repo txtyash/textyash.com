@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { marked } from 'marked';
+	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	import { parse } from '$lib/client';
 
 	export let data;
 	let post = data.post;
@@ -13,20 +14,28 @@
 		console.log(deleted);
 		if (deleted) goto('/');
 	}
-
-	$: parsed = marked.parse(post?.content);
 </script>
 
 <h1 class="h1 my-4">{post?.title}</h1>
 
 <p class="mb-10 mt-4"><i>Last Edited:</i> {post?.lastEdit}</p>
-{#if data?.session?.user.email === 'shinde27yash@gmail.com'}
-	<div class="my-4 flex items-center justify-around">
-		<button type="button" class="variant-filled btn" on:click={deletePost}> Delete </button>
-		<a class="variant-filled btn" href="/posts/edit/{post?.slug}">Edit</a>
-	</div>
-{/if}
 
-<div class="prose max-w-none dark:prose-invert">
-	{@html parsed}
-</div>
+{#await parse(post?.content)}
+	<div class="flex justify-center">
+		<ProgressRadial class="my-8 w-8" />
+	</div>
+{:then parsed}
+	<div class="prose max-w-none dark:prose-invert">
+		{@html parsed}
+	</div>
+	{#if data?.session?.user.email === 'shinde27yash@gmail.com'}
+		<div class="my-4 flex items-center justify-around">
+			<button type="button" class="variant-filled btn" on:click={deletePost}> Delete </button>
+			<a class="variant-filled btn" href="/posts/edit/{post?.slug}">Edit</a>
+		</div>
+	{/if}
+{:catch error}
+	<div class="text-center">
+		Parsing Error: {error.message}
+	</div>
+{/await}
