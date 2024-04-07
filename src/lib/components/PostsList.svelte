@@ -9,7 +9,7 @@
 			<p class="line-clamp-2 font-semibold sm:text-xl">
 				{post?.title}
 			</p>
-			<p class="line-clamp-2 sm:line-clamp-3">
+			<p class="line-clamp-2 max-w-none sm:line-clamp-3">
 				{post?.content}
 			</p>
 			<div class="grid grid-cols-2 py-1">

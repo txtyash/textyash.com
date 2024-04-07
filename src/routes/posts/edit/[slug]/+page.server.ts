@@ -47,7 +47,7 @@ export const actions = {
 			return fail(422, {
 				title,
 				content,
-				error: 'Content should have more than 100 characters.'
+				error: 'Content should have more than 1000 characters.'
 			});
 
 		// Create a slug for the title

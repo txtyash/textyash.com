@@ -49,6 +49,7 @@
 		"@supabase/ssr": "^0.1.0",
 		"@supabase/supabase-js": "^2.42.0",
 		"drizzle-orm": "^0.30.7",
+		"marked": "^12.0.1",
 		"postgres": "^3.4.3",
 		"reading-time-estimator": "^1.10.0",
 		"slugify": "^1.6.6"

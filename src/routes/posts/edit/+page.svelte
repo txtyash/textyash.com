@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { Editor } from '$lib/components';
 	export let form;
+	const post = {
+		error: form?.error ?? '',
+		title: form?.title ?? '',
+		content: form?.content ?? ''
+	};
 </script>
 
-<h1 class="h1 my-4">Post Editor</h1>
-<Editor {form} />
+<Editor {post} />
