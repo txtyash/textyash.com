@@ -11,8 +11,9 @@
 	let endOfPosts = false;
 	onMount(async () => {
 		animate = true;
-		posts.set([]);
-		posts.update((posts) => posts.concat(data.chunk));
+		if ($posts.length === 0) {
+			posts.update((posts) => posts.concat(data.chunk));
+		}
 		loadingPosts = false;
 	});
 
@@ -29,7 +30,7 @@
 	async function pushChunk() {
 		let id = $posts[$posts.length - 1].id;
 		const chunk = await getChunk(id);
-		if (chunk.length === 0) endOfPosts = !endOfPosts;
+		if (chunk.length < 6) endOfPosts = !endOfPosts;
 		posts.update((posts) => posts.concat(chunk));
 	}
 </script>
