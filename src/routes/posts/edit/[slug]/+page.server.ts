@@ -56,6 +56,19 @@ export const actions = {
 			strict: true
 		});
 
+		// Check for existing posts with same slugs
+		if (params.slug !== newSlug) {
+			const [{ exists }] = await db.execute(
+				sql`select exists(select 1 from ${posts} where ${posts.slug} = ${newSlug})`
+			);
+			if (exists)
+				return fail(409, {
+					title,
+					content,
+					error: 'A post with a similar title already exits.'
+				});
+		}
+
 		// calculate read time of the post
 		const readTime = readingTime(content, 230).minutes;
 		const oldSlug = params.slug;
