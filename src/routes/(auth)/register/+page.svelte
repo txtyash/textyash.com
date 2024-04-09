@@ -2,6 +2,10 @@
 	import { Register } from '$lib/components';
 	import type { ActionData } from './$types';
 	export let form: ActionData;
+	let formData = {
+		email: form?.email ?? '',
+		error: form?.error ?? ''
+	};
 </script>
 
 <div class="mx-4 mt-8 flex flex-col items-center">
@@ -11,7 +15,7 @@
 		</h3>
 	{:else}
 		<h3 class="h3 my-6">Create a new account</h3>
-		<Register {form} />
+		<Register {formData} />
 		<a class="m-3 p-3" href="/login">
 			<u>Go to the Login Page</u>
 		</a>

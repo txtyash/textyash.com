@@ -1,7 +1,9 @@
 <script lang="ts">
-	import type { ActionData } from '../../routes/$types';
 	import Icon from '@iconify/svelte';
-	export let form: ActionData;
+	export let formData: {
+		email: string;
+		error: string;
+	};
 </script>
 
 <form method="POST" class="card h-fit rounded-xl px-9 py-3">
@@ -9,7 +11,7 @@
 		<span><b>Email</b></span>
 		<input
 			required
-			value={form?.email ?? ''}
+			value={formData?.email ?? ''}
 			class="input my-3"
 			title="Input (email)"
 			type="email"
@@ -39,8 +41,8 @@
 			class="input my-3"
 		/>
 	</label>
-	{#if form?.error}
-		<small class="text-red-500"><b>Error:</b> {form?.error}</small>
+	{#if formData?.error}
+		<small class="text-red-500"><b>Error:</b> {formData?.error}</small>
 	{/if}
 	<!-- Separator -->
 	<div />

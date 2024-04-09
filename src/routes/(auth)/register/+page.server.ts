@@ -27,7 +27,7 @@ export const actions = {
 
 		const { error } = await supabase.auth.signUp({ email, password });
 		if (error) {
-			return fail(500, { email, error });
+			return fail(500, { email, error: error.message });
 		}
 		return {
 			success: 'Please check your email to confirm your account creation.'
