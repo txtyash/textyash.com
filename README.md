@@ -1,10 +1,10 @@
 # textyash.com [WIP]
 
-<https://textyash.com> is my personal blog site. 
+<https://textyash.com> is my personal blog site.
 
-* The website is a work in progress. 
-* Please checkout the roadmap before making a PR.
-* Contributions should only be made to the dev branch. Deployed here: <https://textyash.vercel.app>
+- The website is a work in progress.
+- Please checkout the roadmap before making a PR.
+- Contributions should only be made to the dev branch. Deployed here: <https://textyash.vercel.app>
 
 ## Tech Stack
 
