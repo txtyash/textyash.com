@@ -1,4 +1,4 @@
-import { serial, pgTable, timestamp, smallint, text, varchar } from 'drizzle-orm/pg-core';
+import { serial, pgTable, timestamp, smallint, text, varchar, boolean } from 'drizzle-orm/pg-core';
 
 export const posts = pgTable('posts', {
 	id: serial('id').primaryKey(),
@@ -7,5 +7,8 @@ export const posts = pgTable('posts', {
 	content: text('content').notNull(),
 	createdAt: timestamp('created_at').defaultNow(),
 	lastEdit: timestamp('last_edit').defaultNow(),
-	readTime: smallint('read_time').notNull()
+	readTime: smallint('read_time').notNull(),
+	hidden: boolean('hidden').notNull().default(false),
+	exclusive: boolean('exclusive').notNull().default(false),
+	imageUrl: text('imageUrl').notNull().default('/images/default-cover-image.png')
 });

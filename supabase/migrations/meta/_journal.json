@@ -50,6 +50,20 @@
       "when": 1712078029602,
       "tag": "0006_living_nicolaos",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1712678733022,
+      "tag": "0007_dapper_black_bolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1712679363625,
+      "tag": "0008_neat_cerebro",
+      "breakpoints": true
     }
   ]
 }

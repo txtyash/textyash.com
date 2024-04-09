@@ -1,0 +1,1 @@
+ALTER TABLE "posts" ADD COLUMN "imageUrl" text DEFAULT '/images/default-cover-image.png' NOT NULL;
