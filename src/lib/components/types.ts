@@ -5,4 +5,5 @@ export type Post = {
 	content: string;
 	createdAt: string;
 	readTime: number;
+	hidden?: boolean;
 };
