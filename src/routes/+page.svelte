@@ -4,34 +4,32 @@
 	import { posts } from '$lib/components';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { fly, fade, slide } from 'svelte/transition';
-	export let data;
 	let showPosts = true;
 	let animate = false;
 	let loadingPosts = true;
 	let endOfPosts = false;
 	onMount(async () => {
 		animate = true;
-		if ($posts.length === 0) {
-			posts.update((posts) => posts.concat(data.chunk));
+		while (!endOfPosts) {
+			await pushChunk();
 		}
 		loadingPosts = false;
 	});
 
-	async function getChunk(id: number): Promise<Post[]> {
+	async function pushChunk() {
+		const id = $posts.length === 0 ? -1 : $posts[$posts.length - 1].id;
+		const chunk = await getChunk(id);
+		if (chunk.length < 6) endOfPosts = !endOfPosts;
+		posts.update((posts) => posts.concat(chunk));
+	}
+
+	async function getChunk(id?: number): Promise<Post[]> {
 		loadingPosts = true;
 		const response = await fetch('/posts?id=' + id, {
 			method: 'GET'
 		});
-		let { chunk } = await response.json();
 		loadingPosts = false;
-		return chunk;
-	}
-
-	async function pushChunk() {
-		let id = $posts[$posts.length - 1].id;
-		const chunk = await getChunk(id);
-		if (chunk.length < 6) endOfPosts = !endOfPosts;
-		posts.update((posts) => posts.concat(chunk));
+		return (await response.json()).chunk;
 	}
 </script>
 
@@ -66,10 +64,6 @@
 			<div transition:slide|global class="flex justify-center">
 				{#if loadingPosts}
 					<ProgressRadial class="w-8" />
-				{:else}
-					<button type="button" on:click={pushChunk} class="variant-filled btn my-2">
-						Load More
-					</button>
 				{/if}
 			</div>
 		{/if}

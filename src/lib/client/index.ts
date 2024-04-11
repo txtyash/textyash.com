@@ -1,1 +1,1 @@
-export * from './marked.js';
+export * from './markedParser';

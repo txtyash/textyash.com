@@ -14,25 +14,25 @@ export const actions = {
 		const formData = await request.formData();
 		const title = formData.get('title')?.toString().trim() ?? '';
 		const content = formData.get('content')?.toString().trim() ?? '';
+		const hidden = !!formData.get('hidden');
+
+		const preservedData = { title, content, hidden };
 
 		if (title.length < 12)
 			return fail(422, {
-				title,
-				content,
+				...preservedData,
 				error: 'Title should be longer than 12 characters.'
 			});
 
 		if (title.length > 64)
 			return fail(422, {
-				title,
-				content,
+				...preservedData,
 				error: 'Title should be shorter than 64 characters.'
 			});
 
 		if (content.length < 1000)
 			return fail(422, {
-				title,
-				content,
+				...preservedData,
 				error: 'Content should have more than 1000 characters.'
 			});
 
@@ -48,17 +48,16 @@ export const actions = {
 		);
 		if (exists)
 			return fail(409, {
-				title,
-				content,
+				...preservedData,
 				error: 'A post with a similar title already exits.'
 			});
 
 		// calculate read time of the post
 		const readTime = readingTime(content, 230).minutes;
 		try {
-			await db.insert(posts).values({ slug, title, content, readTime });
+			await db.insert(posts).values({ ...preservedData, slug, readTime });
 		} catch (error) {
-			return fail(401, { title, content, error: error.message });
+			return fail(401, { ...preservedData, error: error.message });
 		}
 		redirect(303, slug);
 	}

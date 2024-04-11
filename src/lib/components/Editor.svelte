@@ -4,6 +4,7 @@
 	export let post: {
 		error: string;
 		title: string;
+		hidden?: boolean;
 		content: string;
 	};
 	let preview = false;
@@ -43,6 +44,11 @@
 			bind:value={post.title}
 			placeholder="Post Title"
 		/>
+
+		<label class="flex items-center space-x-2">
+			<span>Hide Post?</span>
+			<input class="checkbox" type="checkbox" name="hidden" bind:checked={post.hidden} />
+		</label>
 
 		{#if post?.error}
 			<p class="m-2 text-red-500"><b>Error:</b> {post?.error}</p>

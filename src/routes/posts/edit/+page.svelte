@@ -4,7 +4,8 @@
 	const post = {
 		error: form?.error ?? '',
 		title: form?.title ?? '',
-		content: form?.content ?? ''
+		content: form?.content ?? '',
+		hidden: form?.hidden ?? false
 	};
 </script>
 
