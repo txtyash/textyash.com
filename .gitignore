@@ -10,8 +10,8 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 # Private Files
-.local/
-scratch.md
+.txt/
+txt.md
 
 # Direnv files
 .direnv
