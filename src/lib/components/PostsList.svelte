@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import { posts } from './postsStore';
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 </script>
 
 {#each $posts as post}
-	<div in:slide|global={{ delay: 400, duration: 900 }} out:fade|global>
+	<div in:slide|global={{ delay: 400, duration: 900 }}>
 		<a class="card card-hover my-4 block p-4" href="posts/{post?.slug}">
 			<p class="line-clamp-2 font-semibold sm:text-xl">
 				{#if post?.hidden}

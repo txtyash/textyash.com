@@ -2,11 +2,12 @@
 	import { goto } from '$app/navigation';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { parse } from '$lib/client';
+	import { client } from '$lib/client/supabaseClient';
+	import { ImageDownload } from '$lib/components';
 
 	export let data;
-	let post = data.post;
+	const post = data.post;
 	async function deletePost() {
-		console.log('invoked!');
 		const response = await fetch('/posts/delete/' + post.slug, {
 			method: 'DELETE'
 		});
@@ -26,6 +27,8 @@
 		<a class="variant-filled btn" href="/posts/edit/{post?.slug}">Edit</a>
 	</div>
 {/if}
+
+<ImageDownload {client} imagePath={post.imagePath} />
 
 {#await parse(post?.content)}
 	<div class="flex justify-center">

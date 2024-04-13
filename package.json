@@ -49,6 +49,8 @@
 		"@octokit/rest": "^20.1.0",
 		"@supabase/ssr": "^0.1.0",
 		"@supabase/supabase-js": "^2.42.0",
+		"b64-to-blob": "^1.2.19",
+		"base64-arraybuffer": "^1.0.2",
 		"drizzle-orm": "^0.30.7",
 		"highlight.js": "^11.9.0",
 		"marked": "^12.0.1",

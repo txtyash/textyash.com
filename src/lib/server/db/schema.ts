@@ -10,5 +10,5 @@ export const posts = pgTable('posts', {
 	readTime: smallint('read_time').notNull(),
 	hidden: boolean('hidden').notNull().default(false),
 	exclusive: boolean('exclusive').notNull().default(false),
-	imageUrl: text('imageUrl').notNull().default('/images/default-cover-image.png')
+	imagePath: text('imagePath')
 });

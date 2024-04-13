@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Editor } from '$lib/components';
-	export let form;
+	import type { ActionData } from './$types';
+	export let form: ActionData;
 	const post = {
 		error: form?.error ?? '',
 		title: form?.title ?? '',
