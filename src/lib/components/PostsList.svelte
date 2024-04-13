@@ -14,7 +14,7 @@
 				{post?.title}
 			</p>
 			<p class="line-clamp-2 max-w-none sm:line-clamp-3">
-				{post?.content}
+				{@html post?.content}
 			</p>
 			<div class="grid grid-cols-2 py-1">
 				<p>{post?.readTime} min read</p>

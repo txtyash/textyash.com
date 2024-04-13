@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { parse } from '$lib/client';
-	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import CoverImage from './CoverImage.svelte';
 	import ImageDownload from './ImageDownload.svelte';
 	import type { SupabaseClient } from '@supabase/supabase-js';
@@ -12,6 +11,8 @@
 		client?: SupabaseClient;
 		imagePath?: string;
 	};
+	let parsed: string;
+	let parsingError: string;
 	let preview = false;
 	let files: FileList;
 	let file: File;
@@ -42,6 +43,12 @@
 		}
 		return;
 	}
+
+	$: parse(post.content).then(
+		(html) => (parsed = html),
+		(error) => (parsingError = error)
+	);
+	$: removeImage = post.imagePath === '';
 </script>
 
 <div class="m-2 flex justify-around">
@@ -72,31 +79,28 @@
 <!-- Post Preview -->
 {#if preview}
 	<!-- Start Parsing the Post -->
-	{#await parse(post?.content)}
-		<div class="flex justify-center">
-			<ProgressRadial class="w-8" />
-		</div>
-	{:then parsed}
-		<div>
-			<!-- Post Title -->
-			<h1 class="h1 my-2">{post?.title}</h1>
-			<!-- Cover Image Preview -->
-			{#if imageUrl}
-				<CoverImage src={imageUrl} alt="Preview" />
-			{:else if post.client && post.imagePath}
-				<ImageDownload client={post.client} imagePath={post.imagePath} />
-			{/if}
-			<!-- Parsed Post Content -->
+	<div>
+		<!-- Post Title -->
+		<h1 class="h1 my-2">{post?.title}</h1>
+		<!-- Cover Image Preview -->
+		{#if imageUrl}
+			<CoverImage src={imageUrl} alt="Preview" />
+		{:else if post.client && post.imagePath}
+			<ImageDownload client={post.client} imagePath={post.imagePath} />
+		{/if}
+		<!-- Post Parsing Failure -->
+		{#if parsingError}
+			<div class="text-center">
+				<p class="font-bold text-red-500">Failed to parse</p>
+				{parsingError}
+			</div>
+		{:else}
+			<!-- Successfully parsed content -->
 			<div class="prose my-6 max-w-none dark:prose-invert">
 				{@html parsed}
 			</div>
-		</div>
-		<!-- Post Parsing Failure -->
-	{:catch error}
-		<div class="text-center">
-			Parsing Error: {error.message}
-		</div>
-	{/await}
+		{/if}
+	</div>
 	<!-- Post Editor -->
 {:else}
 	<form method="POST">
@@ -114,6 +118,7 @@
 		<!-- Cover Image for Post -->
 		<input type="hidden" name="image" bind:value={image} />
 		<input type="hidden" name="imageExt" bind:value={imageExt} />
+		<input type="hidden" name="removeImage" bind:value={removeImage} />
 
 		<!-- Hide Post -->
 		<label class="flex items-center space-x-2">
@@ -125,12 +130,14 @@
 			<p class="m-2 text-red-500"><b>Error:</b> {post?.error}</p>
 		{/if}
 
+		<!-- Parsed Content goes to the database -->
+		<input type="hidden" name="content" bind:value={parsed} />
+
 		<!-- Post Content Editor -->
 		<textarea
 			minlength="1000"
 			class="textarea my-2"
 			rows="28"
-			name="content"
 			bind:value={post.content}
 			placeholder="Write your new post..."
 		/>

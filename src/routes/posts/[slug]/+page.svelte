@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { ProgressRadial } from '@skeletonlabs/skeleton';
-	import { parse } from '$lib/client';
 	import { client } from '$lib/client/supabaseClient';
 	import { ImageDownload } from '$lib/components';
 
@@ -30,16 +28,6 @@
 
 <ImageDownload {client} imagePath={post.imagePath} />
 
-{#await parse(post?.content)}
-	<div class="flex justify-center">
-		<ProgressRadial class="my-8 w-8" />
-	</div>
-{:then parsed}
-	<div class="prose max-w-none dark:prose-invert">
-		{@html parsed}
-	</div>
-{:catch error}
-	<div class="text-center">
-		Parsing Error: {error.message}
-	</div>
-{/await}
+<div class="prose max-w-none dark:prose-invert">
+	{@html post?.content}
+</div>

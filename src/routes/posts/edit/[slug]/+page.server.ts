@@ -25,11 +25,12 @@ export const actions = {
 		const hidden = !!formData.get('hidden');
 		const image = formData.get('image')?.toString(); // image is base64
 		const imageExt = formData.get('imageExt')?.toString();
+		const removeImage = formData.get('removeImage');
 		let imagePath: string | null = null;
 
 		const preservedData = { title, content, hidden };
 
-		const oldImagePath = (
+		let oldImagePath = (
 			await db
 				.select({
 					imagePath: posts.imagePath
@@ -83,7 +84,24 @@ export const actions = {
 		}
 
 		// Delete old image
-		await supabase.storage.from('cover-images').remove([oldImagePath ?? '']);
+		if (removeImage) {
+			await supabase.storage.from('cover-images').remove([oldImagePath ?? '']);
+			oldImagePath = null;
+			await db
+				.update(posts)
+				.set({
+					imagePath: null
+				})
+				.where(eq(posts.slug, params.slug));
+
+			console.log(
+				await db
+					.update(posts)
+					.set({ imagePath: '' })
+					.where(eq(posts.slug, params.slug))
+					.returning({ imagePath: posts.imagePath })
+			);
+		}
 
 		// Upload new image
 		if (image) {
@@ -113,7 +131,7 @@ export const actions = {
 					title,
 					hidden,
 					content,
-					imagePath,
+					imagePath: imagePath ?? oldImagePath,
 					readTime,
 					lastEdit
 				})
