@@ -37,8 +37,8 @@
 	<div in:fly={{ y: -200, duration: 2000 }} out:fade>
 		<div class="m-2 grid grid-cols-2 items-center p-2">
 			<img
-				class="mx-auto h-32 w-32 rounded-xl object-cover"
-				src="/images/profile-crop.png"
+				class="mx-auto h-32 w-32 rounded-xl object-cover sm:h-48 sm:w-48"
+				src="/images/profile.webp"
 				alt="Yash's profile"
 			/>
 			<p class="flex items-center text-sm sm:text-lg">
