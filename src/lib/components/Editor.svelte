@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { parse } from '$lib/client';
-	import CoverImage from './CoverImage.svelte';
-	import ImageDownload from './ImageDownload.svelte';
 	import type { SupabaseClient } from '@supabase/supabase-js';
+	import { ImageUpload, ImagePreview, imageB64, imageExt } from '$lib/components';
 	export let post: {
 		error: string;
 		title: string;
@@ -14,66 +13,18 @@
 	let parsed: string;
 	let parsingError: string;
 	let preview = false;
-	let files: FileList;
-	let file: File;
-	let imageUrl: string;
-	let imageExt: string;
-
-	// image is stored as base64
-	$: image = imageUrl?.replace('data:', '').replace(/^.+,/, '');
-
-	async function uploadImage() {
-		try {
-			if (!files || files.length !== 1) throw new Error('You must only select 1 file.');
-			file = files[0];
-
-			if (file.size > 9000000) throw new Error('File size must be less than 9MB.');
-
-			imageExt = file.name.split('.').pop() ?? '';
-
-			if (file) {
-				const reader = new FileReader();
-				reader.addEventListener('load', function () {
-					imageUrl = String(reader.result);
-				});
-				reader.readAsDataURL(file);
-			}
-		} catch (error: any) {
-			post.error = error.message;
-		}
-		return;
-	}
 
 	$: parse(post.content).then(
 		(html) => (parsed = html),
 		(error) => (parsingError = error)
 	);
-	$: removeImage = post.imagePath === '';
 </script>
 
 <div class="m-2 flex justify-around">
 	<button type="button" on:click={() => (preview = !preview)} class="variant-filled btn">
 		{preview ? 'Edit' : 'Preview'}
 	</button>
-	<!-- Remove Image -->
-	{#if imageUrl || post.imagePath}
-		<button
-			type="button"
-			class="variant-filled-tertiary btn"
-			on:click={() => {
-				imageUrl = '';
-				post.imagePath = '';
-			}}
-		>
-			Remove Image
-		</button>
-	{:else}
-		<!-- Add Image -->
-		<label class="variant-filled-tertiary btn">
-			<span>Upload Image</span>
-			<input class="hidden" type="file" accept="image/*" bind:files on:change={uploadImage} />
-		</label>
-	{/if}
+	<ImageUpload />
 </div>
 
 <!-- Post Preview -->
@@ -82,12 +33,10 @@
 	<div>
 		<!-- Post Title -->
 		<h1 class="h1 my-2">{post?.title}</h1>
+
 		<!-- Cover Image Preview -->
-		{#if imageUrl}
-			<CoverImage src={imageUrl} alt="Preview" />
-		{:else if post.client && post.imagePath}
-			<ImageDownload client={post.client} imagePath={post.imagePath} />
-		{/if}
+		<ImagePreview />
+
 		<!-- Post Parsing Failure -->
 		{#if parsingError}
 			<div class="text-center">
@@ -101,6 +50,7 @@
 			</div>
 		{/if}
 	</div>
+
 	<!-- Post Editor -->
 {:else}
 	<form method="POST">
@@ -116,9 +66,11 @@
 		/>
 
 		<!-- Cover Image for Post -->
-		<input type="hidden" name="image" bind:value={image} />
-		<input type="hidden" name="imageExt" bind:value={imageExt} />
-		<input type="hidden" name="removeImage" bind:value={removeImage} />
+		<!-- Base64 representation of the image blob -->
+		<input type="hidden" name="imageB64" value={imageB64} />
+
+		<!-- Image Extension -->
+		<input type="hidden" name="imageExt" value={imageExt} />
 
 		<!-- Hide Post -->
 		<label class="flex items-center space-x-2">
