@@ -10,7 +10,6 @@ export const load: PageServerLoad = async ({ params }) => {
 			content: posts.content,
 			hidden: posts.hidden,
 			slug: posts.slug,
-			imagePath: posts.imagePath,
 			createdAt: sql<string>`to_char(created_at, 'Mon DD, YYYY')`,
 			lastEdit: sql<string>`to_char(last_edit, 'Mon DD, YYYY')`
 		})

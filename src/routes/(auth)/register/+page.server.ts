@@ -10,7 +10,6 @@ export const actions = {
 		const confirm = formData.get('confirmPassword')?.toString() ?? '';
 
 		const emailError = checkEmail(email);
-		console.log(emailError);
 		if (emailError) {
 			return fail(422, { email, error: emailError });
 		}

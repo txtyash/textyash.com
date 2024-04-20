@@ -5,7 +5,6 @@ import { db, posts } from '$lib/server/db';
 import slugify from 'slugify';
 import { readingTime } from 'reading-time-estimator';
 import type { RequestEvent } from '@sveltejs/kit';
-import { decode } from 'base64-arraybuffer';
 
 export const load: PageServerLoad = async ({ params }: RequestEvent) => {
 	const post = (await db.select().from(posts).where(eq(posts.slug, params.slug)))[0];
@@ -18,26 +17,14 @@ export const load: PageServerLoad = async ({ params }: RequestEvent) => {
 };
 
 export const actions = {
-	default: async ({ params, request, locals: { supabase } }) => {
+	default: async ({ params, request }) => {
 		const formData = await request.formData();
 		const title = formData.get('title')?.toString().trim() ?? '';
 		const content = formData.get('content')?.toString().trim() ?? '';
 		const hidden = !!formData.get('hidden');
-		const image = formData.get('image')?.toString(); // image is base64
-		const imageExt = formData.get('imageExt')?.toString();
-		const removeImage = formData.get('removeImage');
-		let imagePath: string | null = null;
 
-		const preservedData = { title, content, hidden };
-
-		let oldImagePath = (
-			await db
-				.select({
-					imagePath: posts.imagePath
-				})
-				.from(posts)
-				.where(eq(posts.slug, params.slug))
-		)[0].imagePath;
+		// Store data that needs no further processing
+		const goodData = { title, content, hidden };
 
 		if (title.length < 12)
 			return fail(422, {
@@ -83,62 +70,28 @@ export const actions = {
 				});
 		}
 
-		// Delete old image
-		if (removeImage) {
-			await supabase.storage.from('cover-images').remove([oldImagePath ?? '']);
-			oldImagePath = null;
-			await db
-				.update(posts)
-				.set({
-					imagePath: null
-				})
-				.where(eq(posts.slug, params.slug));
-
-			console.log(
-				await db
-					.update(posts)
-					.set({ imagePath: '' })
-					.where(eq(posts.slug, params.slug))
-					.returning({ imagePath: posts.imagePath })
-			);
-		}
-
-		// Upload new image
-		if (image) {
-			const filePath = `${newSlug}.${imageExt}`;
-
-			const { error } = await supabase.storage
-				.from('cover-images')
-				.upload(filePath, decode(image), {
-					contentType: 'image/*',
-					upsert: true
-				});
-			if (error) {
-				return fail(error.statusCode, { ...preservedData, error: error.message });
-			}
-			imagePath = filePath;
-		}
-
 		// calculate read time of the post
 		const readTime = readingTime(content, 230).minutes;
-		const oldSlug = params.slug;
+
+		// Update the timestamp for lastEdit field
 		const lastEdit = sql`CURRENT_TIMESTAMP`;
+
+		// Update the post
 		try {
 			await db
 				.update(posts)
 				.set({
+					...goodData,
 					slug: newSlug,
-					title,
-					hidden,
-					content,
-					imagePath: imagePath ?? oldImagePath,
 					readTime,
 					lastEdit
 				})
-				.where(eq(posts.slug, oldSlug));
-		} catch (error) {
-			return fail(401, { title, content, hidden, error: error.message });
+				.where(eq(posts.slug, params.slug));
+		} catch (error: any) {
+			return fail(401, { ...goodData, error: error.message });
 		}
+
+		// Redirect to the newly updated the post
 		redirect(303, '/posts/' + newSlug);
 	}
 } satisfies Actions;

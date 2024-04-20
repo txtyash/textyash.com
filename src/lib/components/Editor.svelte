@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { parse } from '$lib/client';
 	import type { SupabaseClient } from '@supabase/supabase-js';
-	import { ImageUpload, ImagePreview, imageB64, imageExt } from '$lib/components';
 	export let post: {
 		error: string;
 		title: string;
 		hidden?: boolean;
 		content: string;
 		client?: SupabaseClient;
-		imagePath?: string;
 	};
 	let parsed: string;
 	let parsingError: string;
@@ -24,8 +22,9 @@
 	<button type="button" on:click={() => (preview = !preview)} class="variant-filled btn">
 		{preview ? 'Edit' : 'Preview'}
 	</button>
-	<ImageUpload />
 </div>
+
+<hr />
 
 <!-- Post Preview -->
 {#if preview}
@@ -33,9 +32,6 @@
 	<div>
 		<!-- Post Title -->
 		<h1 class="h1 my-2">{post?.title}</h1>
-
-		<!-- Cover Image Preview -->
-		<ImagePreview />
 
 		<!-- Post Parsing Failure -->
 		{#if parsingError}
@@ -64,13 +60,6 @@
 			bind:value={post.title}
 			placeholder="Post Title"
 		/>
-
-		<!-- Cover Image for Post -->
-		<!-- Base64 representation of the image blob -->
-		<input type="hidden" name="imageB64" value={imageB64} />
-
-		<!-- Image Extension -->
-		<input type="hidden" name="imageExt" value={imageExt} />
 
 		<!-- Hide Post -->
 		<label class="flex items-center space-x-2">

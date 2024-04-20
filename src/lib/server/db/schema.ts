@@ -9,6 +9,5 @@ export const posts = pgTable('posts', {
 	lastEdit: timestamp('last_edit').defaultNow(),
 	readTime: smallint('read_time').notNull(),
 	hidden: boolean('hidden').notNull().default(false),
-	exclusive: boolean('exclusive').notNull().default(false),
-	imagePath: text('imagePath')
+	exclusive: boolean('exclusive').notNull().default(false)
 });

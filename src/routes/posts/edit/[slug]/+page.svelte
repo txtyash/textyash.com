@@ -9,10 +9,8 @@
 		title: form?.title ?? data?.post.title,
 		content: form?.content ?? data?.post.content,
 		hidden: form?.hidden ?? data?.post.hidden,
-		client,
-		imagePath: data?.post.imagePath ?? ''
+		client
 	};
-	console.log(post.imagePath);
 </script>
 
 <Editor {post} />
