@@ -9,30 +9,13 @@ export const actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
 		const title = formData.get('title')?.toString().trim() ?? '';
-		const content = formData.get('content')?.toString().trim() ?? '';
+		const description = formData.get('description')?.toString().trim() ?? '';
+		const markdown = formData.get('markdown')?.toString().trim() ?? '';
+		const html = formData.get('html')?.toString().trim() ?? '';
 		const hidden = !!formData.get('hidden');
 
 		// Fields that don't need further processing
-		const goodData = { title, content, hidden };
-
-		// content length constraints
-		if (title.length < 12)
-			return fail(422, {
-				...goodData,
-				error: 'Title should be longer than 12 characters.'
-			});
-
-		if (title.length > 64)
-			return fail(422, {
-				...goodData,
-				error: 'Title should be shorter than 64 characters.'
-			});
-
-		if (content.length < 1000)
-			return fail(422, {
-				...goodData,
-				error: 'Content should have more than 1000 characters.'
-			});
+		const goodData = { title, description, markdown, html, hidden };
 
 		// Create a slug for the title
 		const slug = slugify(title, {
@@ -51,7 +34,7 @@ export const actions = {
 			});
 
 		// calculate read time of the post
-		const readTime = readingTime(content, 230).minutes;
+		const readTime = readingTime(markdown, 230).minutes;
 
 		// Upload post to the database
 		try {

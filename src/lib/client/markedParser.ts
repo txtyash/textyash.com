@@ -4,7 +4,7 @@ import hljs from 'highlight.js';
 import { markedEmoji } from 'marked-emoji';
 import { Octokit } from '@octokit/rest';
 
-export async function parse(content: string) {
+export async function parse(markdown: string) {
 	const octokit = new Octokit();
 	const res = await octokit.rest.emojis.get();
 	const emojis = res.data;
@@ -23,5 +23,5 @@ export async function parse(content: string) {
 		})
 	);
 	marked.use(markedEmoji(options));
-	return marked.parse(content);
+	return marked.parse(markdown);
 }

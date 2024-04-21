@@ -4,27 +4,34 @@
 	export let post: {
 		error: string;
 		title: string;
+		description: string;
 		hidden?: boolean;
-		content: string;
+		markdown: string;
 		client?: SupabaseClient;
 	};
 	let parsed: string;
 	let parsingError: string;
 	let preview = false;
 
-	$: parse(post.content).then(
+	$: parse(post.markdown).then(
 		(html) => (parsed = html),
 		(error) => (parsingError = error)
 	);
 </script>
 
 <div class="m-2 flex justify-around">
+	<!-- Markdown Preview button -->
 	<button type="button" on:click={() => (preview = !preview)} class="variant-filled btn">
 		{preview ? 'Edit' : 'Preview'}
 	</button>
 </div>
 
 <hr />
+
+<!-- Submission errors -->
+{#if post?.error}
+	<p class="m-2 text-red-500"><b>Error:</b> {post?.error}</p>
+{/if}
 
 <!-- Post Preview -->
 {#if preview}
@@ -40,7 +47,7 @@
 				{parsingError}
 			</div>
 		{:else}
-			<!-- Successfully parsed content -->
+			<!-- Successfully parsed markdown content -->
 			<div class="prose my-6 max-w-none dark:prose-invert">
 				{@html parsed}
 			</div>
@@ -49,11 +56,12 @@
 
 	<!-- Post Editor -->
 {:else}
-	<form method="POST">
+	<form method="POST" id="blogpost">
 		<!-- Post Title -->
 		<input
+			required
 			minlength="12"
-			maxlength="64"
+			maxlength="72"
 			class="input my-2"
 			type="text"
 			name="title"
@@ -67,22 +75,33 @@
 			<input class="checkbox" type="checkbox" name="hidden" bind:checked={post.hidden} />
 		</label>
 
-		{#if post?.error}
-			<p class="m-2 text-red-500"><b>Error:</b> {post?.error}</p>
-		{/if}
-
-		<!-- Parsed Content goes to the database -->
-		<input type="hidden" name="content" bind:value={parsed} />
-
-		<!-- Post Content Editor -->
+		<!-- Post Description -->
 		<textarea
+			required
+			minlength="64"
+			maxlength="192"
+			rows="3"
+			class="textarea my-2"
+			name="description"
+			bind:value={post.description}
+			placeholder="Describe your new post..."
+		/>
+
+		<!-- Markdown Editor -->
+		<textarea
+			required
 			minlength="1000"
 			class="textarea my-2"
+			name="markdown"
 			rows="28"
-			bind:value={post.content}
+			bind:value={post.markdown}
 			placeholder="Write your new post..."
 		/>
 
-		<button type="submit" class="variant-filled btn my-2">Post</button>
+		<!-- Parsed Markdown Content -->
+		<input type="hidden" name="html" bind:value={parsed} />
+
+		<!-- Form Submit button -->
+		<button type="submit" form="blogpost" class="variant-filled btn mx-2">Post</button>
 	</form>
 {/if}

@@ -1,9 +1,9 @@
 import { db, posts } from '$lib/server/db';
 import { and, eq, lt, desc, sql } from 'drizzle-orm';
-import { json } from '@sveltejs/kit';
+import { json, type RequestEvent } from '@sveltejs/kit';
 import type { Post } from '$lib/components';
 
-export async function GET({ url, locals: { user } }) {
+export async function GET({ url, locals: { user } }: RequestEvent) {
 	let isAdmin = false;
 	if (user?.email === 'shinde27yash@gmail.com') isAdmin = true;
 
@@ -16,7 +16,7 @@ export async function GET({ url, locals: { user } }) {
 				id: posts.id,
 				slug: posts.slug,
 				title: posts.title,
-				content: posts.content,
+				description: posts.description,
 				readTime: posts.readTime,
 				createdAt: sql<string>`to_char(created_at, 'Mon DD, YYYY')`,
 				hidden: posts.hidden
@@ -30,7 +30,7 @@ export async function GET({ url, locals: { user } }) {
 				id: posts.id,
 				slug: posts.slug,
 				title: posts.title,
-				content: posts.content,
+				description: posts.description,
 				readTime: posts.readTime,
 				createdAt: sql<string>`to_char(created_at, 'Mon DD, YYYY')`,
 				hidden: posts.hidden
@@ -45,7 +45,7 @@ export async function GET({ url, locals: { user } }) {
 				id: posts.id,
 				slug: posts.slug,
 				title: posts.title,
-				content: posts.content,
+				description: posts.description,
 				readTime: posts.readTime,
 				createdAt: sql<string>`to_char(created_at, 'Mon DD, YYYY')`,
 				hidden: posts.hidden
@@ -60,7 +60,7 @@ export async function GET({ url, locals: { user } }) {
 				id: posts.id,
 				slug: posts.slug,
 				title: posts.title,
-				content: posts.content,
+				description: posts.description,
 				readTime: posts.readTime,
 				createdAt: sql<string>`to_char(created_at, 'Mon DD, YYYY')`,
 				hidden: posts.hidden

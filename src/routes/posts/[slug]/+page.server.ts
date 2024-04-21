@@ -7,10 +7,8 @@ export const load: PageServerLoad = async ({ params }) => {
 	const post = await db
 		.select({
 			title: posts.title,
-			content: posts.content,
-			hidden: posts.hidden,
+			html: posts.html,
 			slug: posts.slug,
-			createdAt: sql<string>`to_char(created_at, 'Mon DD, YYYY')`,
 			lastEdit: sql<string>`to_char(last_edit, 'Mon DD, YYYY')`
 		})
 		.from(posts)

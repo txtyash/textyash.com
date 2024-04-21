@@ -37,5 +37,5 @@
 <ImagePreview fileName={post.slug} />
 
 <div class="prose max-w-none dark:prose-invert">
-	{@html post?.content}
+	{@html post?.html}
 </div>

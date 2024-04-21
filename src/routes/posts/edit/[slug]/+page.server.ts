@@ -5,6 +5,7 @@ import { db, posts } from '$lib/server/db';
 import slugify from 'slugify';
 import { readingTime } from 'reading-time-estimator';
 import type { RequestEvent } from '@sveltejs/kit';
+import { client } from '$lib/client/supabaseClient';
 
 export const load: PageServerLoad = async ({ params }: RequestEvent) => {
 	const post = (await db.select().from(posts).where(eq(posts.slug, params.slug)))[0];
@@ -20,35 +21,12 @@ export const actions = {
 	default: async ({ params, request }) => {
 		const formData = await request.formData();
 		const title = formData.get('title')?.toString().trim() ?? '';
-		const content = formData.get('content')?.toString().trim() ?? '';
+		const description = formData.get('description')?.toString().trim() ?? '';
+		const markdown = formData.get('markdown')?.toString().trim() ?? '';
 		const hidden = !!formData.get('hidden');
 
 		// Store data that needs no further processing
-		const goodData = { title, content, hidden };
-
-		if (title.length < 12)
-			return fail(422, {
-				title,
-				content,
-				hidden,
-				error: 'Title should be longer than 12 characters.'
-			});
-
-		if (title.length > 64)
-			return fail(422, {
-				title,
-				content,
-				hidden,
-				error: 'Title should be shorter than 64 characters.'
-			});
-
-		if (content.length < 1000)
-			return fail(422, {
-				title,
-				content,
-				hidden,
-				error: 'Content should have more than 1000 characters.'
-			});
+		const goodData = { title, description, markdown, hidden };
 
 		// Create a slug for the title
 		const newSlug = slugify(title, {
@@ -64,17 +42,20 @@ export const actions = {
 			if (exists)
 				return fail(409, {
 					title,
-					content,
+					markdown,
 					hidden,
 					error: 'A post with a similar title already exits.'
 				});
 		}
 
 		// calculate read time of the post
-		const readTime = readingTime(content, 230).minutes;
+		const readTime = readingTime(markdown, 230).minutes;
 
 		// Update the timestamp for lastEdit field
 		const lastEdit = sql`CURRENT_TIMESTAMP`;
+
+		// Rename Cover Image if it exists
+		await client.storage.from('cover-images').move(`${params.slug}.jpeg`, `${newSlug}.jpeg`);
 
 		// Update the post
 		try {

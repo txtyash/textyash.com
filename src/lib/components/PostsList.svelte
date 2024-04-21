@@ -13,8 +13,8 @@
 				{/if}
 				{post?.title}
 			</p>
-			<p class="line-clamp-2 max-w-none sm:line-clamp-3">
-				{@html post?.content}
+			<p class="line-clamp-3 max-w-none">
+				{post?.description}
 			</p>
 			<div class="grid grid-cols-2 py-1">
 				<p>{post?.readTime} min read</p>
