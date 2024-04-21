@@ -7,7 +7,6 @@
 	export let drawerSettings: DrawerSettings;
 
 	function goBack() {
-		console.log(window.location.href);
 		if (browser && $page.url.pathname != '/') {
 			window.history.back();
 		}

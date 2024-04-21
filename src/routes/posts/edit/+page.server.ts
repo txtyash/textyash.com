@@ -4,37 +4,18 @@ import { db, posts } from '$lib/server/db';
 import { sql } from 'drizzle-orm';
 import slugify from 'slugify';
 import { readingTime } from 'reading-time-estimator';
-import { decode } from 'base64-arraybuffer';
 
 export const actions = {
-	default: async ({ request, locals: { supabase } }) => {
+	default: async ({ request }) => {
 		const formData = await request.formData();
 		const title = formData.get('title')?.toString().trim() ?? '';
-		const content = formData.get('content')?.toString().trim() ?? '';
+		const description = formData.get('description')?.toString().trim() ?? '';
+		const markdown = formData.get('markdown')?.toString().trim() ?? '';
+		const html = formData.get('html')?.toString().trim() ?? '';
 		const hidden = !!formData.get('hidden');
-		const image = formData.get('image')?.toString(); // image is base64
-		const imageExt = formData.get('imageExt')?.toString();
-		let imagePath: string | null = null;
 
-		const preservedData = { title, content, hidden };
-
-		if (title.length < 12)
-			return fail(422, {
-				...preservedData,
-				error: 'Title should be longer than 12 characters.'
-			});
-
-		if (title.length > 64)
-			return fail(422, {
-				...preservedData,
-				error: 'Title should be shorter than 64 characters.'
-			});
-
-		if (content.length < 1000)
-			return fail(422, {
-				...preservedData,
-				error: 'Content should have more than 1000 characters.'
-			});
+		// Fields that don't need further processing
+		const goodData = { title, description, markdown, html, hidden };
 
 		// Create a slug for the title
 		const slug = slugify(title, {
@@ -48,33 +29,21 @@ export const actions = {
 		);
 		if (exists)
 			return fail(409, {
-				...preservedData,
+				...goodData,
 				error: 'A post with a similar title already exits.'
 			});
 
-		// Upload image
-		if (image) {
-			const filePath = `${slug}.${imageExt}`;
-
-			const { error } = await supabase.storage
-				.from('cover-images')
-				.upload(filePath, decode(image), {
-					contentType: 'image/*',
-					upsert: true
-				});
-			if (error) {
-				return fail(error.statusCode, { ...preservedData, error: error.message });
-			}
-			imagePath = filePath;
-		}
-
 		// calculate read time of the post
-		const readTime = readingTime(content, 230).minutes;
+		const readTime = readingTime(markdown, 230).minutes;
+
+		// Upload post to the database
 		try {
-			await db.insert(posts).values({ ...preservedData, slug, readTime, imagePath });
+			await db.insert(posts).values({ ...goodData, slug, readTime });
 		} catch (error: any) {
-			return fail(401, { ...preservedData, error: error.message });
+			return fail(401, { ...goodData, error: error.message });
 		}
+
+		// Redirect to the newly created post
 		redirect(303, slug);
 	}
 } satisfies Actions;

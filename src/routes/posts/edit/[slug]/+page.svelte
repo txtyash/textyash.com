@@ -7,12 +7,11 @@
 	const post = {
 		error: form?.error ?? '',
 		title: form?.title ?? data?.post.title,
-		content: form?.content ?? data?.post.content,
+		description: form?.description ?? data?.post.description,
+		markdown: form?.markdown ?? data?.post.markdown,
 		hidden: form?.hidden ?? data?.post.hidden,
-		client,
-		imagePath: data?.post.imagePath ?? ''
+		client
 	};
-	console.log(post.imagePath);
 </script>
 
 <Editor {post} />

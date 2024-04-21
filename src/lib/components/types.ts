@@ -2,7 +2,9 @@ export type Post = {
 	id?: number;
 	slug?: string;
 	title?: string;
-	content?: string;
+	description?: string;
+	markdown?: string;
+	html?: string;
 	createdAt?: string;
 	readTime?: number;
 	hidden?: boolean;

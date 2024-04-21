@@ -5,7 +5,9 @@
 	const post = {
 		error: form?.error ?? '',
 		title: form?.title ?? '',
-		content: form?.content ?? '',
+		description: form?.description ?? '',
+		markdown: form?.markdown ?? '',
+		html: form?.html ?? '',
 		hidden: form?.hidden ?? false
 	};
 </script>
