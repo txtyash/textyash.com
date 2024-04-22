@@ -13,15 +13,19 @@
 	let parsingError: string;
 	let preview = false;
 
-	$: parse(post.markdown).then(
-		(html) => (parsed = html),
-		(error) => (parsingError = error)
-	);
+	async function parseMarkdown() {
+		if (!preview)
+			parse(post.markdown).then(
+				(html) => (parsed = html),
+				(error) => (parsingError = error)
+			);
+		preview = !preview;
+	}
 </script>
 
 <div class="m-2 flex justify-around">
 	<!-- Markdown Preview button -->
-	<button type="button" on:click={() => (preview = !preview)} class="variant-filled btn">
+	<button type="button" on:click={parseMarkdown} class="variant-filled btn">
 		{preview ? 'Edit' : 'Preview'}
 	</button>
 </div>

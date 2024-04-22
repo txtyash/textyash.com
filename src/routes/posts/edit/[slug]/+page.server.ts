@@ -23,10 +23,11 @@ export const actions = {
 		const title = formData.get('title')?.toString().trim() ?? '';
 		const description = formData.get('description')?.toString().trim() ?? '';
 		const markdown = formData.get('markdown')?.toString().trim() ?? '';
+		const html = formData.get('html')?.toString().trim() ?? '';
 		const hidden = !!formData.get('hidden');
 
 		// Store data that needs no further processing
-		const goodData = { title, description, markdown, hidden };
+		const goodData = { title, description, markdown, html, hidden };
 
 		// Create a slug for the title
 		const newSlug = slugify(title, {
