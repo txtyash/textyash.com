@@ -1,4 +1,4 @@
 import { writable } from 'svelte/store';
-import type { Post } from './types';
+import type { PostSummary } from '$lib/types';
 
-export const posts = writable(new Array<Post>());
+export const posts = writable(new Array<PostSummary>());

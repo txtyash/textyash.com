@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import type { ActionData } from '../../routes/$types';
-	export let form: ActionData;
+	export let form;
 </script>
 
 <form method="post" class="card h-fit rounded-xl px-9 py-3">

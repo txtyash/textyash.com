@@ -1,1 +1,0 @@
-ALTER TABLE "posts" ALTER COLUMN "read_time" SET DEFAULT 0;

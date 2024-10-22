@@ -5,10 +5,12 @@ import { db, posts } from '$lib/server/db';
 import slugify from 'slugify';
 import { readingTime } from 'reading-time-estimator';
 import type { RequestEvent } from '@sveltejs/kit';
-import { client } from '$lib/client/supabaseClient';
+import { parse } from 'marked';
+import { getMarkdownTitle } from '$lib/helper';
+import type { UpdatedPost } from '$lib/types';
 
 export const load: PageServerLoad = async ({ params }: RequestEvent) => {
-	const post = (await db.select().from(posts).where(eq(posts.slug, params.slug)))[0];
+	const post = (await db.select().from(posts).where(eq(posts.slug, params.slug ?? "")))[0];
 	if (!post) {
 		error(404);
 	}
@@ -19,60 +21,52 @@ export const load: PageServerLoad = async ({ params }: RequestEvent) => {
 
 export const actions = {
 	default: async ({ params, request }) => {
-		const formData = await request.formData();
-		const title = formData.get('title')?.toString().trim() ?? '';
-		const description = formData.get('description')?.toString().trim() ?? '';
-		const markdown = formData.get('markdown')?.toString().trim() ?? '';
-		const hidden = !!formData.get('hidden');
+		const formData: FormData = await request.formData();
+		const markdown: string = formData.get('markdown')?.toString().trim() ?? '';
+		const visible: boolean = !!formData.get('visible');
+		const restricted: boolean = !!formData.get('visible');
+		// TODO
+		const tags: string[] = [];
 
-		// Store data that needs no further processing
-		const goodData = { title, description, markdown, hidden };
+		const titleResult = getMarkdownTitle(markdown);
+
+		if (!titleResult.success) return fail(400, { markdown, visible, restricted, tags, error: titleResult.error });
 
 		// Create a slug for the title
-		const newSlug = slugify(title, {
+		const slug = slugify(titleResult.title, {
 			lower: true,
 			strict: true
 		});
 
 		// Check for existing posts with same slugs
-		if (params.slug !== newSlug) {
+		if (params.slug !== slug) {
 			const [{ exists }] = await db.execute(
-				sql`select exists(select 1 from ${posts} where ${posts.slug} = ${newSlug})`
+				sql`select exists(select 1 from ${posts} where ${posts.slug} = ${slug})`
 			);
 			if (exists)
 				return fail(409, {
-					title,
 					markdown,
-					hidden,
+					visible,
+					restricted,
 					error: 'A post with a similar title already exits.'
 				});
 		}
 
-		// calculate read time of the post
-		const readTime = readingTime(markdown, 230).minutes;
+		// Parse markdown to html
+		const html = await parse(markdown);
 
-		// Update the timestamp for lastEdit field
-		const lastEdit = sql`CURRENT_TIMESTAMP`;
-
-		// Rename Cover Image if it exists
-		await client.storage.from('cover-images').move(`${params.slug}.jpeg`, `${newSlug}.jpeg`);
+		const post: UpdatedPost = {
+			slug, title: titleResult.title, tags, markdown, html, readTime: readingTime(markdown, 230).minutes, visible, restricted, updatedAt: sql`CURRENT_TIMESTAMP`
+		};
 
 		// Update the post
 		try {
-			await db
-				.update(posts)
-				.set({
-					...goodData,
-					slug: newSlug,
-					readTime,
-					lastEdit
-				})
-				.where(eq(posts.slug, params.slug));
+			await db.update(posts).set(post).where(eq(posts.slug, params.slug));
 		} catch (error: any) {
-			return fail(401, { ...goodData, error: error.message });
+			return fail(401, { ...post, error: error.message });
 		}
 
 		// Redirect to the newly updated the post
-		redirect(303, '/posts/' + newSlug);
+		redirect(303, '/posts/' + slug);
 	}
 } satisfies Actions;

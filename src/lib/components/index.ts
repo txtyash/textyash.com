@@ -7,6 +7,5 @@ export { default as Register } from './Register.svelte';
 export { default as Editor } from './Editor.svelte';
 export { default as ImageUpload } from './ImageUpload.svelte';
 export { default as ImagePreview } from './ImagePreview.svelte';
-export * from './types';
 export * from './postsStore';
 export * from './imageStore';

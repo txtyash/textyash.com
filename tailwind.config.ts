@@ -18,12 +18,7 @@ export default {
 		typography,
 		skeleton({
 			themes: {
-				preset: [
-					{
-						name: 'gold-nouveau',
-						enhancements: true
-					}
-				]
+				preset: ["skeleton", "modern", "crimson"]
 			}
 		})
 	]

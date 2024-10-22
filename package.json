@@ -1,5 +1,5 @@
 {
-	"name": "",
+	"name": "textyash.com",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -9,10 +9,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write .",
-		"generate": "drizzle-kit generate:pg",
-		"migrate": "drizzle-kit push:pg",
-		"studio": "drizzle-kit studio"
+		"format": "prettier --write ."
 	},
 	"devDependencies": {
 		"@iconify/svelte": "^3.1.6",
@@ -36,7 +33,9 @@
 		"prettier": "^3.2.5",
 		"prettier-plugin-svelte": "^3.2.2",
 		"prettier-plugin-tailwindcss": "^0.5.9",
+		"supabase": "^1.204.3",
 		"svelte": "^4.2.7",
+		"svelte-adapter-bun": "^0.5.2",
 		"svelte-check": "^3.6.0",
 		"tailwindcss": "3.4.1",
 		"tslib": "^2.4.1",
@@ -46,6 +45,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@floating-ui/dom": "^1.6.11",
 		"@octokit/rest": "^20.1.0",
 		"@supabase/ssr": "^0.1.0",
 		"@supabase/supabase-js": "^2.42.0",

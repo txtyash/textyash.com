@@ -1,17 +1,14 @@
 <script lang="ts">
 	import { Editor } from '$lib/components';
-	import { client } from '$lib/client/supabaseClient';
 	import type { ActionData, PageData } from './$types';
 	export let form: ActionData;
 	export let data: PageData;
-	const post = {
+	let post = {
 		error: form?.error ?? '',
-		title: form?.title ?? data?.post.title,
-		description: form?.description ?? data?.post.description,
 		markdown: form?.markdown ?? data?.post.markdown,
-		hidden: form?.hidden ?? data?.post.hidden,
-		client
+		visible: form?.visible ?? data?.post.visible,
+		restricted: form?.restricted ?? data?.post.restricted
 	};
 </script>
 
-<Editor {post} />
+<Editor bind:post />

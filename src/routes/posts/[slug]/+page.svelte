@@ -1,41 +1,74 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { ImageUpload, ImagePreview } from '$lib/components';
+	// TODO:
+	import Icon from '@iconify/svelte';
+	import type { ActionData } from './$types';
+	import type { ReadPost } from '$lib/types';
+	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	import { enhance } from '$app/forms';
 
 	export let data;
+	export let deletionForm: ActionData;
 
-	const post = data.post;
+	let loading: boolean = false;
 
-	// Delete post
-	async function deletePost() {
-		const response = await fetch('/posts/delete/' + post.slug, {
-			method: 'DELETE'
-		});
-		let { deleted } = await response.json();
-		if (deleted) goto('/');
-	}
+	const post: ReadPost = data.post;
 </script>
 
-{#if data?.session?.user.email === 'shinde27yash@gmail.com'}
-	<div class="my-4 flex items-center justify-around">
-		<!-- Delete's Post and cover image -->
-		<button type="button" class="variant-filled btn" on:click={deletePost}> Delete </button>
-
-		<!-- Upload Cover Image to Supabase -->
-		<ImageUpload fileName={post.slug} />
-
-		<!-- Edit Post -->
-		<a class="variant-filled btn" href="/posts/edit/{post?.slug}">Edit</a>
+{#if loading}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+		<ProgressRadial class="w-9" />
 	</div>
-	<hr />
 {/if}
 
-<h1 class="h1 my-4">{post?.title}</h1>
+<div class="container mx-auto">
+	<div class="my-2 flex items-center justify-between">
+		<p>Written: {post?.createdAt}</p>
+		<p>Updated: {post?.updatedAt}</p>
+	</div>
 
-<p class="mb-10 mt-4"><i>Last Edited:</i> {post?.lastEdit}</p>
+	<hr />
 
-<ImagePreview fileName={post.slug} />
+	<div class="my-2 flex items-center justify-between gap-2">
+		<!-- Post render -->
+		<div class="flex overflow-x-auto p-1">
+			{#if post.tags}
+				{#each post.tags as tag}
+					<span class="variant-soft chip m-1">{tag}</span>
+				{/each}
+			{/if}
+		</div>
 
-<div class="prose max-w-none dark:prose-invert">
-	{@html post?.html}
+		{#if data?.isAdmin}
+			<div class="flex gap-1">
+				<!-- TODO: Confirmation Modal -->
+				<form
+					method="POST"
+					action="?/delete"
+					use:enhance={() => {
+						loading = true;
+
+						return async ({ update }) => {
+							await update();
+							loading = false;
+						};
+					}}
+				>
+					<button type="submit" class="variant-soft btn">
+						<Icon icon="mdi:bin" />
+					</button>
+				</form>
+				<a class="variant-soft btn" href="/posts/edit/{post?.slug}">
+					<Icon icon="material-symbols:edit" />
+				</a>
+				{#if deletionForm?.error}
+					<p class="text-red-500">{deletionForm?.error}</p>
+				{/if}
+			</div>
+		{/if}
+	</div>
+
+	<!-- Post Render -->
+	<div class="prose max-w-none dark:prose-invert">
+		{@html post?.html}
+	</div>
 </div>

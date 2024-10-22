@@ -76,7 +76,7 @@
 </script>
 
 <div
-	in:slide|global={{ delay: 400, duration: 700 }}
+	in:slide|global={{ delay: 400, duration: 450 }}
 	out:fade|global
 	class="logo-cloud my-4 grid-cols-2 gap-1 md:grid-cols-3"
 >

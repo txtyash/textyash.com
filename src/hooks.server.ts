@@ -1,4 +1,5 @@
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { ADMIN_EMAIL } from '$env/static/private';
 import { createServerClient } from '@supabase/ssr';
 import { redirect, type Handle } from '@sveltejs/kit';
 
@@ -58,12 +59,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	// Protecting Admin routes
-	const adminRoutes = ['/posts/edit', '/posts/delete'];
+	const adminRoutes = ['/posts/edit', '/posts/delete', '/tags'];
 	// check if the current route is only supposed to be accessed by the admin
 	const isAdminRoute = adminRoutes.some((route) => event.url.pathname.startsWith(route));
 	if (isAdminRoute) {
 		// Check if the user is admin using their email
-		if (event.locals.user?.email !== 'shinde27yash@gmail.com') {
+		if (event.locals.user?.email !== ADMIN_EMAIL) {
 			throw redirect(303, '/login');
 		}
 	}

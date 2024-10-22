@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { Editor } from '$lib/components';
 	import type { ActionData } from './$types';
+
 	export let form: ActionData;
-	const post = {
+	export let data;
+
+	let post = {
 		error: form?.error ?? '',
-		title: form?.title ?? '',
-		description: form?.description ?? '',
 		markdown: form?.markdown ?? '',
-		html: form?.html ?? '',
-		hidden: form?.hidden ?? false
+		visible: form?.visible ?? false,
+		restricted: form?.restricted ?? false,
+		tags: form?.tags ?? '[]'
 	};
 </script>
 
-<Editor {post} />
+<Editor bind:post allTags={data.allTags} />

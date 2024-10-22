@@ -10,7 +10,7 @@ export const GET: RequestHandler = async (event) => {
 	const next = url.searchParams.get('next') ?? '/';
 
 	if (token_hash && type) {
-		const { error } = await supabase.auth.verifyOtp({ token_hash, type });
+		const { error } = await supabase.auth.verifyOtp({ token_hash, type: 'email' });
 		if (!error) {
 			throw redirect(303, `/${next.slice(1)}`);
 		}

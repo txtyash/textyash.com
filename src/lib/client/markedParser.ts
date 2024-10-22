@@ -4,13 +4,14 @@ import hljs from 'highlight.js';
 import { markedEmoji } from 'marked-emoji';
 import { Octokit } from '@octokit/rest';
 
-export async function parse(markdown: string) {
+export async function parse(markdown: string): Promise<string> {
 	const octokit = new Octokit();
 	const res = await octokit.rest.emojis.get();
 	const emojis = res.data;
 	const options = {
 		emojis,
-		renderer: (token) =>
+		// TODO: Fix the type of token
+		renderer: (token: any) =>
 			`<img alt="${token.name}" src="${token.emoji}" class="marked-emoji-img inline-block w-6 h-6">`
 	};
 	const marked = new Marked(
@@ -23,5 +24,7 @@ export async function parse(markdown: string) {
 		})
 	);
 	marked.use(markedEmoji(options));
+	// intentional delay to ensure smooth loading with progressradial
+	// await new Promise(resolve => setTimeout(resolve, 500));
 	return marked.parse(markdown);
 }

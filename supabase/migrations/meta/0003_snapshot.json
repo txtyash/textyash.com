@@ -1,11 +1,11 @@
 {
-  "id": "40be59d3-fee4-4beb-aa83-39c95fd6db6c",
-  "prevId": "3962f549-7119-49cb-924b-cae80ff2d161",
+  "id": "f783dedb-f65e-45e9-8497-75f2ffbb25bc",
+  "prevId": "a056a507-276a-4ba2-ada3-7a5204449bc0",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "posts": {
-      "name": "posts",
+    "post": {
+      "name": "post",
       "schema": "",
       "columns": {
         "id": {
@@ -16,18 +16,24 @@
         },
         "slug": {
           "name": "slug",
-          "type": "varchar(64)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true
         },
         "title": {
           "name": "title",
-          "type": "varchar(64)",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true
         },
-        "content": {
-          "name": "content",
+        "markdown": {
+          "name": "markdown",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "html": {
+          "name": "html",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -39,8 +45,8 @@
           "notNull": false,
           "default": "now()"
         },
-        "last_edit": {
-          "name": "last_edit",
+        "updated_at": {
+          "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
@@ -50,19 +56,118 @@
           "name": "read_time",
           "type": "smallint",
           "primaryKey": false,
+          "notNull": true
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "primaryKey": false,
           "notNull": true,
-          "default": 0
+          "default": false
+        },
+        "restricted": {
+          "name": "restricted",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "posts_slug_unique": {
-          "name": "posts_slug_unique",
+        "post_slug_unique": {
+          "name": "post_slug_unique",
           "nullsNotDistinct": false,
           "columns": [
             "slug"
+          ]
+        }
+      }
+    },
+    "post_tag": {
+      "name": "post_tag",
+      "schema": "",
+      "columns": {
+        "post_id": {
+          "name": "post_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tag_id": {
+          "name": "tag_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "post_tag_post_id_post_id_fk": {
+          "name": "post_tag_post_id_post_id_fk",
+          "tableFrom": "post_tag",
+          "tableTo": "post",
+          "columnsFrom": [
+            "post_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "post_tag_tag_id_tag_id_fk": {
+          "name": "post_tag_tag_id_tag_id_fk",
+          "tableFrom": "post_tag",
+          "tableTo": "tag",
+          "columnsFrom": [
+            "tag_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "tag": {
+      "name": "tag",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(10)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "tag_name_unique": {
+          "name": "tag_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
           ]
         }
       }

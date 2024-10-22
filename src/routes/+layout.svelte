@@ -8,6 +8,9 @@
 		type DrawerSettings,
 		initializeStores
 	} from '@skeletonlabs/skeleton';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { storePopup } from '@skeletonlabs/skeleton';
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	initializeStores();
 
@@ -34,9 +37,5 @@
 	<!-- Floating Bottom Menu Bar -->
 	<MenuBar {drawerStore} {drawerSettings} />
 	<!-- Bottom Drawer  -->
-	<Drawer
-		admin={data?.session?.user.email === 'shinde27yash@gmail.com'}
-		loggedIn={data?.session !== null}
-		{drawerStore}
-	/>
+	<Drawer admin={data?.isAdmin} loggedIn={data?.isLoggedIn} {drawerStore} />
 </AppShell>
