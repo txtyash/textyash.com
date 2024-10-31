@@ -1,5 +1,3 @@
-import type { SQL } from "drizzle-orm";
-
 export interface Post {
 	id: number;
 	slug: string;
@@ -14,14 +12,14 @@ export interface Post {
 	tags: string[];
 }
 
-export type NewPost = Omit<Post, 'id' | 'createdAt' | 'updatedAt' | 'tags'> & {
-	tags: number[]
+export type EditorPost = Pick<Post, 'markdown' | 'visible' | 'visible' | 'restricted'> & {
+	tags: string,
+	error: string
 };
-
-export type UpdatedPost = Omit<Post, 'id' | 'createdAt' | 'updatedAt'> & {
-	updatedAt: SQL<any>
-}
 
 export type PostSummary = Pick<Post, 'title' | 'slug' | 'readTime' | 'createdAt' | 'visible' | 'restricted'>;
 
-export type ReadPost = Pick<Post, 'slug' | 'html' | 'readTime' | 'createdAt' | 'updatedAt' | 'tags' | 'visible' | 'restricted'>
+export interface Tag {
+	id: number;
+	name: string;
+}

@@ -6,11 +6,12 @@
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import { Autocomplete, popup } from '@skeletonlabs/skeleton';
 	import type { AutocompleteOption, PopupSettings } from '@skeletonlabs/skeleton';
+	import { type Tag } from '$lib/types';
 
-	export let allTags: any; // { value: number; label: string }[]
+	export let allTags: Tag[];
 
 	export let post: {
-		error: string;
+		error: string | null;
 		markdown: string;
 		visible: boolean;
 		restricted: boolean;
@@ -18,7 +19,20 @@
 	};
 
 	let preview = false;
-	let tags: { id: number; name: string }[] = [];
+	let tags: Tag[] = [];
+	if (post.tags && post.tags !== '[]') {
+		try {
+			console.log(post.tags, allTags);
+			let ids: number[] = JSON.parse(post.tags);
+			tags = ids.map((id) => ({
+				id,
+				name: allTags.find(tag => tag.id === id)?.name ?? 'Unknown Tag'
+			}));
+		} catch (error) {
+			console.error('Failed to parse tags:', error);
+			tags = [];
+		}
+	}
 
 	let popupSettings: PopupSettings = {
 		event: 'focus-click',
@@ -28,7 +42,7 @@
 	let popupInput: string = '';
 	let loading: boolean = false;
 
-	const autocompleteOptions: AutocompleteOption<string>[] = allTags;
+	const autocompleteOptions: AutocompleteOption<string>[] = allTags.map(tag=> ({value:tag.id, label:tag.name})) as any;
 
 	function onTagSelect(event: CustomEvent<AutocompleteOption<string>>) {
 		const index: number = tags.findIndex((element) => element.id === Number(event.detail.value));

@@ -2,7 +2,6 @@
 	// TODO:
 	import Icon from '@iconify/svelte';
 	import type { ActionData } from './$types';
-	import type { ReadPost } from '$lib/types';
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 	import { enhance } from '$app/forms';
 
@@ -11,7 +10,7 @@
 
 	let loading: boolean = false;
 
-	const post: ReadPost = data.post;
+	const post = data.post;
 </script>
 
 {#if loading}

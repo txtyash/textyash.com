@@ -4,11 +4,10 @@ import { db, posts, tags, postsTags } from '$lib/server/db';
 import { eq, sql } from 'drizzle-orm';
 import { fail, redirect, error as svelteError } from '@sveltejs/kit';
 import { ADMIN_EMAIL } from '$env/static/private';
-import type { ReadPost } from '$lib/types';
 
 export const load: PageServerLoad = async ({ params, locals: { user } }) => {
 	try {
-		const [post]: ReadPost[] = await db
+		const [post] = await db
 			.select({
 				slug: posts.slug,
 				html: posts.html,

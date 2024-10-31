@@ -1,32 +1,99 @@
 import type { Actions } from './$types';
-import { fail, redirect, error as svelteError } from '@sveltejs/kit';
-import { sql } from 'drizzle-orm';
+import { fail, isRedirect, redirect } from '@sveltejs/kit';
+import { eq, sql } from 'drizzle-orm';
 import slugify from 'slugify';
 import { readingTime } from 'reading-time-estimator';
-import type { NewPost } from '$lib/types';
 import { parse } from 'marked';
 import { getMarkdownTitle } from '$lib/helper';
-import { db, posts, postsTags, tags } from '$lib/server/db';
-import type { PageServerLoad } from './$types.js';
+import { db, posts, postsTags } from '$lib/server/db';
 
-export const load: PageServerLoad = async () => {
-	try {
-		const allTags = await db
-			.select({
-				value: tags.id,
-				label: tags.name,
-			})
-			.from(tags)
-			.leftJoin(postsTags, sql`${tags.id} = ${postsTags.tagId}`)
-			.groupBy(tags.id)
-			.orderBy(tags.name);
+export const actions = {
+	default: async ({ request }) => {
+		const formData = await request.formData();
+		const data = {
+			markdown: formData.get('markdown')?.toString().trim() ?? '',
+			visible: !!formData.get('visible'),
+			restricted: !!formData.get('restricted'),
+			tags: JSON.parse(formData.get('tags')?.toString() ?? '[]') as number[]
+		};
 
-		return { allTags };
-	} catch (error: any) {
-		return svelteError(404, error.message);
+		// Validate markdown content
+		const titleResult = getMarkdownTitle(data.markdown);
+		if (!titleResult.success)
+			return fail(400, {
+				...data,
+				tags: JSON.stringify(data.tags),
+				error: titleResult.error
+			});
+
+
+		// Generate slug
+		const slug = slugify(titleResult.title, { lower: true, strict: true });
+
+		// Check for existing posts with same slugs
+		const [{ exists }] = await db.execute(
+			sql`select exists(select 1 from ${posts} where ${posts.slug} = ${slug})`
+		);
+
+		if (exists)
+			return fail(409, {
+				...data,
+				tags: JSON.stringify(data.tags),
+				error: 'A post with a similar title already exists.'
+			});
+
+		try {
+			// Parse markdown and calculate read time
+			const html = await parse(data.markdown);
+			const readTime = Math.ceil(readingTime(data.markdown, 230).minutes);
+
+			// Use a transaction to ensure data consistency
+			const result = await db.transaction(async (tx) => {
+				// Insert post
+				const [newPost] = await tx
+					.insert(posts)
+					.values({
+						slug,
+						title: titleResult.title,
+						markdown: data.markdown,
+						html,
+						readTime,
+						visible: data.visible,
+						restricted: data.restricted
+					})
+					.returning({ id: posts.id });
+
+				if (!newPost?.id) throw new Error('Failed to create post');
+
+				// Insert tag relations if there are any tags
+				if (data.tags.length > 0) {
+					await tx
+						.insert(postsTags)
+						.values(
+							data.tags.map(tagId => ({
+								postId: newPost.id,
+								tagId
+							}))
+						);
+				}
+
+				return { slug };
+			});
+			
+			throw redirect(303, `/posts/${result.slug}`);
+		} catch (error) {
+			if (isRedirect(error)) throw error;
+			console.error('Failed to create post:', error);
+			return fail(500, {
+				...data,
+				tags: JSON.stringify(data.tags),
+				error: 'Failed to create post. Please try again.'
+			});
+		}
 	}
-};
+} satisfies Actions;
 
+/* OLD CODE
 export const actions = {
 	default: async ({ request }) => {
 		const formData: FormData = await request.formData();
@@ -85,3 +152,4 @@ export const actions = {
 		redirect(303, slug);
 	}
 } satisfies Actions;
+*/

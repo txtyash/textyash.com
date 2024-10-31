@@ -51,12 +51,12 @@
 	}
 </script>
 
-<div class="container mx-auto">
+<div class="container mx-auto sm:w-11/12 md:10/12">
 	{#if animate}
-		<div in:fly={{ y: -200, duration: 2000 }} out:fade>
-			<div class="m-6 mx-auto flex w-3/5 items-center justify-around gap-6">
+		<div in:fly={{ y: -200, duration: 2000 }} out:fade class="my-8">
+			<div class="m-6 mx-auto flex w-10/12 sm:w-9/12 md:w-8/12 items-center justify-around gap-6">
 				<Avatar
-					class="mx-auto w-32 sm:w-48"
+					class="mx-auto min-w-24 sm:min-w-32"
 					src="/images/profile.png"
 					initials="YS "
 					alt="Yash's profile"
@@ -102,7 +102,7 @@
 		{/if}
 
 		{#if loadingPosts}
-			<div class="mt-4 flex justify-center">
+			<div class="flex justify-center">
 				<ProgressRadial class="w-9" />
 			</div>
 		{:else if $posts}
