@@ -1,1 +1,4 @@
-<h1>page.svelte</h1>
+<script lang="ts">
+</script>
+
+<h1>Blog List</h1>

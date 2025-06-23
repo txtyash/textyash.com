@@ -1,12 +1,10 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@custom-variant dark (&:where(.dark, .dark *));
 
-/* TODO: light/dark mode */
 body {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #282828;
-	color: #faf9f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
