@@ -1,22 +1,27 @@
-import { error as svelteError } from '@sveltejs/kit';
-import { sql } from 'drizzle-orm';
-import { db, postsTags, tags } from '$lib/server/db';
-import type { PageServerLoad } from './$types.js';
+import { json } from "@sveltejs/kit";
+import type { Component } from "svelte";
+import type { PageServerLoad } from "./$types";
 
-export const load: PageServerLoad = async () => {
-    try {
-        const allTags = await db
-            .select({
-                id: tags.id,
-                name: tags.name,
-            })
-            .from(tags)
-            .leftJoin(postsTags, sql`${tags.id} = ${postsTags.tagId}`)
-            .groupBy(tags.id)
-            .orderBy(tags.name);
+export const load: PageServerLoad = async ({ params }) => {
+  const blogs: BlogMetadata[] = [];
 
-        return { allTags };
-    } catch (error: any) {
-        return svelteError(404, error.message);
+  const paths: Record<string, unknown> = import.meta.glob("/src/routes/blog/*.md", { eager: true });
+
+  for (const path in paths) {
+    const file = paths[path] as {
+      default: Component;
+      metadata: BlogMetadata;
+    };
+    const slug: string | null = path.split("/").at(-1)?.replace(".md", "") ?? null;
+    if (slug == null) {
+      // TODO: 404 error
     }
+    const metadata: any = file.metadata;
+    const post: BlogMetadata = { ...metadata, slug };
+    post.published && blogs.push(post);
+  }
+
+  return {
+    blogs,
+  };
 };

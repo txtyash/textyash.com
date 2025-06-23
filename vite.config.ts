@@ -1,17 +1,8 @@
-import { purgeCss } from 'vite-plugin-tailwind-purgecss';
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig, type UserConfig } from 'vite';
+import { sveltekit } from "@sveltejs/kit/vite";
+import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+import devtoolsJson from "vite-plugin-devtools-json";
 
-const config: UserConfig = {
-	plugins: [
-		sveltekit(),
-		purgeCss({
-			safelist: {
-				// any selectors that begin with "hljs-" will not be purged
-				greedy: [/^hljs-/]
-			}
-		})
-	]
-};
-
-export default defineConfig(config);
+export default defineConfig({
+  plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
+});

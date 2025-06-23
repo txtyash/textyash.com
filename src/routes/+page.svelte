@@ -1,120 +1,110 @@
 <script lang="ts">
-	import { Links, PostsList } from '$lib/components';
-	import { onMount } from 'svelte';
-	import { ProgressRadial, Avatar } from '@skeletonlabs/skeleton';
-	import { writable, type Writable } from 'svelte/store';
-	import { fly, fade } from 'svelte/transition';
-	import type { PostSummary } from '$lib/types';
-	import { browser } from '$app/environment';
+import { onMount } from "svelte";
+import type { PageProps } from "./$types";
 
-	export let data;
+const { data }: PageProps = $props();
+const blogs: Blog[] = data.blogs;
+// TODO: iterate through each word of the lyrics and highlight it with the accent color
+const lyrics = [
+  "A tornado flew around my room before you came",
+  "Excuse the mess it made, it usually doesn't rain in",
+  "Southern California, much like Arizona",
+  "My eyes don't shed tears, but, boy, they pour when",
+  "I'm thinkin' 'bout you, ooh, no, no, no",
+  "I've been thinkin' 'bout you, you know, know, know",
+  "I've been thinkin' 'bout you, do you think about me still?",
+  "Do ya, do ya?",
+  "Or do you not think so far ahead?",
+  "'Cause I been thinkin' 'bout forever, ooh",
+  "Or do you not think so far ahead?",
+  "'Cause I been thinkin' 'bout forever, ooh",
+  "No, I don't like you, I just thought you were cool enough to kick it",
+  "Got a beach house I could sell you in Idaho",
+  "Since you think I don't love you, I just thought you were cute",
+  "That's why I kissed you",
+  "Got a fighter jet, I don't get to fly it though",
+  "I'm lying down",
+  "Thinkin' 'bout you, ooh, no, no, no",
+  "I've been thinkin' 'bout you, you know, know, know",
+  "I've been thinkin' 'bout you, do you think about me still?",
+  "Do ya, do ya?",
+  "Or do you not think so far ahead?",
+  "'Cause I been thinkin' 'bout forever, ooh",
+  "Or do you not think so far ahead?",
+  "'Cause I been thinkin' 'bout forever, ooh",
+  "Yes, of course, I remember, how could I forget (How could I forget)",
+  "How you feel? (How you feel?)",
+  "You know you were my first time, a new feel",
+  "It won't ever get old, not in my soul, not in my spirit, keep it alive",
+  "We'll go down this road 'til it turns from color to black and white",
+  "Or do you not think so far ahead?",
+  "'Cause I been thinkin' 'bout forever, ooh",
+  "Or do you not think so far ahead?",
+  "'Cause I been thinkin' 'bout forever, ooh",
+];
 
-	let showPosts = true;
-	let animate = false;
-	let page: number = 1;
-	let size = 9;
-	let loadingPosts: boolean = true;
-	let totalPages: number;
-	let tagIds: string = '[]';
-	const posts: Writable<PostSummary[]> = writable([]);
-	$: url = `/posts?page=${page}&size=${size}&tagIds=${tagIds}`;
-	$: if (browser && url) fetchPosts(url);
+let line = $state("");
+let currentIndex = 0;
 
-	async function fetchPosts(url: string) {
-		loadingPosts = true;
-		const response = await fetch(url, {
-			method: 'GET'
-		});
-		const data = await response.json();
-		posts.set(data.posts); // TODO: Caching
-		totalPages = Math.ceil(data.count / size);
-		loadingPosts = false;
-	}
+onMount(() => {
+  // Set initial line
+  line = lyrics[0];
 
-	onMount(async () => {
-		animate = true;
-		fetchPosts(url); // update posts instead of setting(like caching data)
-	});
+  // Create interval to cycle through lyrics
+  const interval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % lyrics.length;
+    line = lyrics[currentIndex];
+  }, 2000);
 
-	let tagSelection: Record<number, boolean> = Object.fromEntries(
-		data.allTags.map((tag) => [tag.id, false])
-	);
-
-	function toggle(tag: number): void {
-		tagSelection[tag] = !tagSelection[tag];
-		page = 1;
-		tagIds = JSON.stringify(
-			Object.entries(tagSelection)
-				.filter(([, value]) => value)
-				.map(([key]) => Number(key))
-		);
-	}
+  // Cleanup function to clear interval when component is destroyed
+  return () => {
+    clearInterval(interval);
+  };
+});
 </script>
 
-<div class="container mx-auto sm:w-11/12 md:10/12">
-	{#if animate}
-		<div in:fly={{ y: -200, duration: 2000 }} out:fade class="my-8">
-			<div class="m-6 mx-auto flex w-10/12 sm:w-9/12 md:w-8/12 items-center justify-around gap-6">
-				<Avatar
-					class="mx-auto min-w-24 sm:min-w-32"
-					src="/images/profile.png"
-					initials="YS "
-					alt="Yash's profile"
-					rounded="rounded-md"
-				/>
-				<p class="text-sm sm:text-lg">
-					Hi, I'm Yash, a software developer. I
-					<span class="animate-pulse underline decoration-pink-500 decoration-wavy">love</span> technology
-					& music. I occasionally jot down my thoughts here : )
-				</p>
-			</div>
-			<div class="relative m-2 flex w-auto justify-center px-4">
-				<button
-					type="button"
-					on:click={() => (showPosts = !showPosts)}
-					class="variant-filled btn z-10"
-				>
-					{showPosts ? 'Show Links' : 'Show Posts'}
-				</button>
-				<!-- TODO: squiggly hr -->
-				<div
-					class="absolute top-1/2 z-0 h-0.5 w-full -translate-y-1/2 bg-stone-400 dark:bg-stone-400"
-				/>
-			</div>
-		</div>
-
-		{#if !(tagIds === '[]' && $posts.length === 0)}
-			<div class="flex gap-2">
-				{#each Object.keys(tagSelection) as f}
-					<button
-						class="chip {tagSelection[Number(f)] ? 'variant-filled' : 'variant-soft'}"
-						on:click={() => {
-							toggle(Number(f));
-						}}
-						on:keypress
-					>
-						<span class="capitalize">
-							{data.allTags.find((entry) => entry.id === Number(f))?.name}
-						</span>
-					</button>
-				{/each}
-			</div>
-		{/if}
-
-		{#if loadingPosts}
-			<div class="flex justify-center">
-				<ProgressRadial class="w-9" />
-			</div>
-		{:else if $posts}
-			{#if $posts.length === 0 && showPosts}
-				<!-- if no posts and no tag ids -->
-				<p class="my-12 text-center" in:fade={{ delay: 400 }}>No posts found</p>
-				<!-- else yash hasn't posted any categories blog -->
-			{:else if showPosts}
-				<PostsList posts={$posts} bind:totalPages bind:page />
-			{:else}
-				<Links />
-			{/if}
-		{/if}
-	{/if}
+<div class="flex items-center sm:flex-row justify-evenly">
+  <!-- TODO: Link thinkin bout you song -->
+  <a href="https://www.youtube.com/watch?v=6JHu3b-pbh8" target="_blank">
+    <img
+      alt="Yash Shinde"
+      class="h-48 w-48 object-cover rounded-full p-3 hover:p-5 border-5 border-indigo-500 dark:border-green-600 rotate"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7L8PAK1JdE5jAVqzQUn42fkvChpfLG_nD-w&s"
+    />
+  </a>
+  <p class="text-center w-100 text-lg sm:text-2xl text-wrap sm:text-start sm:text-3xl">
+    {line}
+  </p>
 </div>
+
+<div class="dark:bg-teal-500/40 pulse bg-violet-500/40 h-1 rounded-xl m-10 sm:m-15">
+</div>
+
+{#each blogs as blog}
+  <div class="w-full transition delay-30 duration-200 mb-2 sm:mb-6 p-4 rounded-2xl bg-violet-500/5 dark:bg-teal-500/3 border-b-8 border-teal-500/0 hover:dark:border-teal-500/7 hover:border-violet-500/20">
+    <a href="blog/{blog.slug}">
+      <p class="text-violet-500 dark:text-teal-500 font-semibold text-3xl">
+        {blog.title}
+      </p>
+      <p class="text-lg font-normal">{blog.description}</p>
+      <p class="text-right text-violet-500 dark:text-teal-500 font-semibold text-xl">
+        {blog.date}
+      </p>
+    </a>
+  </div>
+{/each}
+
+<style>
+.rotate {
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>

@@ -1,15 +1,18 @@
-<!doctype html>
-<html lang="en" class="dark">
-
-<head>
-	<meta charset="utf-8" />
-	<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
-	<meta name="viewport" content="width=device-width" />
-	%sveltekit.head%
-</head>
-
-<body data-sveltekit-preload-data="hover" data-theme="skeleton">
-	<div style="display: contents">%sveltekit.body%</div>
-</body>
-
+<!DOCTYPE html>
+<html lang="en" class="">
+  <head>
+    <meta charset="utf-8" />
+    <!-- TODO: Replace favicon -->
+    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    %sveltekit.head%
+  </head>
+  <body
+    data-sveltekit-preload-data="hover"
+    class="transition delay-300 duration-500 bg-gray-50 dark:bg-gray-950 dark:text-gray-400"
+  >
+    <div style="display: contents">
+      %sveltekit.body%
+    </div>
+  </body>
 </html>
