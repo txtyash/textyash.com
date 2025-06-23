@@ -42,6 +42,7 @@
     "vite-plugin-devtools-json": "^0.2.0"
   },
   "dependencies": {
-    "@bitmachina/highlighter": "1.0.0-alpha.6"
+    "@bitmachina/highlighter": "1.0.0-alpha.6",
+    "@vercel/speed-insights": "^1.2.0"
   }
 }

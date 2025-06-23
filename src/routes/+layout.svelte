@@ -4,6 +4,9 @@ import { onMount } from "svelte";
 import "../app.css";
 import { page } from "$app/state";
 import ThemeToggle from "$lib/components/ThemeToggle.svelte";
+import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
+
+injectSpeedInsights();
 
 let { children } = $props();
 
