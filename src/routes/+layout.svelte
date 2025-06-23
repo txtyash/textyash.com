@@ -4,6 +4,9 @@ import { onMount } from "svelte";
 import "../app.css";
 import { page } from "$app/state";
 import ThemeToggle from "$lib/components/ThemeToggle.svelte";
+import { injectSpeedInsights } from "@vercel/speed-insights/sveltekit";
+
+injectSpeedInsights();
 
 let { children } = $props();
 
@@ -53,7 +56,7 @@ onMount(() => {
   </div>
 </header>
 
-<div class="max-w-3xl px-2 py-2 sm:py-8 w-full">
+<div class="max-w-3xl p-4 sm:p-8 w-full">
   {@render children()}
 </div>
 

@@ -63,12 +63,12 @@ onMount(() => {
 });
 </script>
 
-<div class="flex items-center sm:flex-row justify-evenly">
+<div class="flex items-center justify-around gap-2 sm:gap-none">
   <!-- TODO: Link thinkin bout you song -->
   <a href="https://www.youtube.com/watch?v=6JHu3b-pbh8" target="_blank">
     <img
       alt="Yash Shinde"
-      class="h-48 w-48 object-cover rounded-full p-3 hover:p-5 border-5 border-indigo-500 dark:border-green-600 rotate"
+      class="max-h-42 aspect-square object-cover rounded-full p-1 sm:p-3 sm:hover:p-5 border-5 border-indigo-500 dark:border-green-600 rotate"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7L8PAK1JdE5jAVqzQUn42fkvChpfLG_nD-w&s"
     />
   </a>
@@ -77,17 +77,17 @@ onMount(() => {
   </p>
 </div>
 
-<div class="dark:bg-teal-500/40 pulse bg-violet-500/40 h-1 rounded-xl m-10 sm:m-15">
+<div class="dark:bg-teal-500/40 pulse bg-violet-500/40 h-1 rounded-xl m-6 sm:m-15">
 </div>
 
 {#each blogs as blog}
-  <div class="w-full transition delay-30 duration-200 mb-2 sm:mb-6 p-4 rounded-2xl bg-violet-500/5 dark:bg-teal-500/3 border-b-8 border-teal-500/0 hover:dark:border-teal-500/7 hover:border-violet-500/20">
+  <div class="w-full my-3 sm:my-6 p-2 sm:p-4 rounded-2xl bg-violet-500/5 dark:bg-teal-500/3 border-b-8 border-teal-500/0 hover:dark:border-teal-500/7 hover:border-violet-500/20">
     <a href="blog/{blog.slug}">
-      <p class="text-violet-500 dark:text-teal-500 font-semibold text-3xl">
+      <p class="text-violet-500 dark:text-teal-500 font-semibold text-xl sm:text-3xl">
         {blog.title}
       </p>
-      <p class="text-lg font-normal">{blog.description}</p>
-      <p class="text-right text-violet-500 dark:text-teal-500 font-semibold text-xl">
+      <p class="text-md sm:text-lg font-normal">{blog.description}</p>
+      <p class="text-right text-violet-500 dark:text-teal-500 font-semibold text-sm sm:text-xl">
         {blog.date}
       </p>
     </a>
