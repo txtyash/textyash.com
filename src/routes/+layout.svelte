@@ -29,12 +29,12 @@ onMount(() => {
 });
 </script>
 
-<header class="rounded-lg flex w-full max-w-3xl justify-between p-2 sticky top-0 bg-gray-50/30 dark:bg-gray-950/30 backdrop-blur-md">
+<header class="rounded-lg flex w-full max-w-5xl justify-between p-2 sm:px-8 sticky top-0 bg-gray-50/30 dark:bg-gray-950/30 backdrop-blur-md">
   <div id="navigation">
     {#each [...links] as [page, path]}
       <a
         href={path}
-        class="mx-1 rounded-md text-violet-500 hover:text-gray-50 hover:bg-violet-500 dark:text-teal-500 dark:hover:bg-teal-500 dark:hover:text-gray-950 p-1 font-semibold sm:text-lg {path === `/${parentPath}` ? 'underline decoration-wavy' : ''}"
+        class="styled-link mx-1 {path === `/${parentPath}` ? 'underline decoration-wavy' : ''}"
       >{page}</a>
     {/each}
   </div>
@@ -56,7 +56,7 @@ onMount(() => {
   </div>
 </header>
 
-<div class="max-w-3xl p-4 sm:p-8 w-full">
+<div class="max-w-5xl px-4 sm:px-8 my-4 sm:my-8 w-full break-words">
   {@render children()}
 </div>
 

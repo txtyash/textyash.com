@@ -63,7 +63,7 @@ onMount(() => {
 });
 </script>
 
-<div class="flex items-center justify-around gap-2 sm:gap-none">
+<div class="flex items-center justify-between sm:justify-center gap-2 sm:gap-8 sm:gap-none">
   <!-- TODO: Link thinkin bout you song -->
   <a href="https://www.youtube.com/watch?v=6JHu3b-pbh8" target="_blank">
     <img
@@ -72,7 +72,7 @@ onMount(() => {
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7L8PAK1JdE5jAVqzQUn42fkvChpfLG_nD-w&s"
     />
   </a>
-  <p class="text-center w-100 text-lg sm:text-2xl text-wrap sm:text-start sm:text-3xl">
+  <p class="text-center w-100 text-xl sm:text-2xl text-wrap sm:text-start sm:text-3xl">
     {line}
   </p>
 </div>

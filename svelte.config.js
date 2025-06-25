@@ -1,13 +1,18 @@
 import adapter from "@sveltejs/adapter-vercel";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { mdsvex } from "mdsvex";
+import targetBlank from "svelte-target-blank";
 
 const mdsvexOptions = {
   extensions: [".md", ".svx"],
 };
 
 const config = {
-  preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
+  preprocess: [
+    vitePreprocess(),
+    mdsvex(mdsvexOptions),
+    targetBlank({ logLevel: "quiet", quietList: "/**/*.md" }),
+  ],
   kit: { adapter: adapter() },
   extensions: [".svelte", ".md", ".svx"],
   vitePlugin: {

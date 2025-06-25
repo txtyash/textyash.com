@@ -2,9 +2,10 @@ interface BlogMetadata {
   slug: string;
   title: string;
   description: string;
-  date: string;
+  date: Date;
   tags: string[];
   published: boolean;
+  readingTime: number | undefined;
 }
 
 interface Blog {

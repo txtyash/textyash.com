@@ -1,7 +1,6 @@
 ---
 title: Re-writing my Svelte blog without a database
-description: I re-wrote textyash.com from scratch as a static website in Svelte 5
-date: 'Jun 25, 2025'
+description: Why I re-wrote textyash.com from scratch as a static website in Svelte 5 and dropped Supabase.
 tags: ['webdev']
 published: true
 ---
