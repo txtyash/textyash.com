@@ -73,7 +73,7 @@ onMount(() => {
   >
     <img
       alt="Yash Shinde"
-      class="max-h-42 aspect-square object-cover rounded-full p-1 sm:p-3 sm:hover:p-5 border-5 border-indigo-500 dark:border-blue-500 rotate"
+      class="max-h-42 aspect-square object-cover rounded-full p-1 sm:p-3 sm:hover:p-5 border-5 border-indigo-500 dark:border-blue-500 rotate loading-lazy"
       src="/headphones.jpg"
     />
   </a>

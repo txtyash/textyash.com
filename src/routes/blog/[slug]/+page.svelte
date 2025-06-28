@@ -27,7 +27,15 @@ let { title, date, tags, published, readingTime } = metadata;
   {/if}
 </div>
 
-<div class="prose dark:prose-invert !max-w-none [&_h2]:text-violet-500 [&_h2]:dark:text-sky-500">
+<div
+  class="
+    !max-w-none
+    prose dark:prose-invert
+    [&_h2]:text-violet-500 [&_h2]:dark:text-sky-500
+    [&_img]:w-100 [&_img]:h-56 [&_img]:loading-lazy
+    [&_img]:sm:w-100 [&_img]:sm:h-112 [&_img]:object-cover
+  "
+>
   <Content />
 </div>
 
