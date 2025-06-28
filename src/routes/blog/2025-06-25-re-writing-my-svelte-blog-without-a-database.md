@@ -5,7 +5,7 @@ tags: ['webdev']
 published: true
 ---
 
-![Writing Fire GIF](https://media1.tenor.com/m/D8zBSnugpXwAAAAd/writing-fire-writing.gif)
+![Writing Fire GIF](/penguin-writing.gif)
 
 ## Old Setup
 

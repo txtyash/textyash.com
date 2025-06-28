@@ -69,7 +69,7 @@ onMount(() => {
   <a href="https://www.youtube.com/watch?v=6JHu3b-pbh8" target="_blank">
     <img
       alt="Yash Shinde"
-      class="max-h-42 aspect-square object-cover rounded-full p-1 sm:p-3 sm:hover:p-5 border-5 border-indigo-500 dark:border-green-600 rotate"
+      class="max-h-42 aspect-square object-cover rounded-full p-1 sm:p-3 sm:hover:p-5 border-5 border-indigo-500 dark:border-blue-500 rotate"
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7L8PAK1JdE5jAVqzQUn42fkvChpfLG_nD-w&s"
     />
   </a>
@@ -78,7 +78,7 @@ onMount(() => {
   </p>
 </div>
 
-<div class="dark:bg-teal-500/40 bg-violet-500/40 h-1 rounded-xl m-6 sm:m-15">
+<div class="dark:bg-sky-500/40 bg-violet-500/40 h-1 rounded-xl m-6 sm:m-15">
 </div>
 
 <BlogList {blogs} isForHomePage="true" />
