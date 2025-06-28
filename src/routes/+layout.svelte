@@ -30,16 +30,20 @@ onMount(() => {
 </script>
 
 <header class="rounded-lg flex w-full max-w-5xl justify-between p-2 sm:px-8 sticky top-0 bg-gray-50/30 dark:bg-gray-950/30 backdrop-blur-md">
-  <div id="navigation">
+  <div>
     {#each [...links] as [page, path]}
       <a
         href={path}
         class="styled-link mx-1 {path === `/${parentPath}` ? 'underline decoration-wavy' : ''}"
+        aria-label="Go to {page} page"
       >{page}</a>
     {/each}
   </div>
-  <div id="rss-and-theme">
-    <button id="rss-btn" class="p-1 sm:text-lg sm:font-semibold">
+  <div>
+    <button
+      class="p-1 sm:text-lg sm:font-semibold"
+      aria-label="RSS"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"

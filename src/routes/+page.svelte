@@ -66,7 +66,11 @@ onMount(() => {
 
 <div class="flex items-center justify-between sm:justify-center gap-2 sm:gap-8 sm:gap-none">
   <!-- TODO: Link thinkin bout you song -->
-  <a href="https://www.youtube.com/watch?v=6JHu3b-pbh8" target="_blank">
+  <a
+    href="https://www.youtube.com/watch?v=6JHu3b-pbh8"
+    target="_blank"
+    aria-label="Youtube video link to song Thinkin Bout You by Frank Ocean"
+  >
     <img
       alt="Yash Shinde"
       class="max-h-42 aspect-square object-cover rounded-full p-1 sm:p-3 sm:hover:p-5 border-5 border-indigo-500 dark:border-blue-500 rotate"

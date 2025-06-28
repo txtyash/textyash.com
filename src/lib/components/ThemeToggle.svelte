@@ -24,6 +24,7 @@ onMount(() => {
 <button
   onclick={toggleTheme}
   class="p-1 sm:text-lg sm:font-semibold"
+  aria-label="Theme toggle"
 >
   {#if currentTheme === "light"}
     <svg
