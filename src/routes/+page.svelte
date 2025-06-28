@@ -1,4 +1,5 @@
 <script lang="ts">
+import { BlogList } from "$lib/components";
 import { onMount } from "svelte";
 import type { PageProps } from "./$types";
 
@@ -77,22 +78,10 @@ onMount(() => {
   </p>
 </div>
 
-<div class="dark:bg-teal-500/40 pulse bg-violet-500/40 h-1 rounded-xl m-6 sm:m-15">
+<div class="dark:bg-teal-500/40 bg-violet-500/40 h-1 rounded-xl m-6 sm:m-15">
 </div>
 
-{#each blogs as blog}
-  <div class="w-full my-3 sm:my-6 p-2 sm:p-4 rounded-2xl bg-violet-500/5 dark:bg-teal-500/3 border-b-8 border-teal-500/0 hover:dark:border-teal-500/7 hover:border-violet-500/20">
-    <a href="blog/{blog.slug}">
-      <p class="text-violet-500 dark:text-teal-500 font-semibold text-xl sm:text-3xl">
-        {blog.title}
-      </p>
-      <p class="text-md sm:text-lg font-normal">{blog.description}</p>
-      <p class="text-right text-violet-500 dark:text-teal-500 font-semibold text-sm sm:text-xl">
-        {blog.date}
-      </p>
-    </a>
-  </div>
-{/each}
+<BlogList {blogs} isForHomePage="true" />
 
 <style>
 .rotate {

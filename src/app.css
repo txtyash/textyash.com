@@ -9,34 +9,37 @@ body {
   align-items: center;
 }
 
-/* apply below only for classs named styled-link */
-a {
+/* Styled links - applies to both .styled-link class and all links inside prose */
+.styled-link,
+.prose a {
   border-radius: 0.375rem; /* rounded-md */
   color: #8b5cf6; /* text-violet-500 */
   padding: 0.25rem; /* p-1 */
   font-weight: 600; /* font-semibold */
 }
 
-a:hover {
+.styled-link:hover,
+.prose a:hover {
   color: #f9fafb; /* hover:text-gray-50 */
   background-color: #8b5cf6; /* hover:bg-violet-500 */
 }
 
 /* Dark mode styles */
-@media (prefers-color-scheme: dark) {
-  a {
-    color: #14b8a6; /* dark:text-teal-500 */
-  }
+.styled-link:where(.dark, .dark *),
+.prose a:where(.dark, .dark *) {
+  color: #14b8a6; /* dark:text-teal-500 */
+}
 
-  a:hover {
-    background-color: #14b8a6; /* dark:hover:bg-teal-500 */
-    color: #0c0a09; /* dark:hover:text-gray-950 */
-  }
+.styled-link:where(.dark, .dark *):hover,
+.prose a:where(.dark, .dark *):hover {
+  background-color: #14b8a6; /* dark:hover:bg-teal-500 */
+  color: #0c0a09; /* dark:hover:text-gray-950 */
 }
 
 /* Small screens and up (sm:text-lg) */
 @media (min-width: 640px) {
-  a {
+  .styled-link,
+  .prose a {
     font-size: 1.125rem; /* text-lg */
     line-height: 1.75rem;
   }

@@ -28,10 +28,3 @@ export const load: PageServerLoad = async ({ params }) => {
     blogs,
   };
 };
-
-/* TODO:
- * Build step:
- * Validate tags from a set of defined tags
- * Throw errors for files in which the slugified version of the title inside all the files mismatches the slug in the file name
- * Throw errors for files which do not follow the naming convention YYYY-MM-DD-[a-z0-9\-]+.md
- */
