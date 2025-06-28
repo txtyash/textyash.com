@@ -5,8 +5,13 @@ const { data }: PageProps = $props();
 const metadata: BlogMetadata = data.metadata;
 const content: any = data.content;
 const Content = $state(content); // NOTE: Why do I need to use a rune?
-let { title, date, tags, published, readingTime } = metadata;
+let { title, description, date, tags, published, readingTime } = metadata;
 </script>
+
+<svelte:head>
+  <title>{title}</title>
+  <meta name="description" content={description} />
+</svelte:head>
 
 <h1 class="text-4xl font-semibold w-full">
   {title}
